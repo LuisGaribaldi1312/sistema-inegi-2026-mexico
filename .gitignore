@@ -1,0 +1,14 @@
+# Cache y temporales del sistema
+Microsoft/
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+.DS_Store
+Thumbs.db
+
+# Datos crudos de descarga masiva (ya procesados e integrados en data/localidades/)
+data/raw_geo/
+
+# Vercel deployment cache
+.vercel

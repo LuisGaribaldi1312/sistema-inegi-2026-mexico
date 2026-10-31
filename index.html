@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Geográfico y Estadístico Nacional | INEGI 2026 - Google Maps</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Estilos de la Aplicación -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- =======================================================================
+         CONTENEDOR PRINCIPAL
+         ======================================================================= -->
+    <div id="app-container">
+        
+        <!-- Barra de Navegación Superior -->
+        <header class="top-navbar">
+            <div class="brand-section">
+                <div class="brand-badge">INEGI</div>
+                <div class="brand-title">
+                    <h1>SISTEMA GEOGRÁFICO NACIONAL 2026</h1>
+                    <span>Cartografía Oficial de la República Mexicana &bull; Google Maps</span>
+                </div>
+            </div>
+
+            <!-- Buscador Global y Selector de Métrica -->
+            <div class="nav-controls">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="global-search-input" placeholder="Buscar Estado, Municipio o Colonia (ej. Guadalajara, Monterrey, Benito Juárez)..." autocomplete="off">
+                    <div id="search-results-dropdown" class="search-results"></div>
+                </div>
+
+                <div class="metric-selector">
+                    <label for="map-metric-select"><i class="fas fa-chart-pie"></i> Métrica:</label>
+                    <select id="map-metric-select">
+                        <option value="pob2026">Población 2026</option>
+                        <option value="ingreso">Ingreso Promedio ($)</option>
+                        <option value="internet">Cobertura Internet (%)</option>
+                        <option value="escolaridad">Escolaridad (Años)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Perfil de Usuario y Sesión -->
+            <div class="user-section">
+                <div class="user-badge">
+                    <div class="user-avatar">AD</div>
+                    <div class="user-details">
+                        <span class="uname">Administrador INEGI</span>
+                        <span class="urole"><i class="fas fa-shield-alt"></i> Acceso Total 2026</span>
+                    </div>
+                </div>
+                <button id="btn-logout" class="btn-logout" title="Cerrar sesión segura">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </button>
+            </div>
+        </header>
+
+        <!-- Barra de Migas de Pan (Breadcrumbs) & Controles de Mapa Google -->
+        <nav class="nav-breadcrumbs-bar">
+            <div id="breadcrumbs-trail" class="breadcrumbs-trail">
+                <!-- Se llena dinámicamente: México > Estado > Municipio > Colonia -->
+            </div>
+
+            <div class="zoom-actions">
+                <!-- Selector de Estilo de Google Maps -->
+                <div class="google-map-selector">
+                    <button class="btn-maptype active" data-type="roadmap" onclick="setGoogleMapType('roadmap')">
+                        <i class="fas fa-map"></i> Google Calles
+                    </button>
+                    <button class="btn-maptype" data-type="hybrid" onclick="setGoogleMapType('hybrid')">
+                        <i class="fas fa-satellite"></i> Google Satelital
+                    </button>
+                    <button class="btn-maptype" data-type="terrain" onclick="setGoogleMapType('terrain')">
+                        <i class="fas fa-mountain"></i> Google Terreno
+                    </button>
+                </div>
+
+                <button class="btn-zoom-reset" onclick="resetToNationalView()" title="Regresar al mapa completo de la República Mexicana">
+                    <i class="fas fa-expand-arrows-alt"></i> Vista Nacional
+                </button>
+            </div>
+        </nav>
+
+        <!-- Área de Trabajo Principal: Mapa + Dashboard Lateral -->
+        <main class="main-content">
+            
+            <!-- Visor Cartográfico Google Maps + Leaflet -->
+            <div id="map-viewport">
+                <!-- Indicador Flotante del Nivel Actual -->
+                <div class="view-level-indicator">
+                    <div class="indicator-dot"></div>
+                    <span id="view-level-text" class="indicator-text">República Mexicana (32 Estados)</span>
+                </div>
+
+                <!-- Leyenda Dinámica de la Métrica Activa -->
+                <div class="map-overlay-legend">
+                    <div class="legend-title">
+                        <span id="legend-title-text">Población Proyectada 2026</span>
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div id="legend-scale-bars" class="legend-scale"></div>
+                    <div id="legend-labels-row" class="legend-labels"></div>
+                </div>
+            </div>
+
+            <!-- Panel Lateral de Información y Dashboard INEGI -->
+            <aside id="dashboard-panel" class="dashboard-panel">
+                <!-- El contenido se inyecta dinámicamente con las estadísticas de México, Estado, Municipio o Colonia -->
+            </aside>
+
+        </main>
+    </div>
+
+    <!-- =======================================================================
+         MODAL DE AUTENTICACIÓN / ACCESO
+         ======================================================================= -->
+    <div id="login-modal">
+        <div class="login-card">
+            <div class="login-brand">
+                <div class="login-badge">INEGI &bull; MÉXICO 2026</div>
+                <h2>Portal Estadístico y Territorial</h2>
+                <p>Cartografía Oficial y Medición Georreferenciada</p>
+            </div>
+
+            <form id="login-form" class="login-form">
+                <div class="form-group">
+                    <label for="login-user"><i class="fas fa-user"></i> Usuario Oficial</label>
+                    <input type="text" id="login-user" value="admin.inegi@mexico.gob.mx" required placeholder="admin.inegi@mexico.gob.mx">
+                </div>
+
+                <div class="form-group">
+                    <label for="login-pass"><i class="fas fa-lock"></i> Contraseña de Acceso</label>
+                    <input type="password" id="login-pass" value="Inegi2026*GeoData" required placeholder="••••••••••••••">
+                </div>
+
+                <div class="credentials-hint">
+                    <i class="fas fa-info-circle" style="color:#00b4d8;"></i> <strong>Credenciales autorizadas para su acceso:</strong><br>
+                    &bull; Usuario: <code>admin.inegi@mexico.gob.mx</code> o <code>admin_inegi</code><br>
+                    &bull; Contraseña: <code>Inegi2026*GeoData</code>
+                </div>
+
+                <div id="login-error" class="login-error-msg"></div>
+
+                <button type="submit" class="btn-submit-login">
+                    <i class="fas fa-sign-in-alt"></i> Ingresar al Sistema
+                </button>
+
+                <button type="button" id="btn-quick-access" class="btn-quick-access">
+                    <i class="fas fa-bolt"></i> Acceso Rápido Directo (Sin Contraseña)
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- =======================================================================
+         SCRIPTS
+         ======================================================================= -->
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <!-- Bases de Datos y Geometrías Oficiales INEGI -->
+    <script src="data/mexico_geo.js"></script>
+    <script src="data/mexico_data.js"></script>
+    
+    <!-- Lógica de la Aplicación -->
+    <script src="app.js"></script>
+
+</body>
+</html>

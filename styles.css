@@ -1,0 +1,1329 @@
+/* ==========================================================================
+   ESTILOS GENERALES - SISTEMA INEGI GEODATOS 2026
+   ========================================================================== */
+
+:root {
+  --inegi-navy: #0a192f;
+  --inegi-blue: #1b355a;
+  --inegi-accent: #0077b6;
+  --inegi-teal: #00b4d8;
+  --inegi-gold: #f4a261;
+  --inegi-red: #e63946;
+  --inegi-green: #2a9d8f;
+  --bg-dark: #070d19;
+  --card-bg: rgba(16, 28, 48, 0.85);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --sidebar-width: 440px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+}
+
+/* ==========================================================================
+   LAYOUT PRINCIPAL
+   ========================================================================== */
+
+#app-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+/* Header Superior */
+.top-navbar {
+  height: 64px;
+  background: linear-gradient(90deg, #07111e 0%, #0d1e35 50%, #07111e 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-badge {
+  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  color: #fff;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 180, 216, 0.3);
+}
+
+.brand-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title h1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.brand-title span {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Buscador y Controles Centrales */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  max-width: 550px;
+  margin: 0 24px;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+}
+
+.search-box input {
+  width: 100%;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 0 16px 0 38px;
+  color: #fff;
+  font-size: 13px;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.search-box input:focus {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--inegi-teal);
+  box-shadow: 0 0 12px rgba(0, 180, 216, 0.25);
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.search-results {
+  position: absolute;
+  top: 44px;
+  left: 0;
+  width: 100%;
+  max-height: 320px;
+  overflow-y: auto;
+  background: #0d1e35;
+  border: 1px solid rgba(0, 180, 216, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+  z-index: 2000;
+  display: none;
+}
+
+.search-item {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.2s;
+}
+
+.search-item:hover {
+  background: rgba(0, 180, 216, 0.15);
+}
+
+.search-item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-item-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.search-item-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.search-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge-estado { background: rgba(0, 119, 182, 0.3); color: #00b4d8; }
+.badge-muni { background: rgba(42, 157, 143, 0.3); color: #2a9d8f; }
+.badge-colonia { background: rgba(244, 162, 97, 0.3); color: #f4a261; }
+
+/* Selector de Métrica */
+.metric-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 12px;
+  border-radius: 8px;
+}
+
+.metric-selector label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.metric-selector select {
+  background: transparent;
+  border: none;
+  color: #00b4d8;
+  font-weight: 600;
+  font-size: 12px;
+  outline: none;
+  cursor: pointer;
+}
+
+.metric-selector select option {
+  background: #0d1e35;
+  color: #fff;
+}
+
+/* Usuario y Sesión */
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2a9d8f, #0077b6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 12px;
+  color: #fff;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-details .uname {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.user-details .urole {
+  font-size: 10px;
+  color: #2a9d8f;
+}
+
+.btn-logout {
+  background: rgba(230, 57, 70, 0.15);
+  border: 1px solid rgba(230, 57, 70, 0.3);
+  color: #ff6b6b;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  background: rgba(230, 57, 70, 0.35);
+  color: #fff;
+}
+
+/* ==========================================================================
+   BREADCRUMBS Y BARRA DE NAVEGACIÓN DE PROFUNDIDAD
+   ========================================================================== */
+
+.nav-breadcrumbs-bar {
+  height: 42px;
+  background: rgba(10, 25, 47, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 900;
+}
+
+.breadcrumbs-trail {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.crumb-item {
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.crumb-item:hover {
+  color: #00b4d8;
+  background: rgba(0, 180, 216, 0.1);
+}
+
+.crumb-item.active {
+  color: #fff;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.crumb-separator {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 11px;
+}
+
+.zoom-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Selector de capas Google Maps */
+.google-map-selector {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 2px;
+  gap: 2px;
+}
+
+.btn-maptype {
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s;
+}
+
+.btn-maptype:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.btn-maptype.active {
+  background: #1a73e8;
+  color: #ffffff;
+  box-shadow: 0 1px 6px rgba(26, 115, 232, 0.4);
+}
+
+.btn-zoom-reset {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn-zoom-reset:hover {
+  background: rgba(0, 180, 216, 0.2);
+  border-color: #00b4d8;
+}
+
+/* ==========================================================================
+   ÁREA DE TRABAJO (MAPA + DASHBOARD)
+   ========================================================================== */
+
+.main-content {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 106px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Contenedor del Mapa */
+#map-viewport {
+  flex: 1;
+  height: 100%;
+  background: #060b14;
+  position: relative;
+  z-index: 1;
+}
+
+/* Controles flotantes sobre el mapa */
+.map-overlay-legend {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  background: rgba(10, 25, 47, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 14px 16px;
+  border-radius: 10px;
+  z-index: 500;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  min-width: 220px;
+}
+
+.legend-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #00b4d8;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.legend-scale {
+  display: flex;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.scale-step {
+  flex: 1;
+  height: 100%;
+}
+
+.legend-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* Indicador de Nivel de Vista */
+.view-level-indicator {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  background: rgba(10, 25, 47, 0.9);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 180, 216, 0.3);
+  padding: 8px 16px;
+  border-radius: 8px;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.indicator-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00b4d8;
+  box-shadow: 0 0 10px #00b4d8;
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 180, 216, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(0, 180, 216, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 180, 216, 0); }
+}
+
+.indicator-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Tooltip Hover en el mapa */
+.leaflet-tooltip.mexico-tooltip {
+  background: rgba(7, 17, 30, 0.95) !important;
+  border: 1px solid #00b4d8 !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  border-radius: 6px !important;
+  padding: 6px 12px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* ==========================================================================
+   PANEL LATERAL DEL DASHBOARD (INEGI)
+   ========================================================================== */
+
+.dashboard-panel {
+  width: var(--sidebar-width);
+  height: 100%;
+  background: rgba(10, 22, 40, 0.94);
+  backdrop-filter: blur(16px);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  z-index: 10;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: -8px 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.dashboard-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.dashboard-header .level-tag {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #00b4d8;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.dashboard-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.dashboard-header .parent-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.dashboard-content {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Tarjetas KPI */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.kpi-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 180, 216, 0.3);
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+
+.kpi-primary::before { background: #00b4d8; }
+.kpi-success::before { background: #2a9d8f; }
+.kpi-warning::before { background: #f4a261; }
+.kpi-danger::before { background: #e63946; }
+
+.kpi-title {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.kpi-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin: 6px 0 2px 0;
+}
+
+.kpi-meta {
+  font-size: 10px;
+  color: #00b4d8;
+  font-weight: 600;
+}
+
+/* Secciones de Gráficos y Tablas */
+.card-section {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.card-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-section-title span.tag {
+  font-size: 10px;
+  background: rgba(0, 180, 216, 0.15);
+  color: #00b4d8;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Barras de progreso de infraestructura */
+.service-row {
+  margin-bottom: 12px;
+}
+
+.service-row:last-child {
+  margin-bottom: 0;
+}
+
+.service-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+.service-name {
+  color: #e2e8f0;
+}
+
+.service-val {
+  font-weight: 700;
+  color: #00b4d8;
+}
+
+.service-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.service-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #0077b6, #00b4d8);
+  transition: width 0.8s ease-out;
+}
+
+/* Listado de Sub-entidades clickeables */
+.sub-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.sub-item-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sub-item-card:hover {
+  background: rgba(0, 180, 216, 0.15);
+  border-color: rgba(0, 180, 216, 0.4);
+  transform: translateX(4px);
+}
+
+.sub-item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.sub-item-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.sub-item-action {
+  color: #00b4d8;
+  font-size: 13px;
+}
+
+/* ==========================================================================
+   MODAL DE ACCESO / LOGIN
+   ========================================================================== */
+
+#login-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, #0e1e36 0%, #050b14 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(10px);
+}
+
+.login-card {
+  width: 440px;
+  background: rgba(13, 27, 49, 0.95);
+  border: 1px solid rgba(0, 180, 216, 0.25);
+  border-radius: 16px;
+  padding: 36px 32px;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 119, 182, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.login-brand {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.login-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #0077b6, #00b4d8);
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 2px;
+  padding: 6px 16px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+
+.login-brand h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.login-brand p {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 12px;
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.form-group input {
+  height: 44px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 0 14px;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.25s;
+}
+
+.form-group input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #00b4d8;
+  box-shadow: 0 0 15px rgba(0, 180, 216, 0.3);
+}
+
+.credentials-hint {
+  background: rgba(0, 180, 216, 0.1);
+  border: 1px dashed rgba(0, 180, 216, 0.35);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.credentials-hint strong {
+  color: #00b4d8;
+}
+
+.btn-submit-login {
+  height: 46px;
+  background: linear-gradient(135deg, #0077b6 0%, #00b4d8 100%);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.25s;
+  box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
+  margin-top: 8px;
+}
+
+.btn-submit-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 180, 216, 0.5);
+}
+
+.btn-quick-access {
+  height: 42px;
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  border-radius: 8px;
+  color: #4ade80;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-quick-access:hover {
+  background: rgba(34, 197, 94, 0.3);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+}
+
+.login-error-msg {
+  color: #ff6b6b;
+  font-size: 12px;
+  text-align: center;
+  font-weight: 600;
+  display: none;
+}
+
+/* =============================================================================
+   Puntos de Información y Acceso sobre Google Maps (en cada nombre de localidad/colonia)
+   Sin etiquetas de texto invasivas en el mapa (el nombre aparece en el recuadro)
+   ============================================================================= */
+.punto-acceso-container {
+  background: transparent !important;
+  border: none !important;
+}
+
+.inegi-access-point {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  transform: translate(-11px, -11px);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.access-point-pulse {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(234, 67, 53, 0.45);
+  animation: hotspotRadar 2.4s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+  pointer-events: none;
+}
+
+.point-urbano .access-point-pulse {
+  background: rgba(26, 115, 232, 0.45);
+}
+
+@keyframes hotspotRadar {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.9;
+  }
+  65% {
+    transform: scale(2.4);
+    opacity: 0.15;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+.access-point-core {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  background: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), 0 0 10px rgba(234, 67, 53, 0.7);
+  z-index: 2;
+  transition: all 0.2s ease;
+}
+
+.point-urbano .access-point-core {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), 0 0 12px rgba(26, 115, 232, 0.85);
+}
+
+.access-point-inner {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ea4335; /* Rojo Google Maps de alta precisión */
+  transition: all 0.2s ease;
+}
+
+.point-urbano .access-point-inner {
+  background: #1a73e8; /* Azul Google Maps para cabeceras y urbes */
+}
+
+/* Efecto hover interactivo al pasar sobre el punto */
+.inegi-access-point:hover {
+  transform: translate(-11px, -11px) scale(1.5);
+  z-index: 9999 !important;
+}
+
+.inegi-access-point:hover .access-point-core {
+  background: #ffffff;
+  box-shadow: 0 0 16px #34d399, 0 3px 8px rgba(0, 0, 0, 0.8);
+}
+
+.inegi-access-point:hover .access-point-inner {
+  background: #10b981; /* Verde esmeralda */
+}
+
+/* Estado activo cuando la localidad está seleccionada en el recuadro */
+.inegi-access-point.is-active {
+  transform: translate(-11px, -11px) scale(1.7);
+  z-index: 10000 !important;
+}
+
+.inegi-access-point.is-active .access-point-core {
+  background: #ffffff;
+  border: 2px solid #10b981;
+  box-shadow: 0 0 20px #10b981, 0 0 35px rgba(16, 185, 129, 0.9);
+}
+
+.inegi-access-point.is-active .access-point-inner {
+  background: #10b981;
+}
+
+.inegi-access-point.is-active .access-point-pulse {
+  background: rgba(16, 185, 129, 0.6);
+  animation: hotspotRadar 1.2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+/* Buscador de localidades en el dashboard */
+.sub-items-search {
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 12px;
+  margin-bottom: 8px;
+  outline: none;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.sub-items-search:focus {
+  border-color: #1a73e8;
+  background: rgba(26, 115, 232, 0.12);
+  box-shadow: 0 0 8px rgba(26, 115, 232, 0.45);
+}
+
+.sub-items-search::placeholder {
+  color: #94a3b8;
+}
+
+/* Botón Volver a Municipio */
+.btn-back-crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(26, 115, 232, 0.16);
+  border: 1px solid #1a73e8;
+  color: #60a5fa;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 8px;
+}
+
+.btn-back-crumb:hover {
+  background: #1a73e8;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(26, 115, 232, 0.5);
+  transform: translateX(-2px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00b4d8;
+}
+
+
+/* ==========================================================================
+   PANEL EJECUTIVO PROFESIONAL DE LOCALIDADES / COLONIAS (INEGI OFICIAL)
+   ========================================================================== */
+
+.inegi-official-badge {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.25));
+    border: 1px solid rgba(16, 185, 129, 0.45);
+    color: #34d399;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+}
+
+.inegi-official-badge code {
+    background: rgba(0, 0, 0, 0.35);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    color: #a7f3d0;
+    font-size: 10px;
+}
+
+.dashboard-nav-tabs {
+    display: flex;
+    gap: 4px;
+    background: rgba(15, 23, 42, 0.75);
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 12px 0 16px 0;
+    overflow-x: auto;
+}
+
+.dash-tab-btn {
+    flex: 1;
+    min-width: 72px;
+    padding: 8px 10px;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.dash-tab-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f1f5f9;
+}
+
+.dash-tab-btn.active {
+    background: linear-gradient(135deg, #1a73e8, #0284c7);
+    color: #ffffff;
+    box-shadow: 0 3px 10px rgba(26, 115, 232, 0.4);
+    font-weight: 700;
+}
+
+.tab-content-pane {
+    animation: fadeInPane 0.25s ease-out;
+}
+
+@keyframes fadeInPane {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Barra de proporcin por gnero */
+.gender-bar-container {
+    display: flex;
+    height: 28px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 10px 0 6px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.gender-bar-fem {
+    background: linear-gradient(90deg, #ec4899, #db2777);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    transition: width 0.5s ease;
+}
+
+.gender-bar-mas {
+    background: linear-gradient(90deg, #0284c7, #2563eb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    transition: width 0.5s ease;
+}
+
+.gender-legend {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #cbd5e1;
+    margin-bottom: 14px;
+    padding: 0 4px;
+}
+
+.gender-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.gender-dot-fem {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #ec4899;
+    display: inline-block;
+}
+
+.gender-dot-mas {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #0284c7;
+    display: inline-block;
+}
+
+/* Tarjetas detalladas de vivienda y servicios */
+.service-stat-card {
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 9px;
+    padding: 10px 12px;
+    margin-bottom: 9px;
+    transition: all 0.2s ease;
+}
+
+.service-stat-card:hover {
+    border-color: rgba(56, 189, 248, 0.45);
+    background: rgba(30, 41, 59, 0.85);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.service-stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.service-stat-icon-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #f1f5f9;
+}
+
+.service-stat-icon-title i {
+    width: 16px;
+    text-align: center;
+}
+
+.service-stat-counts {
+    font-size: 11px;
+    font-weight: 700;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.12);
+    padding: 2px 7px;
+    border-radius: 12px;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.service-progress-track {
+    width: 100%;
+    height: 7px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.service-progress-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Filas informativas limpias */
+.info-indicator-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 12px;
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 7px;
+    font-size: 12px;
+    transition: background 0.15s;
+}
+
+.info-indicator-row:hover {
+    background: rgba(30, 41, 59, 0.7);
+}
+
+.info-indicator-label {
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-indicator-value {
+    color: #f8fafc;
+    font-weight: 700;
+}
