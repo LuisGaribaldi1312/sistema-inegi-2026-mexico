@@ -3340,3 +3340,129 @@ body.inegi-portal-body {
   border-radius: 3px;
   background: #0077C8;
 }
+
+
+/* ==========================================================================
+   MARCADORES VISIBLES DE LOCALIDADES Y ASENTAMIENTOS EN EL MAPA INEGI
+   ========================================================================== */
+
+.inegi-loc-marker-wrapper {
+  background: transparent !important;
+  border: none !important;
+}
+
+.inegi-loc-pin {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(12, 50, 92, 0.95);
+  color: #FFFFFF;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  border: 1.5px solid #BC955C;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+  user-select: none;
+}
+
+.inegi-loc-pin:hover {
+  transform: scale(1.12);
+  background: #0077C8;
+  border-color: #FFFFFF;
+  z-index: 9999 !important;
+}
+
+.inegi-loc-pin.pin-urban {
+  background: rgba(12, 50, 92, 0.96);
+  border-color: #38BDF8;
+}
+
+.inegi-loc-pin.pin-urban i {
+  color: #38BDF8;
+  font-size: 11px;
+}
+
+.inegi-loc-pin.pin-rural {
+  background: rgba(30, 41, 59, 0.94);
+  border-color: #F59E0B;
+}
+
+.inegi-loc-pin.pin-rural i {
+  color: #FCD34D;
+  font-size: 11px;
+}
+
+.inegi-loc-pin.pin-cabecera {
+  border-color: #10B981;
+  background: #064E3B;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+.inegi-loc-pin.pin-cabecera i {
+  color: #34D399;
+}
+
+.inegi-loc-pin .loc-name-label {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Pines compactos para asentamientos menores */
+.inegi-loc-pin-mini {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(30, 41, 59, 0.92);
+  color: #FCD34D;
+  border: 1.5px solid #F59E0B;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  cursor: pointer;
+  font-size: 10px;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+  position: relative;
+}
+
+.inegi-loc-pin-mini:hover {
+  transform: scale(1.3);
+  background: #0077C8;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  z-index: 9999 !important;
+}
+
+.inegi-loc-pin-mini.pin-urban {
+  background: rgba(12, 50, 92, 0.95);
+  color: #38BDF8;
+  border-color: #38BDF8;
+}
+
+.loc-mini-hover-label {
+  display: none;
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(12, 50, 92, 0.96);
+  color: #FFFFFF;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  border: 1px solid #BC955C;
+  pointer-events: none;
+}
+
+.inegi-loc-pin-mini:hover .loc-mini-hover-label {
+  display: block;
+}

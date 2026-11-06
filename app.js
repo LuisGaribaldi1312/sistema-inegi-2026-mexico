@@ -362,7 +362,7 @@ function loadMunicipiosLayer(stateId) {
 }
 
 // TRANSICIÓN CONTROLADA AL MUNICIPIO SELECCIONADO
-function zoomToMunicipio(muniId) {
+async function zoomToMunicipio(muniId) {
     const muniData = window.MEXICO_MUNICIPIOS_DATA[muniId];
     if (!muniData) return;
 
@@ -396,17 +396,20 @@ function zoomToMunicipio(muniId) {
     if (muniFeature) {
         AppState.layers.highlight = L.geoJSON(muniFeature, {
             style: {
-                color: "#1a73e8",
-                weight: 2.5,
-                fillColor: "#1a73e8",
-                fillOpacity: 0.04,
+                color: "#0077C8",
+                weight: 2.2,
+                fillColor: "#0077C8",
+                fillOpacity: 0.05,
                 dashArray: "4, 4"
             }
         }).addTo(AppState.map);
     }
 
+    // Renderizar panel municipal
     renderMunicipioDashboard(muniId);
-    loadColoniasLayer(muniId);
+
+    // Cargar y mostrar todas las localidades y asentamientos en el mapa y panel
+    await loadColoniasLayer(muniId);
 }
 
 // Inicialización de contenedores para datos de colonias
@@ -596,7 +599,10 @@ async function ensureColoniasLoaded(muniId) {
     // 1. Cargar archivo oficial de localidades del municipio desde data/localidades/{cve}.json
     if (cve) {
         try {
-            const resp = await fetch(`data/localidades/${cve}.json`);
+            let resp = await fetch(`data/localidades/${cve}.json`);
+            if (!resp.ok) {
+                resp = await fetch(`./data/localidades/${cve}.json`);
+            }
             if (resp.ok) {
                 const json = await resp.json();
                 if (Array.isArray(json) && json.length > 0) {
@@ -862,48 +868,68 @@ async function loadColoniasLayer(muniId) {
 
     AppState.layers.colonias = L.layerGroup();
 
-    geoCollection.features.forEach(feature => {
+    // Ordenar localidades por población censal para dar máxima visibilidad
+    const sortedFeatures = [...geoCollection.features].sort((a, b) => {
+        return (b.properties.pob2020 || 0) - (a.properties.pob2020 || 0);
+    });
+
+    sortedFeatures.forEach((feature, idx) => {
         const props = feature.properties;
         const colCenter = props.center;
         const metricCfg = METRIC_CONFIG[AppState.activeMetric] || METRIC_CONFIG["pob2026"];
         const metricVal = props[AppState.activeMetric] || props.pob2026;
         const isUrban = (props.tipo === 'U');
+        const isCabecera = (idx === 0);
 
-        // Punto de acceso limpio, exacto y de alta visibilidad (sin recuadros de texto sobre el mapa)
-        const customIcon = L.divIcon({
-            className: "punto-acceso-container",
-            html: `
-                <div class="inegi-access-point ${isUrban ? 'point-urbano' : 'point-rural'}" 
-                     id="marker-${props.id}" 
-                     data-colid="${props.id}" 
-                     title="${props.name}"
-                     onclick="event.stopPropagation(); zoomToColonia('${props.id}')">
-                    <div class="access-point-pulse"></div>
-                    <div class="access-point-core">
-                        <div class="access-point-inner"></div>
+        // Mostrar pin completo con nombre para las cabeceras, urbanas y las 60 localidades principales
+        const showFullBadge = (idx < 60 || isUrban);
+
+        let customIcon;
+        if (showFullBadge) {
+            customIcon = L.divIcon({
+                className: "inegi-loc-marker-wrapper",
+                html: `
+                    <div class="inegi-loc-pin ${isUrban ? 'pin-urban' : 'pin-rural'} ${isCabecera ? 'pin-cabecera' : ''}" 
+                         id="marker-${props.id}" 
+                         title="${props.name} (${isUrban ? 'Localidad Urbana' : 'Asentamiento Rural'})">
+                        <i class="fas ${isCabecera ? 'fa-star' : (isUrban ? 'fa-city' : 'fa-location-dot')}"></i>
+                        <span class="loc-name-label">${props.name}</span>
                     </div>
-                </div>
-            `,
-            iconSize: [22, 22],
-            iconAnchor: [11, 11]
-        });
+                `,
+                iconSize: [140, 26],
+                iconAnchor: [16, 24]
+            });
+        } else {
+            customIcon = L.divIcon({
+                className: "inegi-loc-marker-wrapper",
+                html: `
+                    <div class="inegi-loc-pin-mini ${isUrban ? 'pin-urban' : 'pin-rural'}" 
+                         id="marker-${props.id}">
+                        <i class="fas fa-location-dot"></i>
+                        <span class="loc-mini-hover-label">${props.name}</span>
+                    </div>
+                `,
+                iconSize: [22, 22],
+                iconAnchor: [11, 11]
+            });
+        }
 
         const marker = L.marker(colCenter, { icon: customIcon });
 
-        // Tooltip ligero al pasar el cursor (el nombre completo e indicadores se abren en el recuadro)
+        // Tooltip institucional de alto detalle
         marker.bindTooltip(`
-            <div style="font-size:12px; font-weight:700; color:#fff; border-bottom:1px solid #BC955C; padding-bottom:3px; margin-bottom:4px;">
-                <i class="fas fa-map-marker-alt" style="color:${isUrban ? '#1a73e8' : '#ea4335'};"></i> ${props.name}
+            <div style="font-size:12.5px; font-weight:800; color:#fff; border-bottom:1px solid #BC955C; padding-bottom:3px; margin-bottom:5px;">
+                <i class="fas ${isCabecera ? 'fa-star' : (isUrban ? 'fa-city' : 'fa-house-user')}" style="color:${isUrban ? '#38bdf8' : '#fbbf24'}; margin-right:4px;"></i> ${props.name}
             </div>
-            <div style="font-size:11px; color:#cbd5e1; line-height:1.4;">
-                <span style="color:#60a5fa;">Municipio:</span> ${props.municipio_name}<br>
-                <span style="color:#94a3b8;">Tipo:</span> <span style="color:#f8fafc;">${isUrban ? 'Localidad Urbana' : 'Localidad / Asentamiento'}</span><br>
-                <span style="color:#94a3b8;">${metricCfg.label}:</span> <strong style="color:#38bdf8;">${metricCfg.format(metricVal)}</strong>
+            <div style="font-size:11px; color:#cbd5e1; line-height:1.45;">
+                <span style="color:#94a3b8;">Municipio:</span> <strong style="color:#f8fafc;">${props.municipio_name}</strong><br>
+                <span style="color:#94a3b8;">Categoría:</span> <span style="color:#38bdf8;">${isUrban ? 'Localidad Urbana' : 'Localidad / Asentamiento Rural'}</span><br>
+                <span style="color:#94a3b8;">Población (Censo 2020):</span> <strong style="color:#34d399;">${Number(props.pob2020).toLocaleString()} habs</strong>
             </div>
-            <div style="font-size:10px; color:#34d399; margin-top:4px; font-weight:600;">
-                <i class="fas fa-hand-pointer"></i> Clic en el punto para ver información en el recuadro
+            <div style="font-size:10px; color:#fbbf24; margin-top:5px; font-weight:700;">
+                <i class="fas fa-hand-pointer"></i> Clic para abrir ficha censal completa
             </div>
-        `, { className: "mexico-tooltip", sticky: true, offset: [0, -10] });
+        `, { className: "mexico-tooltip", sticky: true, offset: [0, -12] });
 
         marker.on("click", (e) => {
             L.DomEvent.stopPropagation(e);
@@ -915,7 +941,7 @@ async function loadColoniasLayer(muniId) {
 
     AppState.layers.colonias.addTo(AppState.map);
 
-    // Actualizar la lista en el recuadro municipal si está visible
+    // Actualizar la lista en el recuadro municipal
     updateLocalidadesListInDashboard(muniId);
 }
 
