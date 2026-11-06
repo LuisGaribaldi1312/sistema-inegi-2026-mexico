@@ -2686,3 +2686,436 @@ body.inegi-portal-body {
   color: #94A3B8;
   font-family: monospace;
 }
+
+
+/* ==========================================================================
+   ESTILOS OFICIALES PARA FICHAS TEMÁTICAS DE LOS 14 MAPAS DEL INEGI
+   ========================================================================== */
+
+.thematic-dashboard-header {
+  background: #FFFFFF;
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.thematic-breadcrumb {
+  font-size: 11px;
+  color: #64748B;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.thematic-breadcrumb span {
+  color: #0077C8;
+  font-weight: 700;
+}
+
+.thematic-official-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(12, 50, 92, 0.08);
+  color: #0C325C;
+  border: 1px solid rgba(12, 50, 92, 0.2);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.thematic-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0C325C;
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+
+.thematic-subtitle {
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.45;
+}
+
+/* Barra de alternancia de vista: Mapa Temático vs Estadísticas Censales */
+.thematic-mode-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #E2E8F0;
+}
+
+.btn-mode-tab {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #CBD5E1;
+  background: #FFFFFF;
+  color: #334155;
+}
+
+.btn-mode-tab:hover {
+  background: #F1F5F9;
+  color: #0C325C;
+}
+
+.btn-mode-tab.active {
+  background: #0C325C;
+  color: #FFFFFF;
+  border-color: #0C325C;
+  box-shadow: 0 2px 4px rgba(12, 50, 92, 0.2);
+}
+
+.btn-mode-tab.btn-census-tab {
+  background: #FFFFFF;
+  color: #0077C8;
+  border-color: #0077C8;
+}
+
+.btn-mode-tab.btn-census-tab:hover {
+  background: #0077C8;
+  color: #FFFFFF;
+}
+
+/* Tarjeta Narrativa INEGI */
+.thematic-narrative-card {
+  background: #FFFFFF;
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.thematic-narrative-card h3 {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #0C325C;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.thematic-narrative-text {
+  font-size: 12.5px;
+  color: #334155;
+  line-height: 1.55;
+}
+
+/* Grilla de Metadatos Cartográficos */
+.thematic-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.thematic-meta-card {
+  background: #FFFFFF;
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  padding: 10px 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.thematic-meta-title {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #64748B;
+  letter-spacing: 0.5px;
+  margin-bottom: 3px;
+}
+
+.thematic-meta-val {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #0C325C;
+}
+
+.thematic-meta-sub {
+  font-size: 10px;
+  color: #94A3B8;
+  margin-top: 2px;
+}
+
+/* Sección de Rasgos Destacados Interactivos */
+.thematic-features-box {
+  background: #FFFFFF;
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.thematic-features-box h3 {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #0C325C;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.thematic-features-hint {
+  font-size: 11px;
+  color: #64748B;
+  margin-bottom: 12px;
+}
+
+.thematic-feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.thematic-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.thematic-feature-item:hover {
+  background: #F0F9FF;
+  border-color: #0077C8;
+  transform: translateX(3px);
+  box-shadow: 0 2px 6px rgba(0,119,200,0.12);
+}
+
+.thematic-feature-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: rgba(12, 50, 92, 0.08);
+  color: #0C325C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.thematic-feature-item:hover .thematic-feature-icon {
+  background: #0077C8;
+  color: #FFFFFF;
+}
+
+.thematic-feature-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.thematic-feature-name {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #0C325C;
+  margin-bottom: 2px;
+}
+
+.thematic-feature-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  color: #0077C8;
+  background: rgba(0, 119, 200, 0.08);
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-bottom: 4px;
+}
+
+.thematic-feature-desc {
+  font-size: 11px;
+  color: #475569;
+  line-height: 1.35;
+}
+
+.thematic-feature-btn {
+  background: none;
+  border: none;
+  color: #94A3B8;
+  font-size: 12px;
+  padding: 6px;
+  flex-shrink: 0;
+  align-self: center;
+  transition: color 0.2s;
+}
+
+.thematic-feature-item:hover .thematic-feature-btn {
+  color: #0077C8;
+}
+
+/* Botones de acción oficial INEGI */
+.thematic-actions-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.btn-inegi-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.btn-inegi-action.primary {
+  background: #0C325C;
+  color: #FFFFFF;
+}
+
+.btn-inegi-action.primary:hover {
+  background: #0077C8;
+  color: #FFFFFF;
+}
+
+.btn-inegi-action.secondary {
+  background: #FFFFFF;
+  color: #0C325C;
+  border-color: #CBD5E1;
+}
+
+.btn-inegi-action.secondary:hover {
+  background: #F1F5F9;
+  border-color: #94A3B8;
+}
+
+/* Marcadores temáticos interactivos en Leaflet */
+.thematic-marker-wrapper {
+  background: transparent;
+  border: none;
+}
+
+.thematic-marker-pin {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(12, 50, 92, 0.95);
+  color: #FFFFFF;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 10.5px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  border: 1.5px solid #BC955C;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+.thematic-marker-pin:hover {
+  transform: scale(1.1);
+  background: #0077C8;
+  border-color: #FFFFFF;
+}
+
+.thematic-marker-pin i {
+  color: #FCD34D;
+  font-size: 11px;
+}
+
+/* Popup de rasgo temático */
+.thematic-popup {
+  padding: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  max-width: 260px;
+}
+
+.thematic-popup-tag {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #0077C8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.thematic-popup h4 {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #0C325C;
+  margin: 0 0 4px 0;
+}
+
+.thematic-popup-badge {
+  display: inline-block;
+  background: rgba(188, 149, 92, 0.15);
+  color: #8C6A32;
+  border: 1px solid rgba(188, 149, 92, 0.4);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.thematic-popup-desc {
+  font-size: 11px;
+  color: #475569;
+  line-height: 1.4;
+  margin: 0 0 6px 0;
+}
+
+.thematic-popup-coord {
+  font-size: 9.5px;
+  color: #94A3B8;
+  font-family: monospace;
+  margin-bottom: 8px;
+}
+
+.btn-popup-zoom {
+  width: 100%;
+  background: #0C325C;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: background 0.2s;
+}
+
+.btn-popup-zoom:hover {
+  background: #0077C8;
+}

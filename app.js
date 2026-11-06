@@ -175,9 +175,15 @@ function initMapApplication() {
 
 // Cambiar estilo de mapa Google Maps (Calles, Híbrido, Terreno)
 function setGoogleMapType(type) {
-    if (!AppState.tileLayers[type] || AppState.activeBaseMap === type) return;
+    if (AppState.inegiThematicLayer && AppState.map) {
+        AppState.map.removeLayer(AppState.inegiThematicLayer);
+        AppState.inegiThematicLayer = null;
+    }
+    if (!AppState.tileLayers[type]) return;
 
-    AppState.map.removeLayer(AppState.tileLayers[AppState.activeBaseMap]);
+    if (AppState.activeBaseMap && AppState.tileLayers[AppState.activeBaseMap] && AppState.map.hasLayer(AppState.tileLayers[AppState.activeBaseMap])) {
+        AppState.map.removeLayer(AppState.tileLayers[AppState.activeBaseMap]);
+    }
     AppState.tileLayers[type].addTo(AppState.map);
     AppState.activeBaseMap = type;
 
@@ -1926,14 +1932,24 @@ function getChartDefaultOptions(yAxisTitle) {
 
 function setupMetricSelector() {
     const sel = document.getElementById("map-metric-select");
+    if (!sel) return;
     sel.addEventListener("change", (e) => {
         AppState.activeMetric = e.target.value;
+        if (AppState.viewMode === "thematic") {
+            restoreCensusView();
+            return;
+        }
         updateMapLegend();
 
         // Refrescar estilos según el nivel actual
         if (AppState.level === "pais" && AppState.layers.states) {
             AppState.layers.states.setStyle((feature) => ({
-                fillColor: getFeatureColor(feature.properties[AppState.activeMetric] || feature.properties.pob2026)
+                fillColor: getFeatureColor(feature.properties[AppState.activeMetric] || feature.properties.pob2026),
+                fillOpacity: 0.28,
+                weight: 2.2,
+                opacity: 0.95,
+                color: "#002F6C",
+                dashArray: null
             }));
         } else if (AppState.level === "estado" && AppState.layers.municipios) {
             AppState.layers.municipios.setStyle((feature) => ({
@@ -2373,9 +2389,32 @@ document.addEventListener("click", (e) => {
 
 AppState.activeInegiMap = "territorio_insular";
 AppState.inegiThematicLayer = null;
+AppState.thematicMarkersLayer = null;
 AppState.insularMarkersLayer = null;
+AppState.viewMode = "thematic"; // 'thematic' | 'census'
 
-// Inicializar y seleccionar uno de los 14 mapas del INEGI
+// Helper de iconos temáticos según el tipo de mapa
+function getIconForMap(mapId) {
+    const iconMap = {
+        topografia: "fa-mountain",
+        relieve_continental: "fa-mountain-sun",
+        relieve_submarino: "fa-water",
+        territorio_insular: "fa-island-tropical",
+        vias_comunicacion: "fa-route",
+        hidrografia: "fa-droplet",
+        climatologia: "fa-cloud-sun-rain",
+        edafologia: "fa-seedling",
+        fisiografia: "fa-shapes",
+        geologia: "fa-volcano",
+        hidrologia: "fa-faucet-drip",
+        humedales: "fa-leaf",
+        uso_suelo: "fa-tree",
+        uso_potencial: "fa-wheat-awn"
+    };
+    return iconMap[mapId] || "fa-map-pin";
+}
+
+// Inicializar y seleccionar uno de los 14 mapas oficiales del INEGI
 function selectInegiMap(mapId) {
     if (!window.INEGI_MAPAS_CATALOG || !window.INEGI_MAPAS_CATALOG[mapId]) {
         console.warn("Mapa no encontrado:", mapId);
@@ -2384,8 +2423,9 @@ function selectInegiMap(mapId) {
 
     const mapConfig = window.INEGI_MAPAS_CATALOG[mapId];
     AppState.activeInegiMap = mapId;
+    AppState.viewMode = "thematic";
 
-    // 1. Actualizar apariencia del sidebar de mapas (exacto a la imagen del usuario)
+    // 1. Actualizar apariencia visual del sidebar de mapas (idéntico al portal oficial INEGI)
     document.querySelectorAll(".mapa-item-link").forEach(link => {
         if (link.dataset.map === mapId) {
             link.classList.add("active");
@@ -2402,19 +2442,30 @@ function selectInegiMap(mapId) {
     if (badgeEl) badgeEl.textContent = mapConfig.badge || "MAPA OFICIAL INEGI";
     if (descEl) descEl.textContent = mapConfig.desc;
 
-    // 3. Remover capa temática anterior si existe
+    // 3. Remover mapa base anterior de Google para permitir visibilidad 100% pura de la tesela temática
+    if (AppState.activeBaseMap && AppState.tileLayers[AppState.activeBaseMap] && AppState.map) {
+        if (AppState.map.hasLayer(AppState.tileLayers[AppState.activeBaseMap])) {
+            AppState.map.removeLayer(AppState.tileLayers[AppState.activeBaseMap]);
+        }
+    }
+
+    // Remover capa temática anterior si existe
     if (AppState.inegiThematicLayer && AppState.map) {
         AppState.map.removeLayer(AppState.inegiThematicLayer);
         AppState.inegiThematicLayer = null;
     }
 
-    // Remover marcadores insulares anteriores si existen
+    // Remover capas de marcadores temáticos anteriores
+    if (AppState.thematicMarkersLayer && AppState.map) {
+        AppState.map.removeLayer(AppState.thematicMarkersLayer);
+        AppState.thematicMarkersLayer = null;
+    }
     if (AppState.insularMarkersLayer && AppState.map) {
         AppState.map.removeLayer(AppState.insularMarkersLayer);
         AppState.insularMarkersLayer = null;
     }
 
-    // 4. Cargar la capa de teselas del mapa seleccionado
+    // 4. Agregar la nueva capa de teselas del mapa seleccionado
     if (mapConfig.tileUrl && AppState.map) {
         AppState.inegiThematicLayer = L.tileLayer(mapConfig.tileUrl, {
             attribution: mapConfig.attribution || '&copy; INEGI',
@@ -2425,42 +2476,272 @@ function selectInegiMap(mapId) {
         AppState.inegiThematicLayer.bringToBack();
     }
 
-    // 5. Caso especial: Territorio Insular (Cargar pines de islas, cayos y arrecifes)
-    if (mapId === "territorio_insular" && window.INEGI_INSULAR_POINTS && AppState.map) {
-        const markers = [];
+    // 5. Ajustar vector de polígonos de estados para NO opacar el mapa temático (contornos nítidos sin relleno)
+    if (AppState.layers.states) {
+        const isDarkTheme = (mapId === 'relieve_submarino' || mapId === 'climatologia' || mapId === 'geologia');
+        AppState.layers.states.setStyle({
+            fillColor: "#000000",
+            fillOpacity: 0.03, // Muy transparente para ver montañas, relieve y ríos
+            weight: 1.8,
+            color: isDarkTheme ? "#F8FAFC" : "#0C325C", // Contorno blanco en fondos oscuros o azul INEGI
+            opacity: 0.9,
+            dashArray: "3, 4"
+        });
+    }
+
+    // 6. Cargar marcadores interactivos temáticos en el mapa
+    const markers = [];
+    const iconClass = getIconForMap(mapId);
+
+    // Si es territorio insular, cargar islas oficiales
+    if (mapId === "territorio_insular" && window.INEGI_INSULAR_POINTS) {
         window.INEGI_INSULAR_POINTS.forEach(isla => {
             const icon = L.divIcon({
-                className: "custom-island-marker",
-                html: `<div class="island-pin" title="${isla.name}"><i class="fas fa-location-dot"></i><span>${isla.name}</span></div>`,
-                iconSize: [120, 30],
-                iconAnchor: [12, 28]
+                className: "thematic-marker-wrapper",
+                html: `<div class="thematic-marker-pin" title="${isla.name}"><i class="fas fa-location-dot"></i><span>${isla.name}</span></div>`,
+                iconSize: [120, 28],
+                iconAnchor: [12, 26]
             });
 
             const marker = L.marker(isla.coords, { icon: icon }).bindPopup(`
-                <div class="island-popup">
-                    <span class="island-popup-tag"><i class="fas fa-shield-halved"></i> Territorio Insular Mexicano</span>
+                <div class="thematic-popup">
+                    <span class="thematic-popup-tag"><i class="fas fa-shield-halved"></i> Territorio Insular Mexicano</span>
                     <h4>${isla.name}</h4>
-                    <div class="island-popup-state"><strong>Entidad:</strong> ${isla.estado}</div>
-                    <div class="island-popup-ocean"><strong>Cuenca:</strong> ${isla.ocean}</div>
-                    <p class="island-popup-desc">${isla.desc}</p>
-                    <div class="island-popup-coord">Coord: ${isla.coords[0].toFixed(4)}° N, ${isla.coords[1].toFixed(4)}° W</div>
+                    <div class="thematic-popup-badge">${isla.estado} &bull; ${isla.ocean}</div>
+                    <p class="thematic-popup-desc">${isla.desc}</p>
+                    <div class="thematic-popup-coord">Coord: ${isla.coords[0].toFixed(4)}° N, ${isla.coords[1].toFixed(4)}° W</div>
+                    <button class="btn-popup-zoom" onclick="AppState.map.setView([${isla.coords[0]}, ${isla.coords[1]}], 10)">
+                        <i class="fas fa-search-plus"></i> Acercar a esta isla
+                    </button>
                 </div>
             `);
             markers.push(marker);
         });
-        AppState.insularMarkersLayer = L.featureGroup(markers).addTo(AppState.map);
+    } else if (mapConfig.features && mapConfig.features.length > 0) {
+        mapConfig.features.forEach(feat => {
+            const icon = L.divIcon({
+                className: "thematic-marker-wrapper",
+                html: `<div class="thematic-marker-pin" title="${feat.name}"><i class="fas ${iconClass}"></i><span>${feat.name}</span></div>`,
+                iconSize: [140, 28],
+                iconAnchor: [14, 26]
+            });
+
+            const marker = L.marker(feat.coords, { icon: icon }).bindPopup(`
+                <div class="thematic-popup">
+                    <span class="thematic-popup-tag"><i class="fas ${iconClass}"></i> ${mapConfig.name}</span>
+                    <h4>${feat.name}</h4>
+                    <div class="thematic-popup-badge">${feat.tag || 'INEGI Oficial'}</div>
+                    <p class="thematic-popup-desc">${feat.desc}</p>
+                    <div class="thematic-popup-coord">Coord: ${feat.coords[0].toFixed(4)}° N, ${feat.coords[1].toFixed(4)}° W</div>
+                    <button class="btn-popup-zoom" onclick="AppState.map.setView([${feat.coords[0]}, ${feat.coords[1]}], 9)">
+                        <i class="fas fa-search-plus"></i> Acercar a este rasgo
+                    </button>
+                </div>
+            `);
+            markers.push(marker);
+        });
     }
 
-    // 6. Actualizar leyenda del mapa con la simbología oficial del mapa seleccionado
+    if (markers.length > 0) {
+        AppState.thematicMarkersLayer = L.featureGroup(markers).addTo(AppState.map);
+    }
+
+    // 7. Actualizar leyenda del mapa con la simbología oficial del mapa seleccionado
     updateInegiMapLegend(mapConfig);
 
-    // 7. Actualizar texto de nivel
+    // 8. Actualizar texto de nivel en el header
     updateViewIndicator(`INEGI: Mapa de ${mapConfig.name}`);
+
+    // 9. RENDERIZAR FICHA INFORMATIVA OFICIAL EN EL PANEL DERECHO (#dashboard-panel)
+    renderMapThematicDashboard(mapId);
 
     // Asegurar redimensionamiento de Leaflet
     setTimeout(() => {
         if (AppState.map) AppState.map.invalidateSize();
-    }, 100);
+    }, 120);
+}
+
+// Renderizar la ficha informativa oficial del mapa seleccionado en #dashboard-panel
+function renderMapThematicDashboard(mapId) {
+    destroyCharts();
+    const mapConfig = window.INEGI_MAPAS_CATALOG[mapId];
+    if (!mapConfig) return;
+
+    const panel = document.getElementById("dashboard-panel");
+    if (!panel) return;
+
+    const iconClass = getIconForMap(mapId);
+    const featuresList = (mapId === "territorio_insular" && window.INEGI_INSULAR_POINTS) 
+        ? window.INEGI_INSULAR_POINTS 
+        : (mapConfig.features || []);
+
+    const meta = mapConfig.meta || {};
+
+    let featuresHtml = "";
+    if (featuresList.length > 0) {
+        featuresHtml = featuresList.map((f, idx) => {
+            const coords = f.coords;
+            const tag = f.tag || f.estado || "Rasgo Oficial";
+            return `
+                <div class="thematic-feature-item" onclick="flyToMapFeature(${coords[0]}, ${coords[1]}, '${f.name.replace(/'/g, "\'")}')">
+                    <div class="thematic-feature-icon"><i class="fas ${iconClass}"></i></div>
+                    <div class="thematic-feature-content">
+                        <div class="thematic-feature-name">${f.name}</div>
+                        <div class="thematic-feature-tag">${tag}</div>
+                        <div class="thematic-feature-desc">${f.desc}</div>
+                    </div>
+                    <div class="thematic-feature-btn"><i class="fas fa-crosshairs"></i></div>
+                </div>
+            `;
+        }).join("");
+    } else {
+        featuresHtml = `<div style="font-size:12px; color:#64748B; padding:8px;">Cobertura continua sobre el territorio nacional.</div>`;
+    }
+
+    panel.innerHTML = `
+        <div class="thematic-dashboard-header">
+            <div class="thematic-breadcrumb">
+                <i class="fas fa-house"></i> Inicio &gt; Geografía y Medio Ambiente &gt; Mapas &gt; <span>${mapConfig.name}</span>
+            </div>
+            <div class="thematic-official-badge">
+                <i class="fas fa-certificate" style="color:#BC955C;"></i> ${mapConfig.badge || 'CARTOGRAFÍA TEMÁTICA OFICIAL INEGI'}
+            </div>
+            <h2 class="thematic-title">${mapConfig.name}</h2>
+            <div class="thematic-subtitle">Instituto Nacional de Estadística y Geografía &bull; Dirección General de Geografía y Medio Ambiente</div>
+            
+            <!-- Barra de alternancia de vista -->
+            <div class="thematic-mode-bar">
+                <button class="btn-mode-tab active" onclick="selectInegiMap('${mapId}')">
+                    <i class="fas fa-map"></i> Ficha del Mapa Temático
+                </button>
+                <button class="btn-mode-tab btn-census-tab" onclick="restoreCensusView()">
+                    <i class="fas fa-users"></i> Ver Estadísticas Censales (Población)
+                </button>
+            </div>
+        </div>
+
+        <div class="thematic-narrative-card">
+            <h3><i class="fas fa-circle-info" style="color:#0077C8;"></i> Descripción General Oficial</h3>
+            <p class="thematic-narrative-text">${mapConfig.desc}</p>
+        </div>
+
+        <!-- Grilla de Metadatos Cartográficos Oficiales -->
+        <div class="thematic-meta-grid">
+            <div class="thematic-meta-card">
+                <div class="thematic-meta-title">Escala / Resolución</div>
+                <div class="thematic-meta-val">${meta.escala || meta.resolucion || '1:50,000 / 1:250,000'}</div>
+                <div class="thematic-meta-sub">Norma Técnica Cartográfica</div>
+            </div>
+            <div class="thematic-meta-card">
+                <div class="thematic-meta-title">Sistema de Coordenadas</div>
+                <div class="thematic-meta-val">${meta.sistema || 'ITRF2008 / CCL'}</div>
+                <div class="thematic-meta-sub">Marco Geodésico Nacional</div>
+            </div>
+            <div class="thematic-meta-card">
+                <div class="thematic-meta-title">Cobertura Geográfica</div>
+                <div class="thematic-meta-val">${meta.cobertura || meta.superficieMarina || 'Nacional (32 Entidades)'}</div>
+                <div class="thematic-meta-sub">Estados Unidos Mexicanos</div>
+            </div>
+            <div class="thematic-meta-card">
+                <div class="thematic-meta-title">Puntos Clave Identificados</div>
+                <div class="thematic-meta-val">${featuresList.length} en el mapa</div>
+                <div class="thematic-meta-sub">Exploración Interactiva</div>
+            </div>
+        </div>
+
+        <!-- Lista Interactiva de Rasgos Destacados -->
+        <div class="thematic-features-box">
+            <h3><i class="fas fa-compass" style="color:#0077C8;"></i> Rasgos Geográficos Destacados</h3>
+            <div class="thematic-features-hint">Haz clic en cualquier punto para volar y ubicarlo en el mapa principal:</div>
+            <div class="thematic-feature-list">
+                ${featuresHtml}
+            </div>
+        </div>
+
+        <!-- Acciones Oficiales INEGI -->
+        <div class="thematic-actions-box">
+            <a href="https://www.inegi.org.mx/temas/mapas/" target="_blank" class="btn-inegi-action primary">
+                <i class="fas fa-cloud-arrow-down"></i> Descargar Capas Geoespaciales en GeoPortal INEGI
+            </a>
+            <button onclick="AppState.map.flyTo([23.6345, -102.5528], 5, { duration: 1.2 })" class="btn-inegi-action secondary">
+                <i class="fas fa-crosshairs"></i> Centrar Territorio Nacional de México
+            </button>
+        </div>
+    `;
+}
+
+// Volar suavemente a un rasgo geográfico específico y abrir su popup
+function flyToMapFeature(lat, lng, name) {
+    if (!AppState.map) return;
+    AppState.map.flyTo([lat, lng], 9, {
+        duration: 1.4,
+        easeLinearity: 0.25
+    });
+
+    setTimeout(() => {
+        if (AppState.thematicMarkersLayer) {
+            AppState.thematicMarkersLayer.eachLayer(layer => {
+                const pos = layer.getLatLng();
+                if (Math.abs(pos.lat - lat) < 0.05 && Math.abs(pos.lng - lng) < 0.05) {
+                    layer.openPopup();
+                }
+            });
+        }
+    }, 1500);
+}
+
+// Restaurar vista censal y demográfica tradicional de México
+function restoreCensusView() {
+    AppState.viewMode = "census";
+
+    // 1. Remover capas temáticas si existen
+    if (AppState.inegiThematicLayer && AppState.map) {
+        AppState.map.removeLayer(AppState.inegiThematicLayer);
+        AppState.inegiThematicLayer = null;
+    }
+    if (AppState.thematicMarkersLayer && AppState.map) {
+        AppState.map.removeLayer(AppState.thematicMarkersLayer);
+        AppState.thematicMarkersLayer = null;
+    }
+    if (AppState.insularMarkersLayer && AppState.map) {
+        AppState.map.removeLayer(AppState.insularMarkersLayer);
+        AppState.insularMarkersLayer = null;
+    }
+
+    // 2. Restaurar mapa base de Google Maps
+    if (AppState.activeBaseMap && AppState.tileLayers[AppState.activeBaseMap] && AppState.map) {
+        AppState.tileLayers[AppState.activeBaseMap].addTo(AppState.map);
+    }
+
+    // 3. Restaurar estilos de relleno coroplético de los 32 estados
+    if (AppState.layers.states) {
+        AppState.layers.states.eachLayer(layer => {
+            const val = layer.feature.properties[AppState.activeMetric] || layer.feature.properties.pob2026;
+            layer.setStyle({
+                fillColor: getFeatureColor(val),
+                weight: 2.2,
+                opacity: 0.95,
+                color: "#002F6C",
+                fillOpacity: 0.28,
+                dashArray: null
+            });
+        });
+    }
+
+    // 4. Deseleccionar ítems del sidebar de mapas
+    document.querySelectorAll(".mapa-item-link").forEach(link => link.classList.remove("active"));
+
+    // 5. Cargar dashboard censal nacional
+    renderNationalDashboard();
+
+    // 6. Restaurar leyenda estadística
+    updateMapLegend();
+    updateViewIndicator("República Mexicana (32 Estados)");
+
+    // Centrar mapa
+    if (AppState.map) {
+        AppState.map.flyTo([23.6345, -102.5528], 5, { duration: 1 });
+    }
 }
 
 // Actualizar la leyenda del mapa con los datos del catálogo de 14 mapas
@@ -2473,7 +2754,7 @@ function updateInegiMapLegend(mapConfig) {
 
     if (mapConfig && mapConfig.legend) {
         titleText.textContent = mapConfig.legend.title || mapConfig.name;
-        scaleBars.innerHTML = mapConfig.legend.bars.map(color => `<span style="background-color: ${color};"></span>`).join('');
+        scaleBars.innerHTML = mapConfig.legend.bars.map(color => `<span style="background-color: ${color}; flex:1;"></span>`).join('');
         labelsRow.innerHTML = mapConfig.legend.labels.map(lbl => `<span>${lbl}</span>`).join('');
     }
 }
