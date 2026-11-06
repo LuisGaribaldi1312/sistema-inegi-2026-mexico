@@ -1199,15 +1199,6 @@ function renderStateDashboard(stateId) {
                 </div>
             </div>
 
-            <!-- Gráfico 2: Sectores Económicos -->
-            <div class="card-section">
-                <div class="card-section-title">
-                    <span>Actividad Económica (DENUE)</span>
-                    <span class="tag">${Number(d.unidades_economicas_denue).toLocaleString()} unidades</span>
-                </div>
-                <canvas id="chart-sectores" height="140"></canvas>
-            </div>
-
             <!-- Gráfico 3: Cobertura en Servicios Básicos -->
             <div class="card-section">
                 <div class="card-section-title">
@@ -1850,32 +1841,7 @@ function initNationalCharts(d) {
 }
 
 function initStateCharts(d) {
-    const ctxSec = document.getElementById("chart-sectores")?.getContext("2d");
-    if (ctxSec && d.sectores_economicos) {
-        AppState.charts.sectores = new Chart(ctxSec, {
-            type: "doughnut",
-            data: {
-                labels: ["Servicios", "Comercio", "Manufactura", "Agropecuario"],
-                datasets: [{
-                    data: [
-                        d.sectores_economicos.servicios,
-                        d.sectores_economicos.comercio,
-                        d.sectores_economicos.manufactura_industria,
-                        d.sectores_economicos.agropecuario
-                    ],
-                    backgroundColor: ["#002F6C", "#0084B4", "#8A1538", "#107C41"],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: "right", labels: { color: "#cbd5e1", font: { size: 10 } } }
-                }
-            }
-        });
-    }
+    // Gráfica de Actividad Económica (DENUE) eliminada permanentemente
 }
 
 function initMunicipioCharts(d) {
