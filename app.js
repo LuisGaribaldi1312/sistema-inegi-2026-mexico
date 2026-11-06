@@ -1056,15 +1056,6 @@ function renderNationalDashboard() {
                 </div>
             </div>
 
-            <!-- Gráfico 2: Estructura por Edad (Pirámide) -->
-            <div class="card-section">
-                <div class="card-section-title">
-                    <span>Distribución por Grupos de Edad</span>
-                    <span class="tag">Mediana: ${d.edad_mediana} años</span>
-                </div>
-                <canvas id="chart-edad" height="130"></canvas>
-            </div>
-
             <!-- Servicios e Infraestructura en Viviendas -->
             <div class="card-section">
                 <div class="card-section-title">
@@ -1339,15 +1330,6 @@ function renderMunicipioDashboard(muniId) {
                 </div>
             </div>
 
-            <!-- Gráfico 2: Estructura por Edad -->
-            <div class="card-section">
-                <div class="card-section-title">
-                    <span>Distribución Etaria Municipal</span>
-                    <span class="tag">Mediana: ${d.edad_mediana} años</span>
-                </div>
-                <canvas id="chart-edad" height="130"></canvas>
-            </div>
-
             <!-- Servicios Básicos en Viviendas -->
             <div class="card-section">
                 <div class="card-section-title">
@@ -1615,7 +1597,6 @@ function renderColoniaDashboard(colId) {
                         <span>Estructura por Grupos de Edad</span>
                         <span class="tag">Población Total</span>
                     </div>
-                    <canvas id="chart-edad-colonia" height="140"></canvas>
                     <div style="margin-top:10px;">
                         <div class="info-indicator-row">
                             <span class="info-indicator-label"><i class="fas fa-child" style="color:#38bdf8;"></i> 0 a 14 años (Infancia):</span>
@@ -1844,75 +1825,16 @@ function renderColoniaDashboard(colId) {
 // =============================================================================
 
 function initNationalCharts(d) {
-    const ctxHist = document.getElementById("chart-historico")?.getContext("2d");
-    if (ctxHist) {
-        AppState.charts.historico = new Chart(ctxHist, {
-            type: "line",
-            data: {
-                labels: d.historico_poblacion.map(h => h.year),
-                datasets: [{
-                    label: "Habitantes (Millones)",
-                    data: d.historico_poblacion.map(h => (h.val / 1000000).toFixed(2)),
-                    borderColor: "#0084B4",
-                    backgroundColor: "rgba(0, 47, 108, 0.25)",
-                    borderWidth: 2.5,
-                    fill: true,
-                    tension: 0.35,
-                    pointBackgroundColor: "#fff",
-                    pointRadius: 4
-                }]
-            },
-            options: getChartDefaultOptions("Millones de habs")
-        });
-    }
-
-    const ctxEdad = document.getElementById("chart-edad")?.getContext("2d");
-    if (ctxEdad) {
-        AppState.charts.edad = new Chart(ctxEdad, {
-            type: "bar",
-            data: {
-                labels: ["0-14 años", "15-29 años", "30-59 años", "60+ años"],
-                datasets: [{
-                    label: "Porcentaje (%)",
-                    data: [d.piramide_edad["0_14"], d.piramide_edad["15_29"], d.piramide_edad["30_59"], d.piramide_edad["60_mas"]],
-                    backgroundColor: ["#0084B4", "#002F6C", "#BC955C", "#8A1538"],
-                    borderRadius: 5
-                }]
-            },
-            options: getChartDefaultOptions("% de población")
-        });
-    }
+    // Indicadores censales e infraestructura representados en tarjetas oficiales y barras de cobertura
 }
 
 function initStateCharts(d) {
-    const ctxHist = document.getElementById("chart-historico")?.getContext("2d");
-    if (ctxHist) {
-        AppState.charts.historico = new Chart(ctxHist, {
-            type: "line",
-            data: {
-                labels: d.historico_poblacion.map(h => h.year),
-                datasets: [{
-                    label: "Población Estatal",
-                    data: d.historico_poblacion.map(h => h.val),
-                    borderColor: "#0084B4",
-                    backgroundColor: "rgba(0, 47, 108, 0.25)",
-                    borderWidth: 2.5,
-                    fill: true,
-                    tension: 0.35,
-                    pointBackgroundColor: "#fff",
-                    pointRadius: 4
-                }]
-            },
-            options: getChartDefaultOptions("Habitantes")
-        });
-    }
-
     const ctxSec = document.getElementById("chart-sectores")?.getContext("2d");
-    if (ctxSec) {
+    if (ctxSec && d.sectores_economicos) {
         AppState.charts.sectores = new Chart(ctxSec, {
             type: "doughnut",
             data: {
-                labels: ["Servicios", "Comercio", "Industria / Manuf.", "Agropecuario"],
+                labels: ["Servicios", "Comercio", "Manufactura", "Agropecuario"],
                 datasets: [{
                     data: [
                         d.sectores_economicos.servicios,
@@ -1920,7 +1842,7 @@ function initStateCharts(d) {
                         d.sectores_economicos.manufactura_industria,
                         d.sectores_economicos.agropecuario
                     ],
-                    backgroundColor: ["#1a73e8", "#0f9d58", "#fbbc04", "#ea4335"],
+                    backgroundColor: ["#002F6C", "#0084B4", "#8A1538", "#107C41"],
                     borderWidth: 0
                 }]
             },
@@ -1936,108 +1858,17 @@ function initStateCharts(d) {
 }
 
 function initMunicipioCharts(d) {
-    const ctxHist = document.getElementById("chart-historico")?.getContext("2d");
-    if (ctxHist) {
-        AppState.charts.historico = new Chart(ctxHist, {
-            type: "line",
-            data: {
-                labels: d.historico_poblacion.map(h => h.year),
-                datasets: [{
-                    label: "Población Municipal",
-                    data: d.historico_poblacion.map(h => h.val),
-                    borderColor: "#0084B4",
-                    backgroundColor: "rgba(0, 47, 108, 0.25)",
-                    borderWidth: 2.5,
-                    fill: true,
-                    tension: 0.35,
-                    pointBackgroundColor: "#fff",
-                    pointRadius: 4
-                }]
-            },
-            options: getChartDefaultOptions("Habitantes")
-        });
-    }
-
-    const ctxEdad = document.getElementById("chart-edad")?.getContext("2d");
-    if (ctxEdad) {
-        AppState.charts.edad = new Chart(ctxEdad, {
-            type: "bar",
-            data: {
-                labels: ["0-14", "15-29", "30-59", "60+"],
-                datasets: [{
-                    label: "Estructura (%)",
-                    data: [d.piramide_edad["0_14"], d.piramide_edad["15_29"], d.piramide_edad["30_59"], d.piramide_edad["60_mas"]],
-                    backgroundColor: ["#0084B4", "#002F6C", "#BC955C", "#8A1538"],
-                    borderRadius: 5
-                }]
-            },
-            options: getChartDefaultOptions("%")
-        });
-    }
+    // Indicadores y servicios municipales estructurados en fichas institucionales INEGI
 }
 
 function renderColoniaTabCharts(tabName, d) {
-    if (tabName === 'resumen') {
-        if (AppState.charts.historico) {
-            AppState.charts.historico.destroy();
-            delete AppState.charts.historico;
-        }
-        const ctxHist = document.getElementById('chart-historico')?.getContext('2d');
-        if (ctxHist && d.historico_poblacion) {
-            AppState.charts.historico = new Chart(ctxHist, {
-                type: 'line',
-                data: {
-                    labels: d.historico_poblacion.map(h => h.year),
-                    datasets: [{
-                        label: 'Población',
-                        data: d.historico_poblacion.map(h => h.val),
-                        borderColor: '#0284c7',
-                        backgroundColor: 'rgba(2, 132, 199, 0.18)',
-                        borderWidth: 2.5,
-                        fill: true,
-                        tension: 0.35,
-                        pointBackgroundColor: '#38bdf8',
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 1.5,
-                        pointRadius: 4.5
-                    }]
-                },
-                options: getChartDefaultOptions('Habitantes')
-            });
-        }
-    } else if (tabName === 'demografia') {
-        if (AppState.charts.edad) {
-            AppState.charts.edad.destroy();
-            delete AppState.charts.edad;
-        }
-        const ctxEdad = document.getElementById('chart-edad-colonia')?.getContext('2d');
-        if (ctxEdad) {
-            AppState.charts.edad = new Chart(ctxEdad, {
-                type: 'doughnut',
-                data: {
-                    labels: ['0-14 años', '15-59 años', '60+ años'],
-                    datasets: [{
-                        data: [d.p_0a14, d.p_15a59, d.p_60mas],
-                        backgroundColor: ['#38bdf8', '#3b82f6', '#f59e0b'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'right', labels: { color: '#cbd5e1', font: { size: 10 } } }
-                    }
-                }
-            });
-        }
-    } else if (tabName === 'educacion') {
+    if (tabName === 'educacion') {
         if (AppState.charts.sectores) {
             AppState.charts.sectores.destroy();
             delete AppState.charts.sectores;
         }
         const ctxSec = document.getElementById('chart-sectores-colonia')?.getContext('2d');
-        if (ctxSec) {
+        if (ctxSec && d.sectores_economicos) {
             AppState.charts.sectores = new Chart(ctxSec, {
                 type: 'doughnut',
                 data: {
@@ -2049,7 +1880,7 @@ function renderColoniaTabCharts(tabName, d) {
                             d.sectores_economicos.manufactura_industria,
                             d.sectores_economicos.agropecuario
                         ],
-                        backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ec4899'],
+                        backgroundColor: ['#002F6C', '#0084B4', '#8A1538', '#107C41'],
                         borderWidth: 0
                     }]
                 },
