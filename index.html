@@ -78,11 +78,11 @@
             <!-- Redes Sociales y Enlaces Utilitarios Superiores -->
             <div class="inegi-top-utilities">
                 <div class="inegi-social-icons">
-                    <a href="https://facebook.com" target="_blank" class="social-circle" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://x.com" target="_blank" class="social-circle" title="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
-                    <a href="https://youtube.com" target="_blank" class="social-circle" title="YouTube"><i class="fab fa-youtube"></i></a>
-                    <a href="https://instagram.com" target="_blank" class="social-circle" title="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="https://inegi.org.mx/rss" target="_blank" class="social-circle" title="RSS"><i class="fas fa-rss"></i></a>
+                    <a href="https://www.facebook.com/INEGI.Informa" target="_blank" rel="noopener noreferrer" class="social-circle" title="Facebook Oficial INEGI"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com/INEGI_INFORMA" target="_blank" rel="noopener noreferrer" class="social-circle" title="X (Twitter) Oficial INEGI"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://www.youtube.com/user/INEGIInforma" target="_blank" rel="noopener noreferrer" class="social-circle" title="YouTube Oficial INEGI"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.instagram.com/inegi_informa/" target="_blank" rel="noopener noreferrer" class="social-circle" title="Instagram Oficial INEGI"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.inegi.org.mx/rss/" target="_blank" rel="noopener noreferrer" class="social-circle" title="RSS Oficial INEGI"><i class="fas fa-rss"></i></a>
                 </div>
                 <div class="inegi-top-links">
                     <a href="#" class="top-util-link">English</a>
@@ -178,54 +178,54 @@
              =================================================================== -->
         <section id="view-inicio" class="portal-view active">
             
-            <!-- TARJETAS PRINCIPALES DE INDICADORES MACRO (KPIs) -->
-            <div class="kpi-banner-grid">
-                <!-- 1. Población -->
-                <div class="kpi-card">
-                    <div class="kpi-title">Población</div>
-                    <div class="kpi-primary-val">130,911,314</div>
-                    <div class="kpi-unit">personas</div>
-                    <div class="kpi-period">2025</div>
+            <!-- TARJETAS PRINCIPALES DE INDICADORES CENSALES Y MACRO CUADRADOS CON EL PROYECTO -->
+            <div class="kpi-banner-grid" id="homepage-kpi-banner">
+                <!-- 1. Población Nacional Oficial -->
+                <div class="kpi-card" onclick="showOfficialInfoModal('poblacion')" style="cursor:pointer;" title="Ver detalles oficiales de Población">
+                    <div class="kpi-title"><i class="fas fa-users" style="color:#0084B4; margin-right:4px;"></i> Población Nacional</div>
+                    <div class="kpi-primary-val" id="kpi-pob-val">126,014,024</div>
+                    <div class="kpi-unit">habitantes censados &bull; Proy. 2026: <strong>132,450,000</strong></div>
+                    <div class="kpi-period">Censo INEGI 2020 &bull; 51.2% Mujeres / 48.8% Hombres</div>
                 </div>
 
-                <!-- 2. Producto Interno Bruto -->
-                <div class="kpi-card">
-                    <div class="kpi-title">Producto Interno Bruto</div>
+                <!-- 2. Viviendas e Infraestructura -->
+                <div class="kpi-card" onclick="showOfficialInfoModal('hogares_vivienda')" style="cursor:pointer;" title="Ver detalles oficiales de Vivienda">
+                    <div class="kpi-title"><i class="fas fa-home" style="color:#107C41; margin-right:4px;"></i> Hogares y Vivienda</div>
                     <div class="kpi-dual-values">
                         <div class="kpi-sub-val">
-                            <span class="bold-val">0.9%</span>
-                            <span class="sub-label">variación trimestral</span>
+                            <span class="bold-val" id="kpi-viv-val">35,219,514</span>
+                            <span class="sub-label">viviendas habitadas</span>
                         </div>
                         <div class="kpi-sub-val">
-                            <span class="bold-val">3.2%</span>
-                            <span class="sub-label">variación anual</span>
+                            <span class="bold-val" id="kpi-int-val">78.6%</span>
+                            <span class="sub-label">con Internet</span>
                         </div>
                     </div>
-                    <div class="kpi-period">2º trimestre 2026</div>
+                    <div class="kpi-period">99.2% Electricidad &bull; 96.1% Agua Entubada</div>
                 </div>
 
-                <!-- 3. Inflación -->
-                <div class="kpi-card">
-                    <div class="kpi-title">Inflación</div>
+                <!-- 3. Empleo y Economía Laboral -->
+                <div class="kpi-card" onclick="showOfficialInfoModal('empleo')" style="cursor:pointer;" title="Ver detalles de Empleo y Ocupación">
+                    <div class="kpi-title"><i class="fas fa-briefcase" style="color:#BC955C; margin-right:4px;"></i> Empleo y Ocupación</div>
                     <div class="kpi-dual-values">
                         <div class="kpi-sub-val">
-                            <span class="bold-val">3.45%</span>
-                            <span class="sub-label">anual</span>
+                            <span class="bold-val" id="kpi-ing-val">$17,850</span>
+                            <span class="sub-label">ingreso prom. mensual</span>
                         </div>
                         <div class="kpi-sub-val">
-                            <span class="bold-val">0.42%</span>
-                            <span class="sub-label">mensual</span>
+                            <span class="bold-val" id="kpi-pea-val">97.3%</span>
+                            <span class="sub-label">tasa de ocupación</span>
                         </div>
                     </div>
-                    <div class="kpi-period">Septiembre 2026</div>
+                    <div class="kpi-period">PEA: 60.5 Millones &bull; Desocupación: 2.7%</div>
                 </div>
 
-                <!-- 4. Tasa de Desocupación -->
-                <div class="kpi-card">
-                    <div class="kpi-title">Tasa de Desocupación</div>
-                    <div class="kpi-primary-val">2.6%</div>
-                    <div class="kpi-unit">de la Población Económicamente Activa</div>
-                    <div class="kpi-period">Septiembre 2026</div>
+                <!-- 4. Unidades Económicas (DENUE) -->
+                <div class="kpi-card" onclick="showOfficialInfoModal('empresas')" style="cursor:pointer;" title="Ver Directorio DENUE">
+                    <div class="kpi-title"><i class="fas fa-store" style="color:#691C32; margin-right:4px;"></i> Unidades Económicas</div>
+                    <div class="kpi-primary-val" id="kpi-denue-val">5,540,000</div>
+                    <div class="kpi-unit">establecimientos georreferenciados (DENUE)</div>
+                    <div class="kpi-period">Directorio Nacional &bull; 32 Entidades Federativas</div>
                 </div>
             </div>
 
@@ -520,12 +520,12 @@
                             <h3>Demografía y Sociedad</h3>
                         </div>
                         <ul class="pillar-links-list">
-                            <li><a href="#" onclick="filterTopic('Educación')"><i class="fas fa-chevron-right"></i> Educación</a></li>
-                            <li><a href="#" onclick="filterTopic('Empleo y Ocupación')"><i class="fas fa-chevron-right"></i> Empleo y Ocupación</a></li>
-                            <li><a href="#" onclick="filterTopic('Hogares y Vivienda')"><i class="fas fa-chevron-right"></i> Hogares y Vivienda</a></li>
-                            <li><a href="#" onclick="filterTopic('Población')"><i class="fas fa-chevron-right"></i> Población</a></li>
-                            <li><a href="#" onclick="filterTopic('Salud y seguridad social')"><i class="fas fa-chevron-right"></i> Salud y seguridad social</a></li>
-                            <li><a href="#" onclick="filterTopic('Tecnologías de la información')"><i class="fas fa-chevron-right"></i> Tecnologías de la información y comunicaciones</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('educacion')"><i class="fas fa-chevron-right"></i> Educación</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('empleo')"><i class="fas fa-chevron-right"></i> Empleo y Ocupación</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('hogares_vivienda')"><i class="fas fa-chevron-right"></i> Hogares y Vivienda</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('poblacion')"><i class="fas fa-chevron-right"></i> Población</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('salud')"><i class="fas fa-chevron-right"></i> Salud y seguridad social</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('tic')"><i class="fas fa-chevron-right"></i> Tecnologías de la información y comunicaciones</a></li>
                         </ul>
                     </div>
 
@@ -536,20 +536,20 @@
                             <h3>Economía y Sectores Productivos</h3>
                         </div>
                         <ul class="pillar-links-list">
-                            <li><a href="#" onclick="filterTopic('Agricultura')"><i class="fas fa-chevron-right"></i> Agricultura, ganadería y pesca</a></li>
-                            <li><a href="#" onclick="filterTopic('Comercio')"><i class="fas fa-chevron-right"></i> Comercio</a></li>
-                            <li><a href="#" onclick="filterTopic('Comercio exterior')"><i class="fas fa-chevron-right"></i> Comercio exterior</a></li>
-                            <li><a href="#" onclick="filterTopic('Construcción')"><i class="fas fa-chevron-right"></i> Construcción</a></li>
-                            <li><a href="#" onclick="filterTopic('Empresas y establecimientos')"><i class="fas fa-chevron-right"></i> Empresas y establecimientos</a></li>
-                            <li><a href="#" onclick="filterTopic('Manufacturas')"><i class="fas fa-chevron-right"></i> Manufacturas</a></li>
-                            <li><a href="#" onclick="filterTopic('Minería')"><i class="fas fa-chevron-right"></i> Minería</a></li>
-                            <li><a href="#" onclick="filterTopic('PIB y cuentas nacionales')"><i class="fas fa-chevron-right"></i> PIB y cuentas nacionales</a></li>
-                            <li><a href="#" onclick="filterTopic('Precios')"><i class="fas fa-chevron-right"></i> Precios</a></li>
-                            <li><a href="#" onclick="filterTopic('Sectores Económicos')"><i class="fas fa-chevron-right"></i> Sectores Económicos</a></li>
-                            <li><a href="#" onclick="filterTopic('Sectores Institucionales')"><i class="fas fa-chevron-right"></i> Sectores Institucionales</a></li>
-                            <li><a href="#" onclick="filterTopic('Servicios no financieros')"><i class="fas fa-chevron-right"></i> Servicios no financieros</a></li>
-                            <li><a href="#" onclick="filterTopic('Transporte')"><i class="fas fa-chevron-right"></i> Transporte</a></li>
-                            <li><a href="#" onclick="filterTopic('Turismo')"><i class="fas fa-chevron-right"></i> Turismo</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('agricultura')"><i class="fas fa-chevron-right"></i> Agricultura, ganadería y pesca</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('comercio')"><i class="fas fa-chevron-right"></i> Comercio</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('comercio_exterior')"><i class="fas fa-chevron-right"></i> Comercio exterior</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('construccion')"><i class="fas fa-chevron-right"></i> Construcción</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('empresas')"><i class="fas fa-chevron-right"></i> Empresas y establecimientos</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('manufacturas')"><i class="fas fa-chevron-right"></i> Manufacturas</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('mineria')"><i class="fas fa-chevron-right"></i> Minería</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('pib')"><i class="fas fa-chevron-right"></i> PIB y cuentas nacionales</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('precios')"><i class="fas fa-chevron-right"></i> Precios</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('pib')"><i class="fas fa-chevron-right"></i> Sectores Económicos</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('pib')"><i class="fas fa-chevron-right"></i> Sectores Institucionales</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('comercio')"><i class="fas fa-chevron-right"></i> Servicios no financieros</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('transporte')"><i class="fas fa-chevron-right"></i> Transporte</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('turismo')"><i class="fas fa-chevron-right"></i> Turismo</a></li>
                         </ul>
                     </div>
 
@@ -560,12 +560,12 @@
                             <h3>Geografía y Medio Ambiente</h3>
                         </div>
                         <ul class="pillar-links-list">
-                            <li><a href="#" onclick="filterTopic('Catastro')"><i class="fas fa-chevron-right"></i> Catastro y Gestión Territorial</a></li>
-                            <li><a href="#" onclick="filterTopic('Imágenes')"><i class="fas fa-chevron-right"></i> Imágenes del Territorio</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('catastro')"><i class="fas fa-chevron-right"></i> Catastro y Gestión Territorial</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('imagenes')"><i class="fas fa-chevron-right"></i> Imágenes del Territorio</a></li>
                             <li><a href="#" onclick="switchPortalView('inicio')"><i class="fas fa-chevron-right"></i> Mapas y Geovisores</a></li>
                             <li><a href="#" onclick="switchPortalView('inicio')"><i class="fas fa-chevron-right"></i> Marco Geoestadístico</a></li>
-                            <li><a href="#" onclick="filterTopic('Marco Geocientífico')"><i class="fas fa-chevron-right"></i> Marco Geocientífico</a></li>
-                            <li><a href="#" onclick="filterTopic('Medio ambiente')"><i class="fas fa-chevron-right"></i> Medio ambiente</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('mapa_digital')"><i class="fas fa-chevron-right"></i> Marco Geocientífico</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('medio_ambiente')"><i class="fas fa-chevron-right"></i> Medio ambiente</a></li>
                         </ul>
                     </div>
 
@@ -576,8 +576,8 @@
                             <h3>Gobierno, Seguridad y Justicia</h3>
                         </div>
                         <ul class="pillar-links-list">
-                            <li><a href="#" onclick="filterTopic('Gobierno')"><i class="fas fa-chevron-right"></i> Gobierno</a></li>
-                            <li><a href="#" onclick="filterTopic('Seguridad')"><i class="fas fa-chevron-right"></i> Seguridad pública y justicia</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('gobierno')"><i class="fas fa-chevron-right"></i> Gobierno</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('seguridad')"><i class="fas fa-chevron-right"></i> Seguridad pública y justicia</a></li>
                         </ul>
                     </div>
 
@@ -604,10 +604,10 @@
                             <h3>Información Demográfica y Social</h3>
                         </div>
                         <ul class="pillar-links-list">
-                            <li><a href="#" onclick="switchPortalView('inicio')"><i class="fas fa-chevron-right"></i> Censos (Población y Vivienda 2020)</a></li>
-                            <li><a href="#"><i class="fas fa-chevron-right"></i> Encuestas en Hogares</a></li>
-                            <li><a href="#"><i class="fas fa-chevron-right"></i> Registros Administrativos Estadísticos</a></li>
-                            <li><a href="#" onclick="switchPortalView('inicio')"><i class="fas fa-chevron-right"></i> Características sociodemográficas en áreas pequeñas</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('censo_2020')"><i class="fas fa-chevron-right"></i> Censos (Población y Vivienda 2020)</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('enoe')"><i class="fas fa-chevron-right"></i> Encuestas en Hogares (ENOE / ENIGH)</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('transporte')"><i class="fas fa-chevron-right"></i> Registros Administrativos Estadísticos</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('scince')"><i class="fas fa-chevron-right"></i> Características sociodemográficas en áreas pequeñas (SCINCE)</a></li>
                             <li><a href="#"><i class="fas fa-chevron-right"></i> Históricas</a></li>
                             <li class="separator-item"><a href="#"><i class="fas fa-chevron-right"></i> Estadísticas experimentales</a></li>
                         </ul>
@@ -620,12 +620,12 @@
                             <h3>Información Económica</h3>
                         </div>
                         <ul class="pillar-links-list">
-                            <li><a href="#"><i class="fas fa-chevron-right"></i> Censos Económicos</a></li>
-                            <li><a href="#"><i class="fas fa-chevron-right"></i> Encuestas Económicas</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('empresas')"><i class="fas fa-chevron-right"></i> Censos Económicos</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('comercio')"><i class="fas fa-chevron-right"></i> Encuestas Económicas (EMEC / ENEC)</a></li>
                             <li><a href="#"><i class="fas fa-chevron-right"></i> Registros Administrativos Económicos</a></li>
-                            <li><a href="#"><i class="fas fa-chevron-right"></i> Índices de Precios</a></li>
-                            <li><a href="#"><i class="fas fa-chevron-right"></i> Sistema de Cuentas Nacionales</a></li>
-                            <li><a href="#"><i class="fas fa-chevron-right"></i> <strong>Estudio sobre la Demografía de los Negocios (EDN)</strong></a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('precios')"><i class="fas fa-chevron-right"></i> Índices de Precios (INPC e INPP)</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('pib')"><i class="fas fa-chevron-right"></i> Sistema de Cuentas Nacionales (SCNM)</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('edn')"><i class="fas fa-chevron-right"></i> <strong>Estudio sobre la Demografía de los Negocios (EDN)</strong></a></li>
                             <li><a href="#"><i class="fas fa-chevron-right"></i> Históricas</a></li>
                             <li class="separator-item"><a href="#"><i class="fas fa-chevron-right"></i> Estadísticas experimentales</a></li>
                         </ul>
@@ -639,8 +639,8 @@
                         </div>
                         <ul class="pillar-links-list">
                             <li><a href="#"><i class="fas fa-chevron-right"></i> Censos</a></li>
-                            <li><a href="#"><i class="fas fa-chevron-right"></i> Estructuración e integración de redes geodésicas</a></li>
-                            <li><a href="#"><i class="fas fa-chevron-right"></i> Generación de información cartográfica</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('marco_geoestadistico')"><i class="fas fa-chevron-right"></i> Red Geodésica Nacional Activa</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('mapa_digital')"><i class="fas fa-chevron-right"></i> Generación de información cartográfica</a></li>
                             <li><a href="#"><i class="fas fa-chevron-right"></i> Generación de información de recursos naturales</a></li>
                             <li><a href="#"><i class="fas fa-chevron-right"></i> Generación de información topográfica</a></li>
                             <li><a href="#"><i class="fas fa-chevron-right"></i> Levantamientos geodésicos</a></li>
@@ -657,8 +657,8 @@
                             <h3>Información de Gobierno, Seguridad Pública e Impartición de Justicia</h3>
                         </div>
                         <ul class="pillar-links-list">
-                            <li><a href="#"><i class="fas fa-chevron-right"></i> Censos de Gobierno Federal y Estatal</a></li>
-                            <li><a href="#"><i class="fas fa-chevron-right"></i> Encuestas de Seguridad y Victimización (ENVIPE)</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('gobierno')"><i class="fas fa-chevron-right"></i> Censos de Gobierno Federal y Estatal</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('seguridad')"><i class="fas fa-chevron-right"></i> Encuestas de Seguridad y Victimización (ENVIPE)</a></li>
                             <li><a href="#"><i class="fas fa-chevron-right"></i> Registros Administrativos de Justicia</a></li>
                             <li><a href="#"><i class="fas fa-chevron-right"></i> Históricas</a></li>
                             <li class="separator-item"><a href="#"><i class="fas fa-chevron-right"></i> Estadísticas experimentales</a></li>
@@ -688,8 +688,8 @@
                             <h4>Aplicaciones Móviles</h4>
                         </div>
                         <ul class="system-links">
-                            <li><a href="#"><i class="fas fa-angle-right"></i> México en Cifras</a></li>
-                            <li><a href="#"><i class="fas fa-angle-right"></i> Directorio de Establecimientos (DENUE)</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('scince')"><i class="fas fa-angle-right"></i> México en Cifras</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('denue_sistema')"><i class="fas fa-angle-right"></i> Directorio de Establecimientos (DENUE)</a></li>
                             <li><a href="#"><i class="fas fa-angle-right"></i> Brújula</a></li>
                             <li><a href="#"><i class="fas fa-angle-right"></i> Estaciones de la RGN Móvil</a></li>
                         </ul>
@@ -702,7 +702,7 @@
                             <h4>Visualizadores de Datos</h4>
                         </div>
                         <ul class="system-links">
-                            <li><a href="#"><i class="fas fa-angle-right"></i> México en Cifras</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('scince')"><i class="fas fa-angle-right"></i> México en Cifras</a></li>
                             <li><a href="#"><i class="fas fa-angle-right"></i> Reloj de Ciclos Económicos</a></li>
                             <li><a href="#"><i class="fas fa-angle-right"></i> Tableros estadísticos</a></li>
                             <li><a href="#"><i class="fas fa-angle-right"></i> Tablero de Indicadores Económicos</a></li>
@@ -718,12 +718,12 @@
                             <h4>Geovisores</h4>
                         </div>
                         <ul class="system-links">
-                            <li><a href="#"><i class="fas fa-angle-right"></i> Directorio de Establecimientos (DENUE)</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('denue_sistema')"><i class="fas fa-angle-right"></i> Directorio de Establecimientos (DENUE)</a></li>
                             <li><a href="#"><i class="fas fa-angle-right"></i> Espacio y Datos de México</a></li>
                             <li><a href="#"><i class="fas fa-angle-right"></i> Estratificador INEGI 2.0</a></li>
                             <li><a href="#"><i class="fas fa-angle-right"></i> Inventario Nacional de Viviendas</a></li>
                             <li><a href="#"><i class="fas fa-angle-right"></i> Malla geoestadística</a></li>
-                            <li><a href="#"><i class="fas fa-angle-right"></i> Mapa Digital de México</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('mapa_digital')"><i class="fas fa-angle-right"></i> Mapa Digital de México (MDM)</a></li>
                             <li class="active-system-link">
                                 <a href="#" onclick="switchPortalView('inicio')">
                                     <i class="fas fa-star" style="color:#BC955C;"></i> <strong>Sistema para la Consulta de Información Censal (SCINCE)</strong>
@@ -754,8 +754,8 @@
                             <h4>Bases de Datos</h4>
                         </div>
                         <ul class="system-links">
-                            <li><a href="#"><i class="fas fa-angle-right"></i> Descarga Masiva</a></li>
-                            <li><a href="#"><i class="fas fa-angle-right"></i> Datos Abiertos</a></li>
+                            <li><a href="#" onclick="downloadCurrentMapData()"><i class="fas fa-angle-right"></i> Descarga Masiva (Datos Abiertos)</a></li>
+                            <li><a href="https://datos.gob.mx" target="_blank" rel="noopener noreferrer"><i class="fas fa-angle-right"></i> Datos Abiertos de México (datos.gob.mx)</a></li>
                             <li><a href="#"><i class="fas fa-angle-right"></i> Microdatos</a></li>
                         </ul>
                     </div>
@@ -768,7 +768,7 @@
                         </div>
                         <ul class="system-links">
                             <li><a href="#"><i class="fas fa-angle-right"></i> Banco de Indicadores</a></li>
-                            <li><a href="#"><i class="fas fa-angle-right"></i> Banco de Información Económica (BIE)</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('bie')"><i class="fas fa-angle-right"></i> Banco de Información Económica (BIE)</a></li>
                         </ul>
                     </div>
 
@@ -794,7 +794,7 @@
                             <h4>Para desarrolladores</h4>
                         </div>
                         <ul class="system-links">
-                            <li><a href="#"><i class="fas fa-angle-right"></i> APIs REST INEGI</a></li>
+                            <li><a href="#" onclick="showOfficialInfoModal('apis')"><i class="fas fa-angle-right"></i> APIs REST INEGI</a></li>
                             <li><a href="#"><i class="fas fa-angle-right"></i> Código fuente y Repositorios</a></li>
                             <li><a href="#"><i class="fas fa-angle-right"></i> Widgets de Información</a></li>
                             <li><a href="#"><i class="fas fa-angle-right"></i> Servicios Web Cartográficos (WMS / WFS)</a></li>
@@ -868,7 +868,7 @@
                         <div class="pobreza-card">
                             <div class="pobreza-card-header">
                                 <i class="fas fa-balance-scale card-icon-pob"></i>
-                                <h3><a href="#">Líneas de pobreza</a></h3>
+                                <h3><a href="#" onclick="showOfficialInfoModal('lineas_pobreza'); return false;">Líneas de pobreza</a></h3>
                             </div>
                             <div class="pobreza-dates">
                                 <div><i class="far fa-calendar-check"></i> <strong>Publicación reciente:</strong> 13 de octubre de 2026</div>
@@ -886,7 +886,7 @@
                         <div class="pobreza-card">
                             <div class="pobreza-card-header">
                                 <i class="fas fa-hand-holding-dollar card-icon-pob"></i>
-                                <h3><a href="#">Pobreza laboral</a></h3>
+                                <h3><a href="#" onclick="showOfficialInfoModal('pobreza_laboral'); return false;">Pobreza laboral</a></h3>
                             </div>
                             <div class="pobreza-dates">
                                 <div><i class="far fa-calendar-check"></i> <strong>Publicación reciente:</strong> 28 de agosto de 2026</div>
@@ -901,7 +901,7 @@
                         <div class="pobreza-card">
                             <div class="pobreza-card-header">
                                 <i class="fas fa-network-wired card-icon-pob"></i>
-                                <h3><a href="#">Pobreza multidimensional</a></h3>
+                                <h3><a href="#" onclick="showOfficialInfoModal('pobreza_multidimensional'); return false;">Pobreza multidimensional</a></h3>
                             </div>
                             <div class="pobreza-dates">
                                 <div><i class="far fa-calendar-check"></i> <strong>Publicación reciente:</strong> 13 de agosto de 2025</div>
@@ -915,7 +915,7 @@
                         <div class="pobreza-card">
                             <div class="pobreza-card-header">
                                 <i class="fas fa-people-roof card-icon-pob"></i>
-                                <h3><a href="#">Sistema de Información de Derechos Sociales</a></h3>
+                                <h3><a href="#" onclick="showOfficialInfoModal('derechos_sociales'); return false;">Sistema de Información de Derechos Sociales</a></h3>
                             </div>
                             <div class="pobreza-dates">
                                 <div><i class="far fa-calendar-check"></i> <strong>Publicación reciente:</strong> 03 de marzo de 2026</div>
@@ -1053,11 +1053,11 @@
                     <div class="contact-link"><a href="#"><i class="fas fa-file-pen"></i> Solicitud de información</a></div>
                 </div>
                 <div class="footer-social-row">
-                    <a href="https://facebook.com" target="_blank" class="footer-social-btn"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://x.com" target="_blank" class="footer-social-btn"><i class="fab fa-x-twitter"></i></a>
-                    <a href="https://youtube.com" target="_blank" class="footer-social-btn"><i class="fab fa-youtube"></i></a>
-                    <a href="https://instagram.com" target="_blank" class="footer-social-btn"><i class="fab fa-instagram"></i></a>
-                    <a href="https://inegi.org.mx/rss" target="_blank" class="footer-social-btn"><i class="fas fa-rss"></i></a>
+                    <a href="https://www.facebook.com/INEGI.Informa" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Facebook Oficial INEGI"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com/INEGI_INFORMA" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="X Oficial INEGI"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://www.youtube.com/user/INEGIInforma" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="YouTube Oficial INEGI"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.instagram.com/inegi_informa/" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Instagram Oficial INEGI"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.inegi.org.mx/rss/" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Canal RSS INEGI"><i class="fas fa-rss"></i></a>
                 </div>
             </div>
 
@@ -1065,16 +1065,16 @@
             <div class="footer-col col-enlaces">
                 <h4>Enlaces</h4>
                 <ul class="footer-links-list">
-                    <li><a href="#">Investigación</a></li>
-                    <li><a href="#">Sala de prensa</a></li>
-                    <li><a href="#">Normateca Institucional</a></li>
-                    <li><a href="#">Transparencia</a></li>
-                    <li><a href="#">Desarrolladores</a></li>
-                    <li><a href="#">Oportunidades de trabajo</a></li>
-                    <li><a href="#">Eventos</a></li>
-                    <li><a href="#">Véndele al INEGI</a></li>
-                    <li><a href="#">Armonización contable</a></li>
-                    <li><a href="#">Sistema de Manejo Ambiental</a></li>
+                    <li><a href="https://www.inegi.org.mx/investigacion/" target="_blank" rel="noopener noreferrer">Investigación</a></li>
+                    <li><a href="https://www.inegi.org.mx/saladeprensa/" target="_blank" rel="noopener noreferrer">Sala de prensa</a></li>
+                    <li><a href="https://www.inegi.org.mx/normateca/" target="_blank" rel="noopener noreferrer">Normateca Institucional</a></li>
+                    <li><a href="https://www.inegi.org.mx/transparencia/" target="_blank" rel="noopener noreferrer">Transparencia</a></li>
+                    <li><a href="https://www.inegi.org.mx/servicios/api_indicadores.html" target="_blank" rel="noopener noreferrer">Desarrolladores</a></li>
+                    <li><a href="https://www.inegi.org.mx/app/spc/" target="_blank" rel="noopener noreferrer">Oportunidades de trabajo</a></li>
+                    <li><a href="https://www.inegi.org.mx/eventos/" target="_blank" rel="noopener noreferrer">Eventos</a></li>
+                    <li><a href="https://www.inegi.org.mx/administracion/adquisiciones/" target="_blank" rel="noopener noreferrer">Véndele al INEGI</a></li>
+                    <li><a href="https://www.inegi.org.mx/administracion/armonizacioncontable/" target="_blank" rel="noopener noreferrer">Armonización contable</a></li>
+                    <li><a href="https://www.inegi.org.mx/administracion/sma/" target="_blank" rel="noopener noreferrer">Sistema de Manejo Ambiental</a></li>
                 </ul>
             </div>
 
@@ -1082,13 +1082,13 @@
             <div class="footer-col col-sitios">
                 <h4>Sitios de interés</h4>
                 <ul class="footer-links-list">
-                    <li><a href="https://snieg.mx" target="_blank">SNIEG</a></li>
-                    <li><a href="#">Catálogo Nacional de Indicadores</a></li>
-                    <li><a href="#">Cuéntame de México</a></li>
-                    <li><a href="#">Objetivos de Desarrollo Sostenible</a></li>
-                    <li><a href="#">Órgano Interno de Control</a></li>
-                    <li><a href="#">Denuncias</a></li>
-                    <li><a href="#">Enlaces de interés</a></li>
+                    <li><a href="https://www.snieg.mx" target="_blank" rel="noopener noreferrer">SNIEG</a></li>
+                    <li><a href="https://www.snieg.mx/cni/" target="_blank" rel="noopener noreferrer">Catálogo Nacional de Indicadores</a></li>
+                    <li><a href="https://cuentame.inegi.org.mx" target="_blank" rel="noopener noreferrer">Cuéntame de México</a></li>
+                    <li><a href="https://agenda2030.mx" target="_blank" rel="noopener noreferrer">Objetivos de Desarrollo Sostenible</a></li>
+                    <li><a href="https://oic.inegi.org.mx" target="_blank" rel="noopener noreferrer">Órgano Interno de Control</a></li>
+                    <li><a href="https://oic.inegi.org.mx/denuncias/" target="_blank" rel="noopener noreferrer">Denuncias</a></li>
+                    <li><a href="https://www.inegi.org.mx/servicios/enlaces.html" target="_blank" rel="noopener noreferrer">Enlaces de interés</a></li>
                 </ul>
             </div>
 
@@ -1199,6 +1199,58 @@
     <!-- =======================================================================
          SCRIPTS Y BASES DE DATOS OFICIALES INEGI
          ======================================================================= -->
+    
+    <!-- =======================================================================
+         MODAL INFORMATIVO OFICIAL INEGI (INFORMACIÓN REAL AL DAR CLIC EN MENÚS)
+         ======================================================================= -->
+    <div id="inegi-detail-modal" class="detail-modal-overlay" style="display: none;">
+        <div class="detail-modal-box">
+            <div class="detail-modal-header">
+                <div class="modal-header-left">
+                    <span class="detail-cat-badge" id="modal-cat-badge">CATEGORÍA INSTITUCIONAL</span>
+                    <h3 id="modal-title-text">Título de Información INEGI</h3>
+                </div>
+                <button type="button" class="btn-close-detail" onclick="closeOfficialInfoModal()" title="Cerrar ventana">&times;</button>
+            </div>
+            <div class="detail-modal-body">
+                <div class="detail-summary-lead" id="modal-summary-text">
+                    Resumen informativo oficial del tema o programa consultado.
+                </div>
+                
+                <div class="detail-info-block">
+                    <div class="detail-block-title">
+                        <i class="fas fa-landmark" style="color:#BC955C;"></i> Definición y Marco Normativo SNIEG
+                    </div>
+                    <p id="modal-definition-text">Definición oficial aprobada por la Junta de Gobierno del INEGI.</p>
+                </div>
+
+                <div class="detail-metrics-block">
+                    <div class="detail-block-title">
+                        <i class="fas fa-chart-line" style="color:#0084B4;"></i> Cifras y Métricas Clave Oficiales
+                    </div>
+                    <div class="detail-metrics-grid" id="modal-metrics-grid">
+                        <!-- Inyección dinámica de métricas -->
+                    </div>
+                </div>
+
+                <div class="detail-actions-row">
+                    <button type="button" class="btn-modal-action action-map" id="modal-btn-map" onclick="exploreTopicOnMap()">
+                        <i class="fas fa-map-location-dot"></i> Consultar en Mapa SCINCE
+                    </button>
+                    <a href="https://www.inegi.org.mx" target="_blank" rel="noopener noreferrer" class="btn-modal-action action-inegi" id="modal-btn-link">
+                        <i class="fas fa-external-link-alt"></i> Ir al Portal Oficial (inegi.org.mx)
+                    </a>
+                    <button type="button" class="btn-modal-action action-close" onclick="closeOfficialInfoModal()">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Catálogo Informativo de Menús INEGI -->
+    <script src="data/inegi_menu_info.js"></script>
+
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     

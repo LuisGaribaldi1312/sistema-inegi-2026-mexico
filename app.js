@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupAuth();
     setupMetricSelector();
     setupSearch();
+    syncHomepageKpis();
 });
 
 function setupAuth() {
@@ -2238,3 +2239,129 @@ function executePortalSearch() {
         section.scrollIntoView({ behavior: "smooth" });
     }
 }
+
+// =============================================================================
+// 10. CONTROL DEL MODAL INFORMATIVO OFICIAL INEGI Y SINCRONIZACIÓN DE DATOS
+// =============================================================================
+
+let currentModalTopicKey = null;
+
+function showOfficialInfoModal(topicKey) {
+    const info = window.INEGI_MENU_INFO ? window.INEGI_MENU_INFO[topicKey] : null;
+    if (!info) {
+        console.warn("Información no encontrada para la clave:", topicKey);
+        return;
+    }
+
+    currentModalTopicKey = topicKey;
+
+    const modal = document.getElementById("inegi-detail-modal");
+    const catBadge = document.getElementById("modal-cat-badge");
+    const titleText = document.getElementById("modal-title-text");
+    const summaryText = document.getElementById("modal-summary-text");
+    const defText = document.getElementById("modal-definition-text");
+    const metricsGrid = document.getElementById("modal-metrics-grid");
+    const inegiLink = document.getElementById("modal-btn-link");
+
+    if (catBadge) catBadge.textContent = info.category.toUpperCase();
+    if (titleText) titleText.textContent = info.title;
+    if (summaryText) summaryText.textContent = info.summary;
+    if (defText) defText.textContent = info.officialDefinition;
+
+    if (inegiLink) {
+        inegiLink.href = info.officialUrl || "https://www.inegi.org.mx";
+    }
+
+    if (metricsGrid && info.keyMetrics) {
+        metricsGrid.innerHTML = info.keyMetrics.map(m => `
+            <div class="metric-pill-item">
+                <span class="m-val">${m.val}</span>
+                <span class="m-lbl">${m.label}</span>
+            </div>
+        `).join('');
+    }
+
+    if (modal) {
+        modal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+    }
+}
+
+function closeOfficialInfoModal() {
+    const modal = document.getElementById("inegi-detail-modal");
+    if (modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = "";
+    }
+}
+
+function exploreTopicOnMap() {
+    closeOfficialInfoModal();
+    switchPortalView("inicio");
+
+    if (currentModalTopicKey && window.INEGI_MENU_INFO[currentModalTopicKey]) {
+        const info = window.INEGI_MENU_INFO[currentModalTopicKey];
+        if (info.scinceFilter) {
+            const select = document.getElementById("map-metric-select");
+            if (select) {
+                select.value = info.scinceFilter;
+                AppState.activeMetric = info.scinceFilter;
+                if (AppState.layers.states) {
+                    AppState.layers.states.eachLayer(layer => {
+                        layer.setStyle({ fillColor: getFeatureColor(layer.feature.properties[info.scinceFilter]) });
+                    });
+                }
+                updateMapLegend();
+            }
+        }
+    }
+
+    const section = document.querySelector(".geographic-consultation-section");
+    if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+    }
+}
+
+// Sincronizar dinámicamente los KPIs principales de la página de inicio con los datos de mexico_data.js
+function syncHomepageKpis() {
+    if (!window.MEXICO_NATIONAL_DATA) return;
+    const d = window.MEXICO_NATIONAL_DATA;
+
+    const pobEl = document.getElementById("kpi-pob-val");
+    if (pobEl && d.poblacion_total_2020) {
+        pobEl.textContent = Number(d.poblacion_total_2020).toLocaleString("es-MX");
+    }
+
+    const vivEl = document.getElementById("kpi-viv-val");
+    if (vivEl && d.viviendas_habitadas) {
+        vivEl.textContent = Number(d.viviendas_habitadas).toLocaleString("es-MX");
+    }
+
+    const intEl = document.getElementById("kpi-int-val");
+    if (intEl && d.cobertura_internet_pct) {
+        intEl.textContent = d.cobertura_internet_pct + "%";
+    }
+
+    const ingEl = document.getElementById("kpi-ing-val");
+    if (ingEl && d.ingreso_promedio_mensual) {
+        ingEl.textContent = "$" + Number(d.ingreso_promedio_mensual).toLocaleString("es-MX");
+    }
+
+    const peaEl = document.getElementById("kpi-pea-val");
+    if (peaEl && d.tasa_ocupacion) {
+        peaEl.textContent = d.tasa_ocupacion + "%";
+    }
+
+    const denueEl = document.getElementById("kpi-denue-val");
+    if (denueEl && d.unidades_economicas_denue) {
+        denueEl.textContent = Number(d.unidades_economicas_denue).toLocaleString("es-MX");
+    }
+}
+
+// Cerrar modal al hacer clic en el fondo oscuro
+document.addEventListener("click", (e) => {
+    const modal = document.getElementById("inegi-detail-modal");
+    if (e.target === modal) {
+        closeOfficialInfoModal();
+    }
+});
