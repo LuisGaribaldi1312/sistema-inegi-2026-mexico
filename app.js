@@ -1056,15 +1056,6 @@ function renderNationalDashboard() {
                 </div>
             </div>
 
-            <!-- Gráfico 1: Evolución de Población 2010 - 2026 -->
-            <div class="card-section">
-                <div class="card-section-title">
-                    <span>Evolución Poblacional Histórica</span>
-                    <span class="tag">2010 - 2026</span>
-                </div>
-                <canvas id="chart-historico" height="150"></canvas>
-            </div>
-
             <!-- Gráfico 2: Estructura por Edad (Pirámide) -->
             <div class="card-section">
                 <div class="card-section-title">
@@ -1194,15 +1185,6 @@ function renderStateDashboard(stateId) {
                     <div class="kpi-value" style="font-size:16px;">${d.indice_marginacion}</div>
                     <div class="kpi-meta">Densidad: ${d.densidad_pob_km2} hab/km²</div>
                 </div>
-            </div>
-
-            <!-- Gráfico 1: Evolución Histórica Estado -->
-            <div class="card-section">
-                <div class="card-section-title">
-                    <span>Evolución Demográfica del Estado</span>
-                    <span class="tag">2010 - 2026</span>
-                </div>
-                <canvas id="chart-historico" height="140"></canvas>
             </div>
 
             <!-- Gráfico 2: Sectores Económicos -->
@@ -1355,15 +1337,6 @@ function renderMunicipioDashboard(muniId) {
                     <div class="kpi-value">${Number(d.unidades_economicas_denue).toLocaleString()}</div>
                     <div class="kpi-meta">Comercios y Empresas</div>
                 </div>
-            </div>
-
-            <!-- Gráfico 1: Evolución Demográfica Municipio -->
-            <div class="card-section">
-                <div class="card-section-title">
-                    <span>Evolución de Habitantes en ${d.name}</span>
-                    <span class="tag">2010 - 2026</span>
-                </div>
-                <canvas id="chart-historico" height="140"></canvas>
             </div>
 
             <!-- Gráfico 2: Estructura por Edad -->
@@ -1586,14 +1559,6 @@ function renderColoniaDashboard(colId) {
                         <div class="kpi-value">${d.grado_promedio_escolaridad} <span style="font-size:12px;">años</span></div>
                         <div class="kpi-meta">${nivelEscolar}</div>
                     </div>
-                </div>
-
-                <div class="card-section">
-                    <div class="card-section-title">
-                        <span>Evolución Censal de Población</span>
-                        <span class="tag">2010 - 2026</span>
-                    </div>
-                    <canvas id="chart-historico" height="140"></canvas>
                 </div>
 
                 <div class="card-section">
