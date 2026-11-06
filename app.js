@@ -219,7 +219,7 @@ function loadStatesLayer() {
                 fillColor: getFeatureColor(val),
                 weight: 2.2,
                 opacity: 0.95,
-                color: "#1a73e8", // Azul corporativo Google
+                color: "#002F6C", // Azul INEGI Oficial
                 fillOpacity: 0.28  // Permite ver las calles y relieve de Google Maps
             };
         },
@@ -229,7 +229,7 @@ function loadStatesLayer() {
             const metricVal = props[AppState.activeMetric] || props.pob2026;
 
             layer.bindTooltip(`
-                <div style="font-size:13px; font-weight:700; color:#fff; border-bottom:1px solid #1a73e8; padding-bottom:3px; margin-bottom:4px;">
+                <div style="font-size:13px; font-weight:700; color:#fff; border-bottom:1px solid #BC955C; padding-bottom:3px; margin-bottom:4px;">
                     ${props.name}
                 </div>
                 <div style="font-size:11px; color:#cbd5e1; line-height:1.5;">
@@ -246,7 +246,7 @@ function loadStatesLayer() {
                     const l = e.target;
                     l.setStyle({
                         weight: 3.8,
-                        color: "#fbbc04", // Resaltado dorado Google
+                        color: "#BC955C", // Resaltado dorado institucional INEGI
                         fillOpacity: 0.55
                     });
                     l.bringToFront();
@@ -307,7 +307,7 @@ function loadMunicipiosLayer(stateId) {
                 fillColor: getFeatureColor(val),
                 weight: 1.8,
                 opacity: 0.9,
-                color: "#0f9d58", // Verde corporativo Google
+                color: "#005691", // Azul institucional INEGI
                 fillOpacity: 0.32
             };
         },
@@ -317,7 +317,7 @@ function loadMunicipiosLayer(stateId) {
             const metricVal = props[AppState.activeMetric] || props.pob2026;
 
             layer.bindTooltip(`
-                <div style="font-size:13px; font-weight:700; color:#fff; border-bottom:1px solid #0f9d58; padding-bottom:3px; margin-bottom:4px;">
+                <div style="font-size:13px; font-weight:700; color:#fff; border-bottom:1px solid #BC955C; padding-bottom:3px; margin-bottom:4px;">
                     ${props.name}
                 </div>
                 <div style="font-size:11px; color:#cbd5e1; line-height:1.5;">
@@ -881,7 +881,7 @@ async function loadColoniasLayer(muniId) {
 
         // Tooltip ligero al pasar el cursor (el nombre completo e indicadores se abren en el recuadro)
         marker.bindTooltip(`
-            <div style="font-size:12px; font-weight:700; color:#fff; border-bottom:1px solid #1a73e8; padding-bottom:3px; margin-bottom:4px;">
+            <div style="font-size:12px; font-weight:700; color:#fff; border-bottom:1px solid #BC955C; padding-bottom:3px; margin-bottom:4px;">
                 <i class="fas fa-map-marker-alt" style="color:${isUrban ? '#1a73e8' : '#ea4335'};"></i> ${props.name}
             </div>
             <div style="font-size:11px; color:#cbd5e1; line-height:1.4;">
@@ -1026,7 +1026,8 @@ function renderNationalDashboard() {
 
     panel.innerHTML = `
         <div class="dashboard-header">
-            <div class="level-tag"><i class="fas fa-flag"></i> Nivel Nacional &bull; INEGI 2026</div>
+            <div class="inegi-official-badge"><i class="fas fa-certificate" style="color:#BC955C;"></i> CENSO INEGI 2020 &bull; MARCO GEOESTADÍSTICO 2026</div>
+            <div class="level-tag"><i class="fas fa-globe-americas"></i> COBERTURA TOTAL NACIONAL &bull; MÉXICO</div>
             <h2>${d.name}</h2>
             <div class="parent-sub">32 Entidades Federativas &bull; 2,464 Municipios &bull; 304,231 Localidades INEGI</div>
         </div>
@@ -1127,6 +1128,27 @@ function renderNationalDashboard() {
                     `).join('')}
                 </div>
             </div>
+
+            <!-- Nota de Fuente Oficial INEGI -->
+            <div class="inegi-source-footnote">
+                <i class="fas fa-certificate" style="color:#BC955C;"></i>
+                <span>Fuente: Instituto Nacional de Estadística y Geografía (INEGI) &bull; Censo 2020 / Marco Geoestadístico 2026</span>
+            </div>
+
+            <!-- Pie Institucional Oficial INEGI -->
+            <footer class="inegi-dashboard-footer">
+                <div class="inegi-footer-brand">
+                    <span class="inegi-footer-title">INSTITUTO NACIONAL DE ESTADÍSTICA Y GEOGRAFÍA</span>
+                    <span class="inegi-footer-sub">Dirección General de Estadísticas Sociodemográficas</span>
+                </div>
+                <div class="inegi-footer-info">
+                    <span><i class="fas fa-map-marker-alt"></i> Sede Central: Aguascalientes, Ags., México</span>
+                    <span><i class="fas fa-phone-alt"></i> Centro de Atención: 800 111 46 34</span>
+                </div>
+                <div class="inegi-footer-legal">
+                    Información pública oficial conforme a la Ley del SNIEG &bull; Datos Abiertos
+                </div>
+            </footer>
         </div>
     `;
 
@@ -1236,6 +1258,27 @@ function renderStateDashboard(stateId) {
                     ${renderMunicipiosListHtml(munisOfState)}
                 </div>
             </div>
+
+            <!-- Nota de Fuente Oficial INEGI -->
+            <div class="inegi-source-footnote">
+                <i class="fas fa-certificate" style="color:#BC955C;"></i>
+                <span>Fuente: Instituto Nacional de Estadística y Geografía (INEGI) &bull; Censo 2020 / Marco Geoestadístico 2026</span>
+            </div>
+
+            <!-- Pie Institucional Oficial INEGI -->
+            <footer class="inegi-dashboard-footer">
+                <div class="inegi-footer-brand">
+                    <span class="inegi-footer-title">INSTITUTO NACIONAL DE ESTADÍSTICA Y GEOGRAFÍA</span>
+                    <span class="inegi-footer-sub">Dirección General de Estadísticas Sociodemográficas</span>
+                </div>
+                <div class="inegi-footer-info">
+                    <span><i class="fas fa-map-marker-alt"></i> Sede Central: Aguascalientes, Ags., México</span>
+                    <span><i class="fas fa-phone-alt"></i> Centro de Atención: 800 111 46 34</span>
+                </div>
+                <div class="inegi-footer-legal">
+                    Información pública oficial conforme a la Ley del SNIEG &bull; Datos Abiertos
+                </div>
+            </footer>
         </div>
     `;
 
@@ -1284,7 +1327,8 @@ function renderMunicipioDashboard(muniId) {
 
     panel.innerHTML = `
         <div class="dashboard-header">
-            <div class="level-tag"><i class="fas fa-city"></i> Nivel Municipal &bull; Clave INEGI: ${d.cve}</div>
+            <div class="inegi-official-badge"><i class="fas fa-certificate" style="color:#BC955C;"></i> MUNICIPIO INEGI &bull; CLAVE GEOESTADÍSTICA: <code>${d.cve}</code></div>
+            <div class="level-tag"><i class="fas fa-city"></i> NIVEL MUNICIPAL OFICIAL</div>
             <h2>${d.name}</h2>
             <div class="parent-sub">Pertenece a: <strong>${d.parent_name}</strong> &bull; <span id="muni-colonias-count-sub">${colsOfMuni.length} Localidades registradas</span></div>
         </div>
@@ -1375,6 +1419,27 @@ function renderMunicipioDashboard(muniId) {
                     ${renderLocalidadesListHtml(colsOfMuni)}
                 </div>
             </div>
+
+            <!-- Nota de Fuente Oficial INEGI -->
+            <div class="inegi-source-footnote">
+                <i class="fas fa-certificate" style="color:#BC955C;"></i>
+                <span>Fuente: Instituto Nacional de Estadística y Geografía (INEGI) &bull; Censo 2020 / Marco Geoestadístico 2026</span>
+            </div>
+
+            <!-- Pie Institucional Oficial INEGI -->
+            <footer class="inegi-dashboard-footer">
+                <div class="inegi-footer-brand">
+                    <span class="inegi-footer-title">INSTITUTO NACIONAL DE ESTADÍSTICA Y GEOGRAFÍA</span>
+                    <span class="inegi-footer-sub">Dirección General de Estadísticas Sociodemográficas</span>
+                </div>
+                <div class="inegi-footer-info">
+                    <span><i class="fas fa-map-marker-alt"></i> Sede Central: Aguascalientes, Ags., México</span>
+                    <span><i class="fas fa-phone-alt"></i> Centro de Atención: 800 111 46 34</span>
+                </div>
+                <div class="inegi-footer-legal">
+                    Información pública oficial conforme a la Ley del SNIEG &bull; Datos Abiertos
+                </div>
+            </footer>
         </div>
     `;
 
@@ -1782,6 +1847,27 @@ function renderColoniaDashboard(colId) {
                     <i class="fas fa-globe-americas"></i> Vista Nacional
                 </button>
             </div>
+
+            <!-- Nota de Fuente Oficial INEGI -->
+            <div class="inegi-source-footnote">
+                <i class="fas fa-certificate" style="color:#BC955C;"></i>
+                <span>Fuente: Instituto Nacional de Estadística y Geografía (INEGI) &bull; Censo 2020 / Marco Geoestadístico 2026</span>
+            </div>
+
+            <!-- Pie Institucional Oficial INEGI -->
+            <footer class="inegi-dashboard-footer">
+                <div class="inegi-footer-brand">
+                    <span class="inegi-footer-title">INSTITUTO NACIONAL DE ESTADÍSTICA Y GEOGRAFÍA</span>
+                    <span class="inegi-footer-sub">Dirección General de Estadísticas Sociodemográficas</span>
+                </div>
+                <div class="inegi-footer-info">
+                    <span><i class="fas fa-map-marker-alt"></i> Sede Central: Aguascalientes, Ags., México</span>
+                    <span><i class="fas fa-phone-alt"></i> Centro de Atención: 800 111 46 34</span>
+                </div>
+                <div class="inegi-footer-legal">
+                    Información pública oficial conforme a la Ley del SNIEG &bull; Datos Abiertos
+                </div>
+            </footer>
         </div>
     `;
 
@@ -1802,8 +1888,8 @@ function initNationalCharts(d) {
                 datasets: [{
                     label: "Habitantes (Millones)",
                     data: d.historico_poblacion.map(h => (h.val / 1000000).toFixed(2)),
-                    borderColor: "#1a73e8",
-                    backgroundColor: "rgba(26, 115, 232, 0.15)",
+                    borderColor: "#0084B4",
+                    backgroundColor: "rgba(0, 47, 108, 0.25)",
                     borderWidth: 2.5,
                     fill: true,
                     tension: 0.35,
@@ -1824,7 +1910,7 @@ function initNationalCharts(d) {
                 datasets: [{
                     label: "Porcentaje (%)",
                     data: [d.piramide_edad["0_14"], d.piramide_edad["15_29"], d.piramide_edad["30_59"], d.piramide_edad["60_mas"]],
-                    backgroundColor: ["#4285f4", "#34a853", "#fbbc04", "#ea4335"],
+                    backgroundColor: ["#0084B4", "#002F6C", "#BC955C", "#8A1538"],
                     borderRadius: 5
                 }]
             },
@@ -1843,8 +1929,8 @@ function initStateCharts(d) {
                 datasets: [{
                     label: "Población Estatal",
                     data: d.historico_poblacion.map(h => h.val),
-                    borderColor: "#0f9d58",
-                    backgroundColor: "rgba(15, 157, 88, 0.18)",
+                    borderColor: "#0084B4",
+                    backgroundColor: "rgba(0, 47, 108, 0.25)",
                     borderWidth: 2.5,
                     fill: true,
                     tension: 0.35,
@@ -1894,8 +1980,8 @@ function initMunicipioCharts(d) {
                 datasets: [{
                     label: "Población Municipal",
                     data: d.historico_poblacion.map(h => h.val),
-                    borderColor: "#fbbc04",
-                    backgroundColor: "rgba(251, 188, 4, 0.18)",
+                    borderColor: "#0084B4",
+                    backgroundColor: "rgba(0, 47, 108, 0.25)",
                     borderWidth: 2.5,
                     fill: true,
                     tension: 0.35,
@@ -1916,8 +2002,8 @@ function initMunicipioCharts(d) {
                 datasets: [{
                     label: "Estructura (%)",
                     data: [d.piramide_edad["0_14"], d.piramide_edad["15_29"], d.piramide_edad["30_59"], d.piramide_edad["60_mas"]],
-                    backgroundColor: ["#34a853", "#1a73e8", "#fbbc04", "#ea4335"],
-                    borderRadius: 4
+                    backgroundColor: ["#0084B4", "#002F6C", "#BC955C", "#8A1538"],
+                    borderRadius: 5
                 }]
             },
             options: getChartDefaultOptions("%")
@@ -2023,17 +2109,27 @@ function getChartDefaultOptions(yAxisTitle) {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-            legend: { display: false }
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: "rgba(6, 18, 34, 0.95)",
+                titleColor: "#BC955C",
+                bodyColor: "#FFFFFF",
+                borderColor: "#BC955C",
+                borderWidth: 1,
+                padding: 10,
+                boxPadding: 4,
+                usePointStyle: true
+            }
         },
         scales: {
             x: {
-                grid: { color: "rgba(255, 255, 255, 0.05)" },
-                ticks: { color: "#94a3b8", font: { size: 10 } }
+                grid: { color: "rgba(188, 149, 92, 0.12)" },
+                ticks: { color: "#CBD5E1", font: { size: 10 } }
             },
             y: {
-                grid: { color: "rgba(255, 255, 255, 0.05)" },
-                ticks: { color: "#94a3b8", font: { size: 10 } },
-                title: { display: !!yAxisTitle, text: yAxisTitle, color: "#64748b", font: { size: 10 } }
+                grid: { color: "rgba(188, 149, 92, 0.12)" },
+                ticks: { color: "#CBD5E1", font: { size: 10 } },
+                title: { display: !!yAxisTitle, text: yAxisTitle, color: "#BC955C", font: { size: 10, weight: "bold" } }
             }
         }
     };

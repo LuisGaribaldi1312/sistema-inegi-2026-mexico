@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import http.server
 import socketserver
-import webbrowser
 import os
 import sys
 
@@ -27,7 +26,7 @@ def run_server():
 
     for port in ports:
         try:
-            httpd = DualStackServer(("", port), Handler)
+            httpd = DualStackServer(("0.0.0.0", port), Handler)
             selected_port = port
             break
         except Exception as e:
@@ -38,17 +37,12 @@ def run_server():
         sys.exit(1)
 
     url = f"http://localhost:{selected_port}/index.html"
-    print("=" * 66)
-    print(f"  SISTEMA GEOGRÁFICO Y ESTADÍSTICO NACIONAL | INEGI 2026")
-    print(f"  Servidor ACTIVO en: {url}")
-    print(f"  Usuario:    admin.inegi@mexico.gob.mx")
-    print(f"  Contraseña: Inegi2026*GeoData")
-    print("=" * 66)
-
-    try:
-        webbrowser.open(url)
-    except Exception:
-        pass
+    print("=" * 66, flush=True)
+    print(f"  SISTEMA OFICIAL GEOESTADÍSTICO NACIONAL | INEGI 2026", flush=True)
+    print(f"  Servidor ACTIVO en: {url}", flush=True)
+    print(f"  Usuario:    admin.inegi@mexico.gob.mx", flush=True)
+    print(f"  Contraseña: Inegi2026*GeoData", flush=True)
+    print("=" * 66, flush=True)
 
     try:
         httpd.serve_forever()

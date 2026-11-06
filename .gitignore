@@ -12,3 +12,5 @@ data/raw_geo/
 
 # Vercel deployment cache
 .vercel
+
+.vercel

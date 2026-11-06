@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Geográfico y Estadístico Nacional | INEGI 2026 - Google Maps</title>
+    <title>INEGI - Sistema de Consulta de Información Censal y Geoestadística (SCINCE) 2026 | Mapa Digital de México</title>
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Plus Jakarta Sans & Inter para legibilidad institucional -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,52 +16,102 @@
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
-    <!-- Estilos de la Aplicación -->
+    <!-- Estilos de la Aplicación Oficial INEGI -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <!-- =======================================================================
-         CONTENEDOR PRINCIPAL
+         CONTENEDOR PRINCIPAL INSTITUCIONAL INEGI
          ======================================================================= -->
     <div id="app-container">
+
+        <!-- Franja Superior Oficial del Gobierno de México -->
+        <div class="gob-mx-strip">
+            <div class="gob-mx-inner">
+                <div class="gob-brand-left">
+                    <!-- Escudo Nacional y GOBIERNO DE MÉXICO -->
+                    <svg class="gob-mx-crest" viewBox="0 0 160 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 4 C12 6, 14 5, 16 8 C18 11, 19 14, 18 18 C17 22, 14 25, 10 28 C6 25, 3 22, 2 18 C1 14, 2 11, 4 8 C6 5, 8 6, 10 4 Z" fill="#BC955C"/>
+                        <circle cx="10" cy="16" r="3.5" fill="#07172C"/>
+                        <path d="M6 20 C8 22, 12 22, 14 20" stroke="#BC955C" stroke-width="1.2" stroke-linecap="round"/>
+                        <text x="24" y="13" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="800" font-size="9" fill="#FFFFFF" letter-spacing="1">GOBIERNO DE</text>
+                        <text x="24" y="24" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="10.5" fill="#BC955C" letter-spacing="1.5">MÉXICO</text>
+                    </svg>
+                    <span class="gob-mx-divider"></span>
+                    <span class="gob-mx-text"><i class="fas fa-landmark" style="color:#BC955C; margin-right:4px;"></i> Sistema Nacional de Información Estadística y Geográfica (SNIEG)</span>
+                </div>
+                <div class="gob-brand-right">
+                    <span class="gob-tag"><i class="fas fa-shield-alt" style="color:#BC955C;"></i> Marco Geoestadístico 2026</span>
+                    <span class="gob-tag"><i class="fas fa-database"></i> Datos Abiertos</span>
+                    <span class="gob-tag link-inegi"><i class="fas fa-globe"></i> portal.inegi.org.mx</span>
+                </div>
+            </div>
+        </div>
         
-        <!-- Barra de Navegación Superior -->
+        <!-- Barra de Navegación Principal INEGI -->
         <header class="top-navbar">
             <div class="brand-section">
-                <div class="brand-badge">INEGI</div>
+                <!-- Logotipo Oficial Vectorial INEGI -->
+                <div class="inegi-brand-container" title="Instituto Nacional de Estadística y Geografía">
+                    <svg class="inegi-logo-svg" viewBox="0 0 215 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Isotipo de bloques geométricos INEGI -->
+                        <g class="inegi-isotipo">
+                            <rect x="2" y="4" width="8" height="8" rx="1.5" fill="#BC955C"/>
+                            <rect x="13" y="4" width="8" height="8" rx="1.5" fill="#0084B4"/>
+                            <rect x="24" y="4" width="8" height="8" rx="1.5" fill="#002F6C"/>
+                            
+                            <rect x="2" y="15" width="8" height="8" rx="1.5" fill="#005691"/>
+                            <rect x="13" y="15" width="8" height="8" rx="1.5" fill="#691C32"/>
+                            <rect x="24" y="15" width="8" height="8" rx="1.5" fill="#0084B4"/>
+                            
+                            <rect x="2" y="26" width="8" height="8" rx="1.5" fill="#002F6C"/>
+                            <rect x="13" y="26" width="8" height="8" rx="1.5" fill="#BC955C"/>
+                            <rect x="24" y="26" width="8" height="8" rx="1.5" fill="#107C41"/>
+                        </g>
+                        <!-- Texto INEGI oficial -->
+                        <text x="39" y="27" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="24" fill="#FFFFFF" letter-spacing="1.2">INEGI</text>
+                        <!-- Lema institucional -->
+                        <text x="40" y="37" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="700" font-size="5.2" fill="#BC955C" letter-spacing="0.5">INSTITUTO NACIONAL DE ESTADÍSTICA Y GEOGRAFÍA</text>
+                    </svg>
+                </div>
+
+                <div class="brand-divider-v"></div>
+
                 <div class="brand-title">
-                    <h1>SISTEMA GEOGRÁFICO NACIONAL 2026</h1>
-                    <span>Cartografía Oficial de la República Mexicana &bull; Google Maps</span>
+                    <h1>SISTEMA DE CONSULTA GEOESTADÍSTICA Y CENSAL (SCINCE)</h1>
+                    <span>Censo de Población y Vivienda 2020 &bull; Proyecciones 2026 &bull; Cartografía Participativa</span>
                 </div>
             </div>
 
-            <!-- Buscador Global y Selector de Métrica -->
+            <!-- Buscador Global y Selector de Métrica Censal -->
             <div class="nav-controls">
                 <div class="search-box">
                     <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="global-search-input" placeholder="Buscar Estado, Municipio o Colonia (ej. Guadalajara, Monterrey, Benito Juárez)..." autocomplete="off">
+                    <input type="text" id="global-search-input" placeholder="Buscar Estado, Municipio, Localidad o Asentamiento..." autocomplete="off">
                     <div id="search-results-dropdown" class="search-results"></div>
                 </div>
 
                 <div class="metric-selector">
-                    <label for="map-metric-select"><i class="fas fa-chart-pie"></i> Métrica:</label>
+                    <label for="map-metric-select"><i class="fas fa-layer-group" style="color:#BC955C;"></i> Indicador:</label>
                     <select id="map-metric-select">
-                        <option value="pob2026">Población 2026</option>
-                        <option value="ingreso">Ingreso Promedio ($)</option>
-                        <option value="internet">Cobertura Internet (%)</option>
-                        <option value="escolaridad">Escolaridad (Años)</option>
+                        <option value="pob2026">Población Proyectada 2026</option>
+                        <option value="ingreso">Ingreso Promedio Mensual ($)</option>
+                        <option value="internet">Cobertura de Internet (%)</option>
+                        <option value="escolaridad">Escolaridad Promedio (Años)</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Perfil de Usuario y Sesión -->
+            <!-- Perfil de Usuario y Sesión Oficial -->
             <div class="user-section">
                 <div class="user-badge">
-                    <div class="user-avatar">AD</div>
+                    <div class="user-avatar">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
                     <div class="user-details">
-                        <span class="uname">Administrador INEGI</span>
-                        <span class="urole"><i class="fas fa-shield-alt"></i> Acceso Total 2026</span>
+                        <span class="uname">Servidor Público INEGI</span>
+                        <span class="urole"><i class="fas fa-check-circle" style="color:#34d399;"></i> Acceso Autorizado SNIEG</span>
                     </div>
                 </div>
                 <button id="btn-logout" class="btn-logout" title="Cerrar sesión segura">
@@ -70,33 +120,34 @@
             </div>
         </header>
 
-        <!-- Barra de Migas de Pan (Breadcrumbs) & Controles de Mapa Google -->
+        <!-- Barra de Migas de Pan (Breadcrumbs) & Controles de Cartografía Google Maps -->
         <nav class="nav-breadcrumbs-bar">
             <div id="breadcrumbs-trail" class="breadcrumbs-trail">
-                <!-- Se llena dinámicamente: México > Estado > Municipio > Colonia -->
+                <!-- Se llena dinámicamente: México > Estado > Municipio > Localidad -->
             </div>
 
             <div class="zoom-actions">
-                <!-- Selector de Estilo de Google Maps -->
+                <!-- Selector de Cartografía Base -->
                 <div class="google-map-selector">
+                    <span class="maptype-label"><i class="fas fa-map"></i> Mapa Base:</span>
                     <button class="btn-maptype active" data-type="roadmap" onclick="setGoogleMapType('roadmap')">
-                        <i class="fas fa-map"></i> Google Calles
+                        <i class="fas fa-road"></i> Calles
                     </button>
                     <button class="btn-maptype" data-type="hybrid" onclick="setGoogleMapType('hybrid')">
-                        <i class="fas fa-satellite"></i> Google Satelital
+                        <i class="fas fa-satellite"></i> Satelital
                     </button>
                     <button class="btn-maptype" data-type="terrain" onclick="setGoogleMapType('terrain')">
-                        <i class="fas fa-mountain"></i> Google Terreno
+                        <i class="fas fa-mountain"></i> Relieve
                     </button>
                 </div>
 
                 <button class="btn-zoom-reset" onclick="resetToNationalView()" title="Regresar al mapa completo de la República Mexicana">
-                    <i class="fas fa-expand-arrows-alt"></i> Vista Nacional
+                    <i class="fas fa-globe-americas"></i> Vista Nacional
                 </button>
             </div>
         </nav>
 
-        <!-- Área de Trabajo Principal: Mapa + Dashboard Lateral -->
+        <!-- Área de Trabajo Principal: Visor Cartográfico + Panel Informativo Oficial -->
         <main class="main-content">
             
             <!-- Visor Cartográfico Google Maps + Leaflet -->
@@ -104,71 +155,117 @@
                 <!-- Indicador Flotante del Nivel Actual -->
                 <div class="view-level-indicator">
                     <div class="indicator-dot"></div>
-                    <span id="view-level-text" class="indicator-text">República Mexicana (32 Estados)</span>
+                    <span id="view-level-text" class="indicator-text">República Mexicana (32 Entidades Federativas)</span>
                 </div>
 
-                <!-- Leyenda Dinámica de la Métrica Activa -->
+                <!-- Leyenda Dinámica de la Métrica Activa (Estilo Mapa Digital de México) -->
                 <div class="map-overlay-legend">
-                    <div class="legend-title">
+                    <div class="legend-header-bar">
+                        <span class="legend-badge-inegi">INEGI MDM</span>
                         <span id="legend-title-text">Población Proyectada 2026</span>
-                        <i class="fas fa-chart-bar"></i>
                     </div>
                     <div id="legend-scale-bars" class="legend-scale"></div>
                     <div id="legend-labels-row" class="legend-labels"></div>
                 </div>
             </div>
 
-            <!-- Panel Lateral de Información y Dashboard INEGI -->
+            <!-- Panel Lateral de Información y Dashboard Oficial INEGI -->
             <aside id="dashboard-panel" class="dashboard-panel">
-                <!-- El contenido se inyecta dinámicamente con las estadísticas de México, Estado, Municipio o Colonia -->
+                <!-- El contenido se inyecta dinámicamente con las estadísticas oficiales de México, Estado, Municipio o Localidad -->
             </aside>
 
         </main>
     </div>
 
     <!-- =======================================================================
-         MODAL DE AUTENTICACIÓN / ACCESO
+         MODAL DE AUTENTICACIÓN / ACCESO INSTITUCIONAL INEGI
          ======================================================================= -->
     <div id="login-modal">
         <div class="login-card">
+            <!-- Cintillo Superior Oficial Tricolor / Guinda-Oro-Azul -->
+            <div class="login-tricolor-bar"></div>
+
             <div class="login-brand">
-                <div class="login-badge">INEGI &bull; MÉXICO 2026</div>
-                <h2>Portal Estadístico y Territorial</h2>
-                <p>Cartografía Oficial y Medición Georreferenciada</p>
+                <div class="login-logos-header">
+                    <!-- Escudo Nacional en Oro -->
+                    <svg class="login-gob-crest" viewBox="0 0 160 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 4 C12 6, 14 5, 16 8 C18 11, 19 14, 18 18 C17 22, 14 25, 10 28 C6 25, 3 22, 2 18 C1 14, 2 11, 4 8 C6 5, 8 6, 10 4 Z" fill="#BC955C"/>
+                        <circle cx="10" cy="16" r="3.5" fill="#07172C"/>
+                        <text x="24" y="13" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="800" font-size="9" fill="#FFFFFF" letter-spacing="1">GOBIERNO DE</text>
+                        <text x="24" y="24" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="10.5" fill="#BC955C" letter-spacing="1.5">MÉXICO</text>
+                    </svg>
+                    <span class="login-header-sep"></span>
+                    <span class="login-inegi-stamp"><i class="fas fa-certificate"></i> INEGI OFICIAL</span>
+                </div>
+
+                <!-- Logo Vectorial INEGI en el Login -->
+                <div class="login-inegi-logo-box">
+                    <svg class="inegi-logo-svg" viewBox="0 0 215 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g class="inegi-isotipo">
+                            <rect x="2" y="4" width="8" height="8" rx="1.5" fill="#BC955C"/>
+                            <rect x="13" y="4" width="8" height="8" rx="1.5" fill="#0084B4"/>
+                            <rect x="24" y="4" width="8" height="8" rx="1.5" fill="#002F6C"/>
+                            
+                            <rect x="2" y="15" width="8" height="8" rx="1.5" fill="#005691"/>
+                            <rect x="13" y="15" width="8" height="8" rx="1.5" fill="#691C32"/>
+                            <rect x="24" y="15" width="8" height="8" rx="1.5" fill="#0084B4"/>
+                            
+                            <rect x="2" y="26" width="8" height="8" rx="1.5" fill="#002F6C"/>
+                            <rect x="13" y="26" width="8" height="8" rx="1.5" fill="#BC955C"/>
+                            <rect x="24" y="26" width="8" height="8" rx="1.5" fill="#107C41"/>
+                        </g>
+                        <text x="39" y="27" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="24" fill="#FFFFFF" letter-spacing="1.2">INEGI</text>
+                        <text x="40" y="37" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="700" font-size="5.2" fill="#BC955C" letter-spacing="0.5">INSTITUTO NACIONAL DE ESTADÍSTICA Y GEOGRAFÍA</text>
+                    </svg>
+                </div>
+
+                <h2>PORTAL DE CONSULTA GEOESTADÍSTICA Y CENSAL (SCINCE)</h2>
+                <div class="login-sub-line">Censo de Población y Vivienda 2020 &bull; Marco Geoestadístico 2026</div>
+                <div class="login-legal-badge">
+                    <i class="fas fa-lock" style="color:#BC955C;"></i> Acceso Institucional al Sistema Nacional de Información (SNIEG)
+                </div>
             </div>
 
             <form id="login-form" class="login-form">
                 <div class="form-group">
-                    <label for="login-user"><i class="fas fa-user"></i> Usuario Oficial</label>
+                    <label for="login-user"><i class="fas fa-id-badge" style="color:#BC955C;"></i> Usuario Oficial / Correo Institucional</label>
                     <input type="text" id="login-user" value="admin.inegi@mexico.gob.mx" required placeholder="admin.inegi@mexico.gob.mx">
                 </div>
 
                 <div class="form-group">
-                    <label for="login-pass"><i class="fas fa-lock"></i> Contraseña de Acceso</label>
-                    <input type="password" id="login-pass" value="Inegi2026*GeoData" required placeholder="••••••••••••••">
+                    <label for="login-pass"><i class="fas fa-key" style="color:#BC955C;"></i> Clave de Acceso Institucional</label>
+                    <input type="password" id="login-pass" value="Inegi2026*GeoData" required placeholder="Contraseña">
                 </div>
 
                 <div class="credentials-hint">
-                    <i class="fas fa-info-circle" style="color:#00b4d8;"></i> <strong>Credenciales autorizadas para su acceso:</strong><br>
-                    &bull; Usuario: <code>admin.inegi@mexico.gob.mx</code> o <code>admin_inegi</code><br>
-                    &bull; Contraseña: <code>Inegi2026*GeoData</code>
+                    <div class="hint-header">
+                        <i class="fas fa-certificate" style="color:#BC955C;"></i> <strong>Credencial de Acceso Autorizada:</strong>
+                    </div>
+                    <div class="hint-body">
+                        <div>&bull; Usuario Oficial: <code>admin.inegi@mexico.gob.mx</code> o <code>admin_inegi</code></div>
+                        <div>&bull; Contraseña: <code>Inegi2026*GeoData</code></div>
+                    </div>
                 </div>
 
                 <div id="login-error" class="login-error-msg"></div>
 
                 <button type="submit" class="btn-submit-login">
-                    <i class="fas fa-sign-in-alt"></i> Ingresar al Sistema
+                    <i class="fas fa-sign-in-alt"></i> Ingresar al Portal Oficial
                 </button>
 
                 <button type="button" id="btn-quick-access" class="btn-quick-access">
-                    <i class="fas fa-bolt"></i> Acceso Rápido Directo (Sin Contraseña)
+                    <i class="fas fa-bolt" style="color:#BC955C;"></i> Acceso Rápido Directo (Servidor Público)
                 </button>
             </form>
+
+            <div class="login-footer-notice">
+                Información estadística oficial conforme a la Ley del SNIEG &bull; México 2026
+            </div>
         </div>
     </div>
 
     <!-- =======================================================================
-         SCRIPTS
+         SCRIPTS Y BASES DE DATOS OFICIALES INEGI
          ======================================================================= -->
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
