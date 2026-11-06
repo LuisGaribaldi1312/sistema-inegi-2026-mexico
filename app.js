@@ -1497,12 +1497,22 @@ function renderColoniaDashboard(colId) {
     AppState.activeColoniaId = colId;
     const panel = document.getElementById("dashboard-panel");
 
-    // Determinar equivalencia de escolaridad
+    // Determinar equivalencia de escolaridad oficial
     let nivelEscolar = "Primaria Completa";
-    if (d.grado_promedio_escolaridad >= 12.0) nivelEscolar = "Media Superior / Bachillerato";
-    else if (d.grado_promedio_escolaridad >= 9.0) nivelEscolar = "Secundaria Concluida";
-    else if (d.grado_promedio_escolaridad >= 6.0) nivelEscolar = "Primaria Concluida";
-    else nivelEscolar = "Primaria Incompleta";
+    let nivelPillClass = "pill-primary";
+    if (d.grado_promedio_escolaridad >= 12.0) {
+        nivelEscolar = "Media Superior / Bachillerato";
+        nivelPillClass = "pill-success";
+    } else if (d.grado_promedio_escolaridad >= 9.0) {
+        nivelEscolar = "Secundaria Concluida";
+        nivelPillClass = "pill-primary";
+    } else if (d.grado_promedio_escolaridad >= 6.0) {
+        nivelEscolar = "Primaria Concluida";
+        nivelPillClass = "pill-warning";
+    } else {
+        nivelEscolar = "Primaria Incompleta";
+        nivelPillClass = "pill-warning";
+    }
 
     panel.innerHTML = `
         <div class="dashboard-header">
@@ -1510,19 +1520,19 @@ function renderColoniaDashboard(colId) {
                 <i class="fas fa-arrow-left"></i> Volver a ${d.parent_name}
             </button>
             <div class="inegi-official-badge">
-                <i class="fas fa-shield-alt"></i> Censo INEGI 2020 Oficial &bull; Clave: <code>${d.cve_geo}</code>
+                <i class="fas fa-certificate" style="color:#BC955C;"></i> CENSO DE POBLACIÓN Y VIVIENDA INEGI &bull; CLAVE: <code>${d.cve_geo}</code>
             </div>
             <h2>${d.name}</h2>
             <div class="parent-sub">
-                Municipio: <strong>${d.parent_name}</strong> &bull; Estado: <strong>${d.estado_name}</strong> &bull; 
+                Municipio: <strong>${d.parent_name}</strong> &bull; Entidad: <strong>${d.estado_name}</strong> &bull; 
                 <span class="badge ${d.tipo === 'U' ? 'badge-primary' : 'badge-secondary'}">
-                    ${d.tipo === 'U' ? 'Urbana' : 'Rural'}
+                    ${d.tipo === 'U' ? 'Localidad Urbana' : 'Localidad Rural'}
                 </span>
             </div>
         </div>
 
         <div class="dashboard-content">
-            <!-- Barra de Navegación por Pestañas Ejecutivas -->
+            <!-- Barra de Navegación por Pestañas Oficial INEGI -->
             <div class="dashboard-nav-tabs">
                 <button class="dash-tab-btn ${currentColoniaActiveTab === 'resumen' ? 'active' : ''}" data-tab="resumen" onclick="switchColoniaTab('resumen')">
                     <i class="fas fa-chart-pie"></i> Resumen
@@ -1531,20 +1541,23 @@ function renderColoniaDashboard(colId) {
                     <i class="fas fa-users"></i> Demografía
                 </button>
                 <button class="dash-tab-btn ${currentColoniaActiveTab === 'servicios' ? 'active' : ''}" data-tab="servicios" onclick="switchColoniaTab('servicios')">
-                    <i class="fas fa-home"></i> Vivienda
+                    <i class="fas fa-house-chimney"></i> Vivienda
                 </button>
                 <button class="dash-tab-btn ${currentColoniaActiveTab === 'educacion' ? 'active' : ''}" data-tab="educacion" onclick="switchColoniaTab('educacion')">
                     <i class="fas fa-graduation-cap"></i> Educación
                 </button>
             </div>
 
-            <!-- TAB 1: RESUMEN EJECUTIVO -->
+            <!-- ==============================================================
+                 PESTAÑA 1: RESUMEN
+                 ============================================================== -->
             <div id="col-tab-resumen" class="tab-content-pane" style="display: ${currentColoniaActiveTab === 'resumen' ? 'block' : 'none'};">
+                <!-- Tarjetas KPI Clave -->
                 <div class="kpi-grid">
                     <div class="kpi-card kpi-primary">
                         <div class="kpi-title">Población 2026 (Proy.)</div>
                         <div class="kpi-value">${Number(d.poblacion_proyeccion_2026).toLocaleString()}</div>
-                        <div class="kpi-meta">Estimación Oficial</div>
+                        <div class="kpi-meta">Estimación Oficial SNIEG</div>
                     </div>
                     <div class="kpi-card kpi-success">
                         <div class="kpi-title">Censo INEGI 2020</div>
@@ -1554,7 +1567,7 @@ function renderColoniaDashboard(colId) {
                     <div class="kpi-card kpi-warning">
                         <div class="kpi-title">Viviendas Habitadas</div>
                         <div class="kpi-value">${Number(d.viviendas_habitadas).toLocaleString()}</div>
-                        <div class="kpi-meta">${d.promedio_ocupantes_vivienda} hab/vivienda</div>
+                        <div class="kpi-meta">${d.promedio_ocupantes_vivienda} hab / vivienda</div>
                     </div>
                     <div class="kpi-card kpi-danger">
                         <div class="kpi-title">Escolaridad Promedio</div>
@@ -1563,244 +1576,413 @@ function renderColoniaDashboard(colId) {
                     </div>
                 </div>
 
-                <div class="card-section">
-                    <div class="card-section-title">
-                        <span>Indicadores Esenciales INEGI</span>
-                        <span class="tag">Oficial</span>
+                <!-- Tabla de Indicadores Esenciales -->
+                <div class="stat-card-box">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">
+                            <i class="fas fa-list-check"></i> Indicadores Esenciales de la Localidad
+                        </div>
+                        <span class="stat-card-badge">Censo Oficial</span>
                     </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-fingerprint" style="color:#38bdf8;"></i> Clave Geoestadística:</span>
-                        <span class="info-indicator-value" style="font-family:monospace;">${d.cve_geo}</span>
-                    </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-bolt" style="color:#fbbf24;"></i> Electricidad (VPH_C_ELEC):</span>
-                        <span class="info-indicator-value">${d.cobertura_electricidad_pct}% (${Number(d.v_elec).toLocaleString()} vivs)</span>
-                    </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-tint" style="color:#06b6d4;"></i> Agua Entubada (VPH_AGUADV):</span>
-                        <span class="info-indicator-value">${d.cobertura_agua_potable_pct}% (${Number(d.v_agua).toLocaleString()} vivs)</span>
-                    </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-wifi" style="color:#a855f7;"></i> Internet en Viviendas:</span>
-                        <span class="info-indicator-value">${d.cobertura_internet_pct}% (${Number(d.v_inter).toLocaleString()} vivs)</span>
-                    </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-store" style="color:#34d399;"></i> Unidades Económicas (DENUE):</span>
-                        <span class="info-indicator-value">${Number(d.unidades_economicas_denue).toLocaleString()} registradas</span>
+                    <div class="stat-table-body">
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon"><i class="fas fa-fingerprint"></i></div>
+                                <span class="stat-row-label">Clave Geoestadística Única (CVEGEO)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value" style="font-family: monospace;">${d.cve_geo}</span>
+                            </div>
+                        </div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon"><i class="fas fa-bolt" style="color:#F59E0B;"></i></div>
+                                <span class="stat-row-label">Energía Eléctrica en Viviendas</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${d.cobertura_electricidad_pct}%</span>
+                                <span class="stat-row-unit">(${Number(d.v_elec).toLocaleString()} vivs)</span>
+                            </div>
+                        </div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon"><i class="fas fa-droplet" style="color:#0284C7;"></i></div>
+                                <span class="stat-row-label">Agua Entubada en la Vivienda</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${d.cobertura_agua_potable_pct}%</span>
+                                <span class="stat-row-unit">(${Number(d.v_agua).toLocaleString()} vivs)</span>
+                            </div>
+                        </div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon"><i class="fas fa-wifi" style="color:#7C3AED;"></i></div>
+                                <span class="stat-row-label">Conexión a Internet en Viviendas</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${d.cobertura_internet_pct}%</span>
+                                <span class="stat-row-unit">(${Number(d.v_inter).toLocaleString()} vivs)</span>
+                            </div>
+                        </div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon"><i class="fas fa-store" style="color:#059669;"></i></div>
+                                <span class="stat-row-label">Establecimientos Activos Registrados (DENUE)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${Number(d.unidades_economicas_denue).toLocaleString()}</span>
+                                <span class="stat-row-unit">unidades</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB 2: DEMOGRAFÍA DETALLADA -->
+            <!-- ==============================================================
+                 PESTAÑA 2: DEMOGRAFÍA
+                 ============================================================== -->
             <div id="col-tab-demografia" class="tab-content-pane" style="display: ${currentColoniaActiveTab === 'demografia' ? 'block' : 'none'};">
-                <div class="card-section">
-                    <div class="card-section-title">
-                        <span>Distribución por Sexo (Censo 2020)</span>
-                        <span class="tag">${Number(d.poblacion_total_2020).toLocaleString()} habs</span>
-                    </div>
-                    <div class="gender-bar-container">
-                        <div class="gender-bar-fem" style="width: ${d.mujeres_pct}%">
-                            ${d.mujeres_pct > 18 ? d.mujeres_pct + '% M' : ''}
+                <!-- Distribución por Sexo -->
+                <div class="stat-card-box">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">
+                            <i class="fas fa-venus-mars"></i> Distribución de la Población por Sexo
                         </div>
-                        <div class="gender-bar-mas" style="width: ${d.hombres_pct}%">
-                            ${d.hombres_pct > 18 ? d.hombres_pct + '% H' : ''}
+                        <span class="stat-card-badge">${Number(d.poblacion_total_2020).toLocaleString()} habitantes</span>
+                    </div>
+                    <div style="padding: 12px 14px 6px 14px;">
+                        <div class="gender-bar-container">
+                            <div class="gender-bar-fem" style="width: ${d.mujeres_pct}%">
+                                ${d.mujeres_pct > 18 ? d.mujeres_pct + '% M' : ''}
+                            </div>
+                            <div class="gender-bar-mas" style="width: ${d.hombres_pct}%">
+                                ${d.hombres_pct > 18 ? d.hombres_pct + '% H' : ''}
+                            </div>
                         </div>
                     </div>
-                    <div class="gender-legend">
-                        <span><span class="gender-dot-fem"></span> <strong>${Number(d.mujeres).toLocaleString()}</strong> Mujeres (${d.mujeres_pct}%)</span>
-                        <span><span class="gender-dot-mas"></span> <strong>${Number(d.hombres).toLocaleString()}</strong> Hombres (${d.hombres_pct}%)</span>
+                    <div class="stat-table-body">
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#E11D48;"><i class="fas fa-venus"></i></div>
+                                <span class="stat-row-label">Población Femenina (Mujeres)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${Number(d.mujeres).toLocaleString()}</span>
+                                <span class="stat-row-unit">(${d.mujeres_pct}%)</span>
+                            </div>
+                        </div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#0284C7;"><i class="fas fa-mars"></i></div>
+                                <span class="stat-row-label">Población Masculina (Hombres)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${Number(d.hombres).toLocaleString()}</span>
+                                <span class="stat-row-unit">(${d.hombres_pct}%)</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="card-section">
-                    <div class="card-section-title">
-                        <span>Estructura por Grupos de Edad</span>
-                        <span class="tag">Población Total</span>
+                <!-- Estructura por Grupos de Edad -->
+                <div class="stat-card-box">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">
+                            <i class="fas fa-chart-column"></i> Estructura por Grupos de Edad
+                        </div>
+                        <span class="stat-card-badge">Censo 2020</span>
                     </div>
-                    <div style="margin-top:10px;">
-                        <div class="info-indicator-row">
-                            <span class="info-indicator-label"><i class="fas fa-child" style="color:#38bdf8;"></i> 0 a 14 años (Infancia):</span>
-                            <span class="info-indicator-value">${Number(d.p_0a14).toLocaleString()} (${d.p_0a14_pct}%)</span>
+                    <div class="stat-table-body">
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#0284C7;"><i class="fas fa-child"></i></div>
+                                <span class="stat-row-label">0 a 14 años (Infancia y Niñez)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${Number(d.p_0a14).toLocaleString()}</span>
+                                <span class="stat-row-unit">(${d.p_0a14_pct}%)</span>
+                            </div>
                         </div>
-                        <div class="info-indicator-row">
-                            <span class="info-indicator-label"><i class="fas fa-user-tie" style="color:#3b82f6;"></i> 15 a 59 años (Productiva):</span>
-                            <span class="info-indicator-value">${Number(d.p_15a59).toLocaleString()} (${d.p_15a59_pct}%)</span>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#2563EB;"><i class="fas fa-user-tie"></i></div>
+                                <span class="stat-row-label">15 a 59 años (Población Productiva)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${Number(d.p_15a59).toLocaleString()}</span>
+                                <span class="stat-row-unit">(${d.p_15a59_pct}%)</span>
+                            </div>
                         </div>
-                        <div class="info-indicator-row">
-                            <span class="info-indicator-label"><i class="fas fa-blind" style="color:#f59e0b;"></i> 60+ años (Adultos Mayores):</span>
-                            <span class="info-indicator-value">${Number(d.p_60mas).toLocaleString()} (${d.p_60mas_pct}%)</span>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#D97706;"><i class="fas fa-person-cane"></i></div>
+                                <span class="stat-row-label">60 años y más (Adultos Mayores)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${Number(d.p_60mas).toLocaleString()}</span>
+                                <span class="stat-row-unit">(${d.p_60mas_pct}%)</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card-section">
-                    <div class="card-section-title">
-                        <span>Inclusión y Población Vulnerable</span>
-                        <span class="tag">INEGI</span>
+                <!-- Inclusión Social -->
+                <div class="stat-card-box">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">
+                            <i class="fas fa-hand-holding-heart"></i> Inclusión y Población Vulnerable
+                        </div>
+                        <span class="stat-card-badge">INEGI</span>
                     </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-wheelchair" style="color:#ec4899;"></i> Personas con Discapacidad / Limitación:</span>
-                        <span class="info-indicator-value">${Number(d.p_disc).toLocaleString()} habs (${d.p_disc_pct}%)</span>
+                    <div class="stat-table-body">
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#DB2777;"><i class="fas fa-wheelchair"></i></div>
+                                <span class="stat-row-label">Personas con Discapacidad o Limitación</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${Number(d.p_disc).toLocaleString()}</span>
+                                <span class="stat-row-unit">personas (${d.p_disc_pct}%)</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB 3: VIVIENDA Y SERVICIOS CENSO OFICIAL -->
+            <!-- ==============================================================
+                 PESTAÑA 3: VIVIENDA
+                 ============================================================== -->
             <div id="col-tab-servicios" class="tab-content-pane" style="display: ${currentColoniaActiveTab === 'servicios' ? 'block' : 'none'};">
-                <div class="card-section">
-                    <div class="card-section-title">
-                        <span>Parque Habitacional</span>
-                        <span class="tag">${Number(d.viviendas_habitadas).toLocaleString()} habitadas</span>
+                <!-- Parque Habitacional -->
+                <div class="stat-card-box">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">
+                            <i class="fas fa-house-user"></i> Parque Habitacional Censado
+                        </div>
+                        <span class="stat-card-badge">${Number(d.viviendas_habitadas).toLocaleString()} habitadas</span>
                     </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-door-open" style="color:#10b981;"></i> Viviendas Particulares Habitadas:</span>
-                        <span class="info-indicator-value">${Number(d.viviendas_habitadas).toLocaleString()}</span>
-                    </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-building" style="color:#64748b;"></i> Total Viviendas Censadas:</span>
-                        <span class="info-indicator-value">${Number(d.viviendas_totales).toLocaleString()}</span>
-                    </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-users" style="color:#38bdf8;"></i> Promedio de Ocupantes por Vivienda:</span>
-                        <span class="info-indicator-value">${d.promedio_ocupantes_vivienda} hab/viv</span>
+                    <div class="stat-table-body">
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#059669;"><i class="fas fa-door-open"></i></div>
+                                <span class="stat-row-label">Viviendas Particulares Habitadas</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${Number(d.viviendas_habitadas).toLocaleString()}</span>
+                                <span class="stat-row-unit">vivs</span>
+                            </div>
+                        </div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#64748B;"><i class="fas fa-city"></i></div>
+                                <span class="stat-row-label">Total de Viviendas Censadas</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${Number(d.viviendas_totales).toLocaleString()}</span>
+                                <span class="stat-row-unit">vivs</span>
+                            </div>
+                        </div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#0284C7;"><i class="fas fa-people-roof"></i></div>
+                                <span class="stat-row-label">Promedio de Ocupantes por Vivienda</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${d.promedio_ocupantes_vivienda}</span>
+                                <span class="stat-row-unit">hab / vivienda</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="card-section">
-                    <div class="card-section-title">
-                        <span>Servicios Básicos y Bienes TIC</span>
-                        <span class="tag">Cobertura Real</span>
+                <!-- Cobertura de Servicios Básicos y Bienes TIC -->
+                <div class="stat-card-box">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">
+                            <i class="fas fa-faucet-drip"></i> Servicios Básicos y Conectividad en Viviendas
+                        </div>
+                        <span class="stat-card-badge">Censo 2020</span>
                     </div>
-
-                    <!-- Electricidad -->
-                    <div class="service-stat-card">
-                        <div class="service-stat-top">
-                            <span class="service-stat-icon-title"><i class="fas fa-bolt" style="color:#fbbf24;"></i> Energía Eléctrica</span>
-                            <span class="service-stat-counts">${d.cobertura_electricidad_pct}% (${Number(d.v_elec).toLocaleString()} viv.)</span>
+                    <div class="stat-table-body">
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#F59E0B;"><i class="fas fa-bolt"></i></div>
+                                <span class="stat-row-label">Energía Eléctrica (VPH_C_ELEC)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${d.cobertura_electricidad_pct}%</span>
+                                <span class="stat-row-unit">(${Number(d.v_elec).toLocaleString()} vivs)</span>
+                            </div>
                         </div>
-                        <div class="service-progress-track">
-                            <div class="service-progress-fill" style="width: ${d.cobertura_electricidad_pct}%; background: linear-gradient(90deg, #fbbf24, #d97706);"></div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#06B6D4;"><i class="fas fa-tint"></i></div>
+                                <span class="stat-row-label">Agua Entubada (VPH_AGUADV)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${d.cobertura_agua_potable_pct}%</span>
+                                <span class="stat-row-unit">(${Number(d.v_agua).toLocaleString()} vivs)</span>
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Agua Entubada -->
-                    <div class="service-stat-card">
-                        <div class="service-stat-top">
-                            <span class="service-stat-icon-title"><i class="fas fa-tint" style="color:#06b6d4;"></i> Agua Entubada en la Vivienda</span>
-                            <span class="service-stat-counts">${d.cobertura_agua_potable_pct}% (${Number(d.v_agua).toLocaleString()} viv.)</span>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#3B82F6;"><i class="fas fa-shower"></i></div>
+                                <span class="stat-row-label">Drenaje Sanitario (VPH_DRENAJ)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${d.cobertura_drenaje_pct}%</span>
+                                <span class="stat-row-unit">(${Number(d.v_dren).toLocaleString()} vivs)</span>
+                            </div>
                         </div>
-                        <div class="service-progress-track">
-                            <div class="service-progress-fill" style="width: ${d.cobertura_agua_potable_pct}%; background: linear-gradient(90deg, #06b6d4, #0284c7);"></div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#7C3AED;"><i class="fas fa-wifi"></i></div>
+                                <span class="stat-row-label">Internet en la Vivienda (VPH_INTER)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${d.cobertura_internet_pct}%</span>
+                                <span class="stat-row-unit">(${Number(d.v_inter).toLocaleString()} vivs)</span>
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Drenaje -->
-                    <div class="service-stat-card">
-                        <div class="service-stat-top">
-                            <span class="service-stat-icon-title"><i class="fas fa-shower" style="color:#3b82f6;"></i> Drenaje Sanitario</span>
-                            <span class="service-stat-counts">${d.cobertura_drenaje_pct}% (${Number(d.v_dren).toLocaleString()} viv.)</span>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#EC4899;"><i class="fas fa-mobile-screen"></i></div>
+                                <span class="stat-row-label">Telefonía Celular (VPH_CEL)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${d.cobertura_telefonia_movil_pct}%</span>
+                                <span class="stat-row-unit">(${Number(d.v_cel).toLocaleString()} vivs)</span>
+                            </div>
                         </div>
-                        <div class="service-progress-track">
-                            <div class="service-progress-fill" style="width: ${d.cobertura_drenaje_pct}%; background: linear-gradient(90deg, #3b82f6, #1d4ed8);"></div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#10B981;"><i class="fas fa-laptop"></i></div>
+                                <span class="stat-row-label">Computadora o Tablet (VPH_PC)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${d.cobertura_computadora_pct}%</span>
+                                <span class="stat-row-unit">(${Number(d.v_pc).toLocaleString()} vivs)</span>
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Internet -->
-                    <div class="service-stat-card">
-                        <div class="service-stat-top">
-                            <span class="service-stat-icon-title"><i class="fas fa-wifi" style="color:#a855f7;"></i> Conexión a Internet</span>
-                            <span class="service-stat-counts">${d.cobertura_internet_pct}% (${Number(d.v_inter).toLocaleString()} viv.)</span>
-                        </div>
-                        <div class="service-progress-track">
-                            <div class="service-progress-fill" style="width: ${d.cobertura_internet_pct}%; background: linear-gradient(90deg, #a855f7, #7c3aed);"></div>
-                        </div>
-                    </div>
-
-                    <!-- Telefonía Celular -->
-                    <div class="service-stat-card">
-                        <div class="service-stat-top">
-                            <span class="service-stat-icon-title"><i class="fas fa-mobile-alt" style="color:#ec4899;"></i> Telefonía Celular</span>
-                            <span class="service-stat-counts">${d.cobertura_telefonia_movil_pct}% (${Number(d.v_cel).toLocaleString()} viv.)</span>
-                        </div>
-                        <div class="service-progress-track">
-                            <div class="service-progress-fill" style="width: ${d.cobertura_telefonia_movil_pct}%; background: linear-gradient(90deg, #ec4899, #be185d);"></div>
-                        </div>
-                    </div>
-
-                    <!-- Computadora / Laptop -->
-                    <div class="service-stat-card">
-                        <div class="service-stat-top">
-                            <span class="service-stat-icon-title"><i class="fas fa-laptop" style="color:#10b981;"></i> Computadora / Laptop / Tablet</span>
-                            <span class="service-stat-counts">${d.cobertura_computadora_pct}% (${Number(d.v_pc).toLocaleString()} viv.)</span>
-                        </div>
-                        <div class="service-progress-track">
-                            <div class="service-progress-fill" style="width: ${d.cobertura_computadora_pct}%; background: linear-gradient(90deg, #10b981, #059669);"></div>
-                        </div>
-                    </div>
-
-                    <!-- Automóvil -->
-                    <div class="service-stat-card">
-                        <div class="service-stat-top">
-                            <span class="service-stat-icon-title"><i class="fas fa-car" style="color:#f97316;"></i> Automóvil / Camioneta</span>
-                            <span class="service-stat-counts">${d.cobertura_automovil_pct}% (${Number(d.v_auto).toLocaleString()} viv.)</span>
-                        </div>
-                        <div class="service-progress-track">
-                            <div class="service-progress-fill" style="width: ${d.cobertura_automovil_pct}%; background: linear-gradient(90deg, #f97316, #c2410c);"></div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#F97316;"><i class="fas fa-car"></i></div>
+                                <span class="stat-row-label">Automóvil o Camioneta (VPH_AUTOM)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${d.cobertura_automovil_pct}%</span>
+                                <span class="stat-row-unit">(${Number(d.v_auto).toLocaleString()} vivs)</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB 4: EDUCACIÓN Y EMPLEO -->
+            <!-- ==============================================================
+                 PESTAÑA 4: EDUCACIÓN Y EMPLEO
+                 (GRÁFICA COMERCIAL ELIMINADA PERMANENTEMENTE)
+                 ============================================================== -->
             <div id="col-tab-educacion" class="tab-content-pane" style="display: ${currentColoniaActiveTab === 'educacion' ? 'block' : 'none'};">
-                <div class="card-section">
-                    <div class="card-section-title">
-                        <span>Educación y Escolaridad Censal</span>
-                        <span class="tag">GRAPROES</span>
+                <!-- Educación y Escolaridad Censal -->
+                <div class="stat-card-box">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">
+                            <i class="fas fa-graduation-cap"></i> Educación y Escolaridad Censal
+                        </div>
+                        <span class="stat-card-badge">GRAPROES Oficial</span>
                     </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-graduation-cap" style="color:#38bdf8;"></i> Grado Promedio de Escolaridad:</span>
-                        <span class="info-indicator-value">${d.grado_promedio_escolaridad} años</span>
-                    </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-award" style="color:#fbbf24;"></i> Nivel Educativo Promedio:</span>
-                        <span class="info-indicator-value">${nivelEscolar}</span>
+                    <div class="stat-table-body">
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#0284C7;"><i class="fas fa-book-open-reader"></i></div>
+                                <span class="stat-row-label">Grado Promedio de Escolaridad</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${d.grado_promedio_escolaridad}</span>
+                                <span class="stat-row-unit">años de estudio</span>
+                            </div>
+                        </div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#F59E0B;"><i class="fas fa-award"></i></div>
+                                <span class="stat-row-label">Nivel Educativo Equivalente</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-pill ${nivelPillClass}">
+                                    <i class="fas fa-check-circle"></i> ${nivelEscolar}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#10B981;"><i class="fas fa-user-graduate"></i></div>
+                                <span class="stat-row-label">Alfabetismo en Población de 15 años y más</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-pill pill-success">Mayoritaria (>95%)</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="card-section">
-                    <div class="card-section-title">
-                        <span>Fuerza Laboral y Ocupación</span>
-                        <span class="tag">Censo 2020</span>
+                <!-- Fuerza Laboral y Ocupación -->
+                <div class="stat-card-box">
+                    <div class="stat-card-header">
+                        <div class="stat-card-title">
+                            <i class="fas fa-briefcase"></i> Fuerza Laboral y Ocupación
+                        </div>
+                        <span class="stat-card-badge">Censo 2020</span>
                     </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-briefcase" style="color:#10b981;"></i> Población Económicamente Activa (PEA):</span>
-                        <span class="info-indicator-value">${Number(d.pea).toLocaleString()} personas</span>
+                    <div class="stat-table-body">
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#059669;"><i class="fas fa-users-line"></i></div>
+                                <span class="stat-row-label">Población Económicamente Activa (PEA)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${Number(d.pea).toLocaleString()}</span>
+                                <span class="stat-row-unit">personas</span>
+                            </div>
+                        </div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#0284C7;"><i class="fas fa-user-check"></i></div>
+                                <span class="stat-row-label">Población Ocupada (POCUPADA)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${Number(d.pocupada).toLocaleString()}</span>
+                                <span class="stat-row-unit">personas</span>
+                            </div>
+                        </div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#2563EB;"><i class="fas fa-chart-line"></i></div>
+                                <span class="stat-row-label">Tasa de Ocupación Laboral</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">${d.tasa_ocupacion}%</span>
+                            </div>
+                        </div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#D97706;"><i class="fas fa-coins"></i></div>
+                                <span class="stat-row-label">Ingreso Promedio Mensual Estimado</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-value">$${Number(d.ingreso_promedio_mensual).toLocaleString()}</span>
+                                <span class="stat-row-unit">MXN</span>
+                            </div>
+                        </div>
+                        <div class="stat-table-row">
+                            <div class="stat-row-left">
+                                <div class="stat-row-icon" style="color:#7C3AED;"><i class="fas fa-layer-group"></i></div>
+                                <span class="stat-row-label">Grado de Marginación (CONAPO)</span>
+                            </div>
+                            <div class="stat-row-right">
+                                <span class="stat-row-pill pill-primary">${d.indice_marginacion}</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-user-check" style="color:#06b6d4;"></i> Población Ocupada (POCUPADA):</span>
-                        <span class="info-indicator-value">${Number(d.pocupada).toLocaleString()} personas</span>
-                    </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-chart-line" style="color:#3b82f6;"></i> Tasa de Ocupación:</span>
-                        <span class="info-indicator-value">${d.tasa_ocupacion}%</span>
-                    </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-coins" style="color:#f59e0b;"></i> Ingreso Promedio Estimado:</span>
-                        <span class="info-indicator-value">$${Number(d.ingreso_promedio_mensual).toLocaleString()} MXN</span>
-                    </div>
-                    <div class="info-indicator-row">
-                        <span class="info-indicator-label"><i class="fas fa-layer-group" style="color:#ec4899;"></i> Grado de Marginación:</span>
-                        <span class="info-indicator-value">${d.indice_marginacion}</span>
-                    </div>
-                </div>
-
-                <div class="card-section">
-                    <div class="card-section-title">
-                        <span>Giro de Establecimientos Locales</span>
-                        <span class="tag">DENUE (${Number(d.unidades_economicas_denue).toLocaleString()} u.)</span>
-                    </div>
-                    <canvas id="chart-sectores-colonia" height="140"></canvas>
                 </div>
             </div>
 
@@ -1817,7 +1999,7 @@ function renderColoniaDashboard(colId) {
             <!-- Nota de Fuente Oficial INEGI -->
             <div class="inegi-source-footnote">
                 <i class="fas fa-certificate" style="color:#BC955C;"></i>
-                <span>Fuente: Instituto Nacional de Estadística y Geografía (INEGI) &bull; Censo 2020 / Marco Geoestadístico 2026</span>
+                <span>Fuente: Instituto Nacional de Estadística y Geografía (INEGI) &bull; Censo de Población y Vivienda 2020 / Marco Geoestadístico 2026</span>
             </div>
 
             <!-- Pie Institucional Oficial INEGI -->
@@ -1840,54 +2022,11 @@ function renderColoniaDashboard(colId) {
     renderColoniaTabCharts(currentColoniaActiveTab, d);
 }
 
-// =============================================================================
-// 6. GENERACIÓN DE GRÁFICOS INTERACTIVOS (CHART.JS)
-// =============================================================================
-
-function initNationalCharts(d) {
-    // Indicadores censales e infraestructura representados en tarjetas oficiales y barras de cobertura
-}
-
-function initStateCharts(d) {
-    // Gráfica de Actividad Económica (DENUE) eliminada permanentemente
-}
-
-function initMunicipioCharts(d) {
-    // Indicadores y servicios municipales estructurados en fichas institucionales INEGI
-}
-
+// Gráficos de pestañas de colonia (Gráfica de Giro de Establecimientos eliminada permanentemente)
 function renderColoniaTabCharts(tabName, d) {
-    if (tabName === 'educacion') {
-        if (AppState.charts.sectores) {
-            AppState.charts.sectores.destroy();
-            delete AppState.charts.sectores;
-        }
-        const ctxSec = document.getElementById('chart-sectores-colonia')?.getContext('2d');
-        if (ctxSec && d.sectores_economicos) {
-            AppState.charts.sectores = new Chart(ctxSec, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Servicios', 'Comercio', 'Manufactura / Taller', 'Agropecuario'],
-                    datasets: [{
-                        data: [
-                            d.sectores_economicos.servicios,
-                            d.sectores_economicos.comercio,
-                            d.sectores_economicos.manufactura_industria,
-                            d.sectores_economicos.agropecuario
-                        ],
-                        backgroundColor: ['#002F6C', '#0084B4', '#8A1538', '#107C41'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'right', labels: { color: '#cbd5e1', font: { size: 10 } } }
-                    }
-                }
-            });
-        }
+    if (AppState.charts.sectores) {
+        AppState.charts.sectores.destroy();
+        delete AppState.charts.sectores;
     }
 }
 
