@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INEGI - Sistema de Consulta de Información Censal y Geoestadística (SCINCE) 2026 | Mapa Digital de México</title>
+    <title>INEGI - Instituto Nacional de Estadística y Geografía | Portal Oficial</title>
     
-    <!-- Google Fonts: Plus Jakarta Sans & Inter para legibilidad institucional -->
+    <!-- Fuentes Oficiales: Plus Jakarta Sans & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -19,175 +19,1106 @@
     <!-- Estilos de la Aplicación Oficial INEGI -->
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="inegi-portal-body">
 
     <!-- =======================================================================
-         CONTENEDOR PRINCIPAL INSTITUCIONAL INEGI
+         1. CINTILLO SUPERIOR GOBIERNO DE MÉXICO
          ======================================================================= -->
-    <div id="app-container">
-
-        <!-- Franja Superior Oficial del Gobierno de México -->
-        <div class="gob-mx-strip">
-            <div class="gob-mx-inner">
-                <div class="gob-brand-left">
-                    <!-- Escudo Nacional y GOBIERNO DE MÉXICO -->
-                    <svg class="gob-mx-crest" viewBox="0 0 160 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10 4 C12 6, 14 5, 16 8 C18 11, 19 14, 18 18 C17 22, 14 25, 10 28 C6 25, 3 22, 2 18 C1 14, 2 11, 4 8 C6 5, 8 6, 10 4 Z" fill="#BC955C"/>
-                        <circle cx="10" cy="16" r="3.5" fill="#07172C"/>
-                        <path d="M6 20 C8 22, 12 22, 14 20" stroke="#BC955C" stroke-width="1.2" stroke-linecap="round"/>
-                        <text x="24" y="13" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="800" font-size="9" fill="#FFFFFF" letter-spacing="1">GOBIERNO DE</text>
-                        <text x="24" y="24" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="10.5" fill="#BC955C" letter-spacing="1.5">MÉXICO</text>
-                    </svg>
-                    <span class="gob-mx-divider"></span>
-                    <span class="gob-mx-text"><i class="fas fa-landmark" style="color:#BC955C; margin-right:4px;"></i> Sistema Nacional de Información Estadística y Geográfica (SNIEG)</span>
-                </div>
-                <div class="gob-brand-right">
-                    <span class="gob-tag"><i class="fas fa-shield-alt" style="color:#BC955C;"></i> Marco Geoestadístico 2026</span>
-                    <span class="gob-tag"><i class="fas fa-database"></i> Datos Abiertos</span>
-                    <span class="gob-tag link-inegi"><i class="fas fa-globe"></i> portal.inegi.org.mx</span>
-                </div>
+    <div class="gob-mx-strip">
+        <div class="gob-mx-inner">
+            <div class="gob-brand-left">
+                <!-- Escudo Nacional y GOBIERNO DE MÉXICO -->
+                <svg class="gob-mx-crest" viewBox="0 0 160 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 4 C12 6, 14 5, 16 8 C18 11, 19 14, 18 18 C17 22, 14 25, 10 28 C6 25, 3 22, 2 18 C1 14, 2 11, 4 8 C6 5, 8 6, 10 4 Z" fill="#BC955C"/>
+                    <circle cx="10" cy="16" r="3.5" fill="#07172C"/>
+                    <path d="M6 20 C8 22, 12 22, 14 20" stroke="#BC955C" stroke-width="1.2" stroke-linecap="round"/>
+                    <text x="24" y="13" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="800" font-size="9" fill="#FFFFFF" letter-spacing="1">GOBIERNO DE</text>
+                    <text x="24" y="24" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="10.5" fill="#BC955C" letter-spacing="1.5">MÉXICO</text>
+                </svg>
+                <span class="gob-mx-divider"></span>
+                <span class="gob-mx-text"><i class="fas fa-landmark" style="color:#BC955C; margin-right:4px;"></i> Sistema Nacional de Información Estadística y Geográfica (SNIEG)</span>
+            </div>
+            <div class="gob-brand-right">
+                <span class="gob-tag"><i class="fas fa-shield-alt" style="color:#BC955C;"></i> Marco Geoestadístico 2026</span>
+                <span class="gob-tag"><i class="fas fa-database"></i> Datos Abiertos</span>
+                <span class="gob-tag link-inegi"><i class="fas fa-globe"></i> portal.inegi.org.mx</span>
             </div>
         </div>
-        
-        <!-- Barra de Navegación Principal INEGI -->
-        <header class="top-navbar">
-            <div class="brand-section">
-                <!-- Logotipo Oficial Vectorial INEGI -->
-                <div class="inegi-brand-container" title="Instituto Nacional de Estadística y Geografía">
-                    <svg class="inegi-logo-svg" viewBox="0 0 215 46" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Isotipo de bloques geométricos INEGI -->
-                        <g class="inegi-isotipo">
-                            <rect x="2" y="4" width="8" height="8" rx="1.5" fill="#BC955C"/>
-                            <rect x="13" y="4" width="8" height="8" rx="1.5" fill="#0084B4"/>
-                            <rect x="24" y="4" width="8" height="8" rx="1.5" fill="#002F6C"/>
-                            
-                            <rect x="2" y="15" width="8" height="8" rx="1.5" fill="#005691"/>
-                            <rect x="13" y="15" width="8" height="8" rx="1.5" fill="#691C32"/>
-                            <rect x="24" y="15" width="8" height="8" rx="1.5" fill="#0084B4"/>
-                            
-                            <rect x="2" y="26" width="8" height="8" rx="1.5" fill="#002F6C"/>
-                            <rect x="13" y="26" width="8" height="8" rx="1.5" fill="#BC955C"/>
-                            <rect x="24" y="26" width="8" height="8" rx="1.5" fill="#107C41"/>
-                        </g>
-                        <!-- Texto INEGI oficial -->
-                        <text x="39" y="27" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="24" fill="#FFFFFF" letter-spacing="1.2">INEGI</text>
-                        <!-- Lema institucional -->
-                        <text x="40" y="37" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="700" font-size="5.2" fill="#BC955C" letter-spacing="0.5">INSTITUTO NACIONAL DE ESTADÍSTICA Y GEOGRAFÍA</text>
-                    </svg>
-                </div>
-
-                <div class="brand-divider-v"></div>
-
-                <div class="brand-title">
-                    <h1>SISTEMA DE CONSULTA GEOESTADÍSTICA Y CENSAL (SCINCE)</h1>
-                    <span>Censo de Población y Vivienda 2020 &bull; Proyecciones 2026 &bull; Cartografía Participativa</span>
-                </div>
-            </div>
-
-            <!-- Buscador Global y Selector de Métrica Censal -->
-            <div class="nav-controls">
-                <div class="search-box">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="global-search-input" placeholder="Buscar Estado, Municipio, Localidad o Asentamiento..." autocomplete="off">
-                    <div id="search-results-dropdown" class="search-results"></div>
-                </div>
-
-                <div class="metric-selector">
-                    <label for="map-metric-select"><i class="fas fa-layer-group" style="color:#BC955C;"></i> Indicador:</label>
-                    <select id="map-metric-select">
-                        <option value="pob2026">Población Proyectada 2026</option>
-                        <option value="ingreso">Ingreso Promedio Mensual ($)</option>
-                        <option value="internet">Cobertura de Internet (%)</option>
-                        <option value="escolaridad">Escolaridad Promedio (Años)</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Perfil de Usuario y Sesión Oficial -->
-            <div class="user-section">
-                <div class="user-badge">
-                    <div class="user-avatar">
-                        <i class="fas fa-user-shield"></i>
-                    </div>
-                    <div class="user-details">
-                        <span class="uname">Servidor Público INEGI</span>
-                        <span class="urole"><i class="fas fa-check-circle" style="color:#34d399;"></i> Acceso Autorizado SNIEG</span>
-                    </div>
-                </div>
-                <button id="btn-logout" class="btn-logout" title="Cerrar sesión segura">
-                    <i class="fas fa-sign-out-alt"></i> Salir
-                </button>
-            </div>
-        </header>
-
-        <!-- Barra de Migas de Pan (Breadcrumbs) & Controles de Cartografía Google Maps -->
-        <nav class="nav-breadcrumbs-bar">
-            <div id="breadcrumbs-trail" class="breadcrumbs-trail">
-                <!-- Se llena dinámicamente: México > Estado > Municipio > Localidad -->
-            </div>
-
-            <div class="zoom-actions">
-                <!-- Selector de Cartografía Base -->
-                <div class="google-map-selector">
-                    <span class="maptype-label"><i class="fas fa-map"></i> Mapa Base:</span>
-                    <button class="btn-maptype active" data-type="roadmap" onclick="setGoogleMapType('roadmap')">
-                        <i class="fas fa-road"></i> Calles
-                    </button>
-                    <button class="btn-maptype" data-type="hybrid" onclick="setGoogleMapType('hybrid')">
-                        <i class="fas fa-satellite"></i> Satelital
-                    </button>
-                    <button class="btn-maptype" data-type="terrain" onclick="setGoogleMapType('terrain')">
-                        <i class="fas fa-mountain"></i> Relieve
-                    </button>
-                </div>
-
-                <button class="btn-zoom-reset" onclick="resetToNationalView()" title="Regresar al mapa completo de la República Mexicana">
-                    <i class="fas fa-globe-americas"></i> Vista Nacional
-                </button>
-            </div>
-        </nav>
-
-        <!-- Área de Trabajo Principal: Visor Cartográfico + Panel Informativo Oficial -->
-        <main class="main-content">
-            
-            <!-- Visor Cartográfico Google Maps + Leaflet -->
-            <div id="map-viewport">
-                <!-- Indicador Flotante del Nivel Actual -->
-                <div class="view-level-indicator">
-                    <div class="indicator-dot"></div>
-                    <span id="view-level-text" class="indicator-text">República Mexicana (32 Entidades Federativas)</span>
-                </div>
-
-                <!-- Leyenda Dinámica de la Métrica Activa (Estilo Mapa Digital de México) -->
-                <div class="map-overlay-legend">
-                    <div class="legend-header-bar">
-                        <span class="legend-badge-inegi">INEGI MDM</span>
-                        <span id="legend-title-text">Población Proyectada 2026</span>
-                    </div>
-                    <div id="legend-scale-bars" class="legend-scale"></div>
-                    <div id="legend-labels-row" class="legend-labels"></div>
-                </div>
-            </div>
-
-            <!-- Panel Lateral de Información y Dashboard Oficial INEGI -->
-            <aside id="dashboard-panel" class="dashboard-panel">
-                <!-- El contenido se inyecta dinámicamente con las estadísticas oficiales de México, Estado, Municipio o Localidad -->
-            </aside>
-
-        </main>
     </div>
 
     <!-- =======================================================================
-         MODAL DE AUTENTICACIÓN / ACCESO INSTITUCIONAL INEGI
+         2. BARRA DE ENCABEZADO INSTITUCIONAL BLANCA (LOGOTIPO + ACCESOS RÁPIDOS)
          ======================================================================= -->
-    <div id="login-modal">
-        <div class="login-card">
-            <!-- Cintillo Superior Oficial Tricolor / Guinda-Oro-Azul -->
-            <div class="login-tricolor-bar"></div>
+    <header class="inegi-top-header">
+        <div class="inegi-header-inner">
+            <!-- Logotipo Oficial Vectorial INEGI -->
+            <div class="inegi-brand-logo" onclick="switchPortalView('inicio')" style="cursor: pointer;" title="Ir al Inicio del INEGI">
+                <svg class="inegi-logo-svg" viewBox="0 0 220 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Isotipo de bloques geométricos INEGI -->
+                    <g class="inegi-isotipo">
+                        <rect x="2" y="4" width="8" height="8" rx="1.5" fill="#BC955C"/>
+                        <rect x="13" y="4" width="8" height="8" rx="1.5" fill="#0084B4"/>
+                        <rect x="24" y="4" width="8" height="8" rx="1.5" fill="#002F6C"/>
+                        
+                        <rect x="2" y="15" width="8" height="8" rx="1.5" fill="#005691"/>
+                        <rect x="13" y="15" width="8" height="8" rx="1.5" fill="#691C32"/>
+                        <rect x="24" y="15" width="8" height="8" rx="1.5" fill="#0084B4"/>
+                        
+                        <rect x="2" y="26" width="8" height="8" rx="1.5" fill="#002F6C"/>
+                        <rect x="13" y="26" width="8" height="8" rx="1.5" fill="#BC955C"/>
+                        <rect x="24" y="26" width="8" height="8" rx="1.5" fill="#107C41"/>
+                    </g>
+                    <!-- Texto INEGI oficial -->
+                    <text x="39" y="27" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="24" fill="#002F6C" letter-spacing="1.2">INEGI</text>
+                    <!-- Lema institucional -->
+                    <text x="40" y="37" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="700" font-size="5.2" fill="#64748B" letter-spacing="0.5">INSTITUTO NACIONAL DE ESTADÍSTICA Y GEOGRAFÍA</text>
+                </svg>
+            </div>
 
+            <!-- Redes Sociales y Enlaces Utilitarios Superiores -->
+            <div class="inegi-top-utilities">
+                <div class="inegi-social-icons">
+                    <a href="https://facebook.com" target="_blank" class="social-circle" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com" target="_blank" class="social-circle" title="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://youtube.com" target="_blank" class="social-circle" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://instagram.com" target="_blank" class="social-circle" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://inegi.org.mx/rss" target="_blank" class="social-circle" title="RSS"><i class="fas fa-rss"></i></a>
+                </div>
+                <div class="inegi-top-links">
+                    <a href="#" class="top-util-link">English</a>
+                    <span class="util-sep">|</span>
+                    <a href="#" class="top-util-link">Otros idiomas</a>
+                    <span class="util-sep">|</span>
+                    <a href="#" class="top-util-link">Contacto</a>
+                    <span class="util-sep">|</span>
+                    <button class="btn-text-size" onclick="toggleFontSize()" title="Ajustar tamaño de texto">+A</button>
+                    <span class="util-sep">|</span>
+                    <button id="btn-open-login" class="btn-snieg-login" onclick="openLoginModal()" title="Acceso a Servidores Públicos SNIEG">
+                        <i class="fas fa-user-shield"></i> Acceso SNIEG
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- =======================================================================
+         3. BARRA DE NAVEGACIÓN INSTITUCIONAL OFICIAL INEGI (AZUL MARINO #0C325C)
+         ======================================================================= -->
+    <nav class="inegi-main-nav">
+        <div class="inegi-nav-inner">
+            <ul class="inegi-menu-list">
+                <li class="nav-item">
+                    <a class="nav-link active" data-view="inicio" onclick="switchPortalView('inicio')">
+                        <i class="fas fa-home" style="margin-right: 4px;"></i> Inicio
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-view="temas" onclick="switchPortalView('temas')">
+                        Temas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-view="programas" onclick="switchPortalView('programas')">
+                        Programas de Información
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-view="sistemas" onclick="switchPortalView('sistemas')">
+                        Sistemas de Consulta
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-view="desarrollo-social" onclick="switchPortalView('desarrollo-social')">
+                        Desarrollo social
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-view="infraestructura" onclick="switchPortalView('infraestructura')">
+                        Infraestructura
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-view="acerca" onclick="switchPortalView('acerca')">
+                        Acerca del INEGI
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Caja de Búsqueda Integrada en Barra de Navegación -->
+            <div class="inegi-nav-search">
+                <div class="search-input-wrapper">
+                    <input type="text" id="global-search-input" placeholder="Buscar..." autocomplete="off">
+                    <button type="button" class="btn-search-submit" onclick="executePortalSearch()" title="Buscar en INEGI">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <div id="search-results-dropdown" class="search-results"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- =======================================================================
+         4. BARRA DE MIGAS DE PAN (BREADCRUMBS) DINÁMICA
+         ======================================================================= -->
+    <div class="inegi-breadcrumbs-container">
+        <div class="inegi-breadcrumbs-inner">
+            <span id="portal-breadcrumbs-text">
+                <a href="#" onclick="switchPortalView('inicio')">Inicio</a> / <span class="active-crumb">Portal Principal</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- =======================================================================
+         5. ENTORNO MULTIVISTA DEL PORTAL INEGI
+         ======================================================================= -->
+    <div id="portal-views-container">
+
+        <!-- ===================================================================
+             VISTA 1: INICIO / PORTAL PRINCIPAL (Imagen 2)
+             =================================================================== -->
+        <section id="view-inicio" class="portal-view active">
+            
+            <!-- TARJETAS PRINCIPALES DE INDICADORES MACRO (KPIs) -->
+            <div class="kpi-banner-grid">
+                <!-- 1. Población -->
+                <div class="kpi-card">
+                    <div class="kpi-title">Población</div>
+                    <div class="kpi-primary-val">130,911,314</div>
+                    <div class="kpi-unit">personas</div>
+                    <div class="kpi-period">2025</div>
+                </div>
+
+                <!-- 2. Producto Interno Bruto -->
+                <div class="kpi-card">
+                    <div class="kpi-title">Producto Interno Bruto</div>
+                    <div class="kpi-dual-values">
+                        <div class="kpi-sub-val">
+                            <span class="bold-val">0.9%</span>
+                            <span class="sub-label">variación trimestral</span>
+                        </div>
+                        <div class="kpi-sub-val">
+                            <span class="bold-val">3.2%</span>
+                            <span class="sub-label">variación anual</span>
+                        </div>
+                    </div>
+                    <div class="kpi-period">2º trimestre 2026</div>
+                </div>
+
+                <!-- 3. Inflación -->
+                <div class="kpi-card">
+                    <div class="kpi-title">Inflación</div>
+                    <div class="kpi-dual-values">
+                        <div class="kpi-sub-val">
+                            <span class="bold-val">3.45%</span>
+                            <span class="sub-label">anual</span>
+                        </div>
+                        <div class="kpi-sub-val">
+                            <span class="bold-val">0.42%</span>
+                            <span class="sub-label">mensual</span>
+                        </div>
+                    </div>
+                    <div class="kpi-period">Septiembre 2026</div>
+                </div>
+
+                <!-- 4. Tasa de Desocupación -->
+                <div class="kpi-card">
+                    <div class="kpi-title">Tasa de Desocupación</div>
+                    <div class="kpi-primary-val">2.6%</div>
+                    <div class="kpi-unit">de la Población Económicamente Activa</div>
+                    <div class="kpi-period">Septiembre 2026</div>
+                </div>
+            </div>
+
+            <!-- BANNER TEAL: DESCARGA TU MAPA AQUÍ -->
+            <div class="teal-download-banner">
+                <div class="teal-banner-content">
+                    <div class="teal-banner-text">
+                        <i class="fas fa-map-marked-alt teal-icon"></i>
+                        <span>Descarga tu mapa <strong>aquí</strong></span>
+                    </div>
+                    <button class="btn-teal-action" onclick="downloadCurrentMapData()" title="Descargar cartografía y capas geográficas oficiales">
+                        <i class="fas fa-download"></i> Descargar Capas Geoestadísticas (SHP / GeoJSON)
+                    </button>
+                </div>
+            </div>
+
+            <!-- ===============================================================
+                 SECCIÓN ESTRELLA: CONSULTA DE INDICADORES SOCIODEMOGRÁFICOS Y ECONÓMICOS
+                 POR ÁREA GEOGRÁFICA (VISOR CARTOGRÁFICO INTERACTIVO SCINCE)
+                 =============================================================== -->
+            <div class="geographic-consultation-section">
+                <div class="section-header-box">
+                    <h2>Consulta de indicadores sociodemográficos y económicos por área geográfica</h2>
+                    <p class="section-instruction">Selecciona un estado en el mapa o consulta sus municipios y localidades directamente en el buscador.</p>
+                </div>
+
+                <!-- Barra de Herramientas del Mapa y Filtros Estadísticos -->
+                <div class="map-toolbar-bar">
+                    <div class="map-toolbar-left">
+                        <div class="google-map-selector">
+                            <span class="maptype-label"><i class="fas fa-layer-group"></i> Capa Base:</span>
+                            <button class="btn-maptype active" data-type="roadmap" onclick="setGoogleMapType('roadmap')">
+                                <i class="fas fa-road"></i> Calles
+                            </button>
+                            <button class="btn-maptype" data-type="hybrid" onclick="setGoogleMapType('hybrid')">
+                                <i class="fas fa-satellite"></i> Satelital
+                            </button>
+                            <button class="btn-maptype" data-type="terrain" onclick="setGoogleMapType('terrain')">
+                                <i class="fas fa-mountain"></i> Relieve
+                            </button>
+                        </div>
+
+                        <div class="metric-selector">
+                            <label for="map-metric-select"><i class="fas fa-chart-bar" style="color:#BC955C;"></i> Métrica:</label>
+                            <select id="map-metric-select">
+                                <option value="pob2026">Población Proyectada 2026</option>
+                                <option value="ingreso">Ingreso Promedio Mensual ($)</option>
+                                <option value="internet">Cobertura de Internet (%)</option>
+                                <option value="escolaridad">Escolaridad Promedio (Años)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="map-toolbar-right">
+                        <button class="btn-zoom-reset" onclick="resetToNationalView()" title="Regresar a la República Mexicana completa">
+                            <i class="fas fa-globe-americas"></i> Vista Nacional
+                        </button>
+                        <button class="btn-toggle-fullscreen" onclick="toggleMapFullscreen()" title="Maximizar visor geográfico a pantalla completa">
+                            <i class="fas fa-expand"></i> Pantalla Completa
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Contenedor Bipartito: Mapa Leaflet + Panel Estadístico Oficial -->
+                <div class="gis-interactive-wrapper">
+                    
+                    <!-- Lado Izquierdo: Mapa de México -->
+                    <div id="map-viewport">
+                        <!-- Indicador Flotante del Nivel Actual -->
+                        <div class="view-level-indicator">
+                            <div class="indicator-dot"></div>
+                            <span id="view-level-text" class="indicator-text">República Mexicana (32 Entidades Federativas)</span>
+                        </div>
+
+                        <!-- Leyenda Dinámica de la Métrica Activa -->
+                        <div class="map-overlay-legend">
+                            <div class="legend-header-bar">
+                                <span class="legend-badge-inegi">INEGI SCINCE</span>
+                                <span id="legend-title-text">Población Proyectada 2026</span>
+                            </div>
+                            <div id="legend-scale-bars" class="legend-scale"></div>
+                            <div id="legend-labels-row" class="legend-labels"></div>
+                        </div>
+                    </div>
+
+                    <!-- Lado Derecho: Panel de Información y Dashboard Oficial INEGI -->
+                    <aside id="dashboard-panel" class="dashboard-panel">
+                        <!-- Se llena dinámicamente con los datos de México, Estado, Municipio o Localidad -->
+                    </aside>
+                </div>
+            </div>
+
+            <!-- ===============================================================
+                 BLOQUE TRIPARTITO: PUBLICACIONES RECIENTES, PRÓXIMAS Y PARA INFORMANTES
+                 =============================================================== -->
+            <div class="publications-and-informants-grid">
+                
+                <!-- Columna 1: Publicaciones recientes -->
+                <div class="pub-card-col">
+                    <h3 class="pub-col-title">Publicaciones recientes</h3>
+                    <div class="pub-items-list">
+                        <article class="pub-item">
+                            <h4 class="pub-headline">Indicador Mensual del Consumo Privado (IMCP). Año base 2018</h4>
+                            <p class="pub-desc">Aumentó 0.5% el consumo privado en agosto de 2026, a tasa mensual.</p>
+                            <span class="pub-date"><i class="far fa-calendar-alt"></i> 05 de noviembre de 2026</span>
+                        </article>
+
+                        <article class="pub-item">
+                            <h4 class="pub-headline">Indicador Mensual de la Formación Bruta de Capital Fijo (IMFBCF). Año base 2018</h4>
+                            <p class="pub-desc">Disminuyó 1.5% la inversión fija bruta en agosto de 2026, a tasa mensual.</p>
+                            <span class="pub-date"><i class="far fa-calendar-alt"></i> 05 de noviembre de 2026</span>
+                        </article>
+
+                        <article class="pub-item">
+                            <h4 class="pub-headline">Encuesta Nacional sobre Confianza del Consumidor (ENCO)</h4>
+                            <p class="pub-desc">Disminuyó 0.1 puntos la confianza del consumidor en octubre de 2026, respecto al mes previo.</p>
+                            <span class="pub-date"><i class="far fa-calendar-alt"></i> 05 de noviembre de 2026</span>
+                        </article>
+
+                        <article class="pub-item">
+                            <h4 class="pub-headline">Sistema de Indicadores Cíclicos</h4>
+                            <p class="pub-desc">Aumentó 0.12 puntos el Indicador Coincidente en agosto de 2026, respecto a julio pasado.</p>
+                            <span class="pub-date"><i class="far fa-calendar-alt"></i> 04 de noviembre de 2026</span>
+                        </article>
+                    </div>
+                    <a href="#" class="pub-view-all">Ver todas las publicaciones recientes <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Columna 2: Próximas publicaciones -->
+                <div class="pub-card-col">
+                    <h3 class="pub-col-title">Próximas publicaciones</h3>
+                    <div class="pub-items-list">
+                        <article class="pub-item">
+                            <h4 class="pub-headline">Balanza Comercial de Mercancías de México</h4>
+                            <p class="pub-desc">Septiembre de 2026.</p>
+                            <span class="pub-date"><i class="far fa-calendar-alt"></i> 08 de noviembre de 2026</span>
+                        </article>
+
+                        <article class="pub-item">
+                            <h4 class="pub-headline">Índice Nacional de Precios al Consumidor (INPC). Base 2ª Quincena Julio 2018.</h4>
+                            <p class="pub-desc">Actualización 2026. Cifras definitivas.</p>
+                            <span class="pub-date"><i class="far fa-calendar-alt"></i> 08 de noviembre de 2026</span>
+                        </article>
+
+                        <article class="pub-item">
+                            <h4 class="pub-headline">Índice Nacional de Precios Productor (INPP). Año base Julio 2019.</h4>
+                            <p class="pub-desc">Cifras definitivas.</p>
+                            <span class="pub-date"><i class="far fa-calendar-alt"></i> 08 de noviembre de 2026</span>
+                        </article>
+
+                        <article class="pub-item">
+                            <h4 class="pub-headline">Registro Administrativo de la Industria Automotriz de Vehículos Ligeros (RAIAVL)</h4>
+                            <p class="pub-desc">Reporte del registro de la producción y comercialización.</p>
+                            <span class="pub-date"><i class="far fa-calendar-alt"></i> 08 de noviembre de 2026</span>
+                        </article>
+                    </div>
+                    <a href="#" class="pub-view-all">Ver todas las próximas publicaciones <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Columna 3: Servicios para informantes y Unidades del Estado -->
+                <div class="informants-col">
+                    <div class="informant-card blue-tint">
+                        <div class="informant-info">
+                            <span class="badge-informant">Para informantes:</span>
+                            <h4>Identificar a la persona entrevistadora del INEGI que visite su domicilio <i class="fas fa-arrow-right"></i></h4>
+                        </div>
+                        <div class="informant-icon">
+                            <i class="fas fa-id-card-clip"></i>
+                        </div>
+                    </div>
+
+                    <div class="informant-card blue-tint">
+                        <div class="informant-info">
+                            <span class="badge-informant">Para informantes:</span>
+                            <h4>Responder una encuesta en línea <i class="fas fa-arrow-right"></i></h4>
+                        </div>
+                        <div class="informant-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                    </div>
+
+                    <div class="informant-card dark-tint">
+                        <div class="informant-info">
+                            <span class="badge-informant">Para Unidades del Estado:</span>
+                            <h4>Transferir registros administrativos (SIGA-ATA) <i class="fas fa-arrow-right"></i></h4>
+                        </div>
+                        <div class="informant-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===============================================================
+                 SECCIÓN: EN NUESTRA AGENDA
+                 =============================================================== -->
+            <div class="portal-agenda-section">
+                <h3 class="agenda-title">En nuestra agenda</h3>
+                <div class="agenda-cards-grid">
+                    
+                    <!-- Tarjeta 1: Día Mundial de la Estadística -->
+                    <div class="agenda-card card-dme">
+                        <div class="agenda-card-badge">20 OCT 2025</div>
+                        <div class="agenda-card-content">
+                            <h4>DÍA MUNDIAL DE LA ESTADÍSTICA</h4>
+                            <p>Celebrando el poder de los datos para transformar a México.</p>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta 2: Encuesta Intercensal 2025 -->
+                    <div class="agenda-card card-eic">
+                        <div class="eic-icon"><i class="fas fa-home-user"></i></div>
+                        <div class="agenda-card-content">
+                            <h4>ENCUESTA INTERCENSAL 2025</h4>
+                            <p>Actualización sociodemográfica nacional.</p>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta 3: Datos en acción -->
+                    <div class="agenda-card card-datos-accion">
+                        <div class="agenda-card-content">
+                            <span class="tag-banner">DATOS en acción</span>
+                            <h4>CONOCE MÁS</h4>
+                            <p>Herramientas prácticas para toma de decisiones públicas y privadas.</p>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta 4: Cuéntame (Educativa) -->
+                    <div class="agenda-card card-cuentame">
+                        <div class="cuentame-banner">
+                            <h4>Cuéntame</h4>
+                            <span class="sub">Sección educativa</span>
+                        </div>
+                        <p>Información estadística y geográfica explicada para niñas, niños y escuelas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===============================================================
+                 SECCIÓN: TRANSPARENCIA Y OBLIGACIONES DE LEY
+                 =============================================================== -->
+            <div class="portal-transparencia-section">
+                <div class="transparencia-row">
+                    <div class="transp-banner-title">
+                        <h2>Transparencia</h2>
+                    </div>
+
+                    <div class="transp-card">
+                        <i class="fas fa-user-lock transp-icon"></i>
+                        <div class="transp-text">
+                            <strong>Apartado virtual</strong>
+                            <span>Protección de datos personales</span>
+                        </div>
+                    </div>
+
+                    <div class="transp-card">
+                        <i class="fas fa-file-invoice transp-icon"></i>
+                        <div class="transp-text">
+                            <strong>Consulta nuestras</strong>
+                            <span>Obligaciones de Transparencia (LGTA Artículo 64)</span>
+                        </div>
+                    </div>
+
+                    <div class="transp-card pnt-card">
+                        <i class="fas fa-external-link-alt transp-icon"></i>
+                        <div class="transp-text">
+                            <strong>Plataforma Nacional de Transparencia</strong>
+                            <span>Información Pública &bull; Solicitudes &bull; Recursos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ===================================================================
+             VISTA 2: TEMAS (Imagen 3)
+             =================================================================== -->
+        <section id="view-temas" class="portal-view">
+            <div class="theme-pillars-container">
+                <div class="pillar-header-intro">
+                    <h2>Temas Estadísticos y Geográficos</h2>
+                    <p>Información oficial categorizada por grandes ejes analíticos del Sistema Nacional de Información Estadística y Geográfica.</p>
+                </div>
+
+                <div class="four-pillars-grid">
+                    
+                    <!-- Columna 1: Demografía y Sociedad -->
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-users pillar-icon"></i>
+                            <h3>Demografía y Sociedad</h3>
+                        </div>
+                        <ul class="pillar-links-list">
+                            <li><a href="#" onclick="filterTopic('Educación')"><i class="fas fa-chevron-right"></i> Educación</a></li>
+                            <li><a href="#" onclick="filterTopic('Empleo y Ocupación')"><i class="fas fa-chevron-right"></i> Empleo y Ocupación</a></li>
+                            <li><a href="#" onclick="filterTopic('Hogares y Vivienda')"><i class="fas fa-chevron-right"></i> Hogares y Vivienda</a></li>
+                            <li><a href="#" onclick="filterTopic('Población')"><i class="fas fa-chevron-right"></i> Población</a></li>
+                            <li><a href="#" onclick="filterTopic('Salud y seguridad social')"><i class="fas fa-chevron-right"></i> Salud y seguridad social</a></li>
+                            <li><a href="#" onclick="filterTopic('Tecnologías de la información')"><i class="fas fa-chevron-right"></i> Tecnologías de la información y comunicaciones</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Columna 2: Economía y Sectores Productivos -->
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-chart-line pillar-icon"></i>
+                            <h3>Economía y Sectores Productivos</h3>
+                        </div>
+                        <ul class="pillar-links-list">
+                            <li><a href="#" onclick="filterTopic('Agricultura')"><i class="fas fa-chevron-right"></i> Agricultura, ganadería y pesca</a></li>
+                            <li><a href="#" onclick="filterTopic('Comercio')"><i class="fas fa-chevron-right"></i> Comercio</a></li>
+                            <li><a href="#" onclick="filterTopic('Comercio exterior')"><i class="fas fa-chevron-right"></i> Comercio exterior</a></li>
+                            <li><a href="#" onclick="filterTopic('Construcción')"><i class="fas fa-chevron-right"></i> Construcción</a></li>
+                            <li><a href="#" onclick="filterTopic('Empresas y establecimientos')"><i class="fas fa-chevron-right"></i> Empresas y establecimientos</a></li>
+                            <li><a href="#" onclick="filterTopic('Manufacturas')"><i class="fas fa-chevron-right"></i> Manufacturas</a></li>
+                            <li><a href="#" onclick="filterTopic('Minería')"><i class="fas fa-chevron-right"></i> Minería</a></li>
+                            <li><a href="#" onclick="filterTopic('PIB y cuentas nacionales')"><i class="fas fa-chevron-right"></i> PIB y cuentas nacionales</a></li>
+                            <li><a href="#" onclick="filterTopic('Precios')"><i class="fas fa-chevron-right"></i> Precios</a></li>
+                            <li><a href="#" onclick="filterTopic('Sectores Económicos')"><i class="fas fa-chevron-right"></i> Sectores Económicos</a></li>
+                            <li><a href="#" onclick="filterTopic('Sectores Institucionales')"><i class="fas fa-chevron-right"></i> Sectores Institucionales</a></li>
+                            <li><a href="#" onclick="filterTopic('Servicios no financieros')"><i class="fas fa-chevron-right"></i> Servicios no financieros</a></li>
+                            <li><a href="#" onclick="filterTopic('Transporte')"><i class="fas fa-chevron-right"></i> Transporte</a></li>
+                            <li><a href="#" onclick="filterTopic('Turismo')"><i class="fas fa-chevron-right"></i> Turismo</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Columna 3: Geografía y Medio Ambiente -->
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-map-location-dot pillar-icon"></i>
+                            <h3>Geografía y Medio Ambiente</h3>
+                        </div>
+                        <ul class="pillar-links-list">
+                            <li><a href="#" onclick="filterTopic('Catastro')"><i class="fas fa-chevron-right"></i> Catastro y Gestión Territorial</a></li>
+                            <li><a href="#" onclick="filterTopic('Imágenes')"><i class="fas fa-chevron-right"></i> Imágenes del Territorio</a></li>
+                            <li><a href="#" onclick="switchPortalView('inicio')"><i class="fas fa-chevron-right"></i> Mapas y Geovisores</a></li>
+                            <li><a href="#" onclick="switchPortalView('inicio')"><i class="fas fa-chevron-right"></i> Marco Geoestadístico</a></li>
+                            <li><a href="#" onclick="filterTopic('Marco Geocientífico')"><i class="fas fa-chevron-right"></i> Marco Geocientífico</a></li>
+                            <li><a href="#" onclick="filterTopic('Medio ambiente')"><i class="fas fa-chevron-right"></i> Medio ambiente</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Columna 4: Gobierno, Seguridad y Justicia -->
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-landmark-dome pillar-icon"></i>
+                            <h3>Gobierno, Seguridad y Justicia</h3>
+                        </div>
+                        <ul class="pillar-links-list">
+                            <li><a href="#" onclick="filterTopic('Gobierno')"><i class="fas fa-chevron-right"></i> Gobierno</a></li>
+                            <li><a href="#" onclick="filterTopic('Seguridad')"><i class="fas fa-chevron-right"></i> Seguridad pública y justicia</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             VISTA 3: PROGRAMAS DE INFORMACIÓN (Imagen 4)
+             =================================================================== -->
+        <section id="view-programas" class="portal-view">
+            <div class="theme-pillars-container">
+                <div class="pillar-header-intro">
+                    <h2>Programas de Información Institucionales</h2>
+                    <p>Operativos censales, encuestas en hogares y establecimientos económicos, registros administrativos y proyectos de generación de información técnica.</p>
+                </div>
+
+                <div class="four-pillars-grid">
+                    
+                    <!-- Columna 1: Demográfica y Social -->
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-user-group pillar-icon"></i>
+                            <h3>Información Demográfica y Social</h3>
+                        </div>
+                        <ul class="pillar-links-list">
+                            <li><a href="#" onclick="switchPortalView('inicio')"><i class="fas fa-chevron-right"></i> Censos (Población y Vivienda 2020)</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Encuestas en Hogares</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Registros Administrativos Estadísticos</a></li>
+                            <li><a href="#" onclick="switchPortalView('inicio')"><i class="fas fa-chevron-right"></i> Características sociodemográficas en áreas pequeñas</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Históricas</a></li>
+                            <li class="separator-item"><a href="#"><i class="fas fa-chevron-right"></i> Estadísticas experimentales</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Columna 2: Económica -->
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-file-invoice-dollar pillar-icon"></i>
+                            <h3>Información Económica</h3>
+                        </div>
+                        <ul class="pillar-links-list">
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Censos Económicos</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Encuestas Económicas</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Registros Administrativos Económicos</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Índices de Precios</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Sistema de Cuentas Nacionales</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> <strong>Estudio sobre la Demografía de los Negocios (EDN)</strong></a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Históricas</a></li>
+                            <li class="separator-item"><a href="#"><i class="fas fa-chevron-right"></i> Estadísticas experimentales</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Columna 3: Geográfica y Medio Ambiente -->
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-earth-americas pillar-icon"></i>
+                            <h3>Información Geográfica, Medio Ambiente, Ordenamiento Territorial y Urbano</h3>
+                        </div>
+                        <ul class="pillar-links-list">
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Censos</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Estructuración e integración de redes geodésicas</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Generación de información cartográfica</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Generación de información de recursos naturales</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Generación de información topográfica</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Levantamientos geodésicos</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Procesamiento de imágenes del territorio</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Históricas</a></li>
+                            <li class="separator-item"><a href="#"><i class="fas fa-chevron-right"></i> Estadísticas experimentales</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Columna 4: Gobierno y Justicia -->
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-scale-balanced pillar-icon"></i>
+                            <h3>Información de Gobierno, Seguridad Pública e Impartición de Justicia</h3>
+                        </div>
+                        <ul class="pillar-links-list">
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Censos de Gobierno Federal y Estatal</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Encuestas de Seguridad y Victimización (ENVIPE)</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Registros Administrativos de Justicia</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Históricas</a></li>
+                            <li class="separator-item"><a href="#"><i class="fas fa-chevron-right"></i> Estadísticas experimentales</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             VISTA 4: SISTEMAS DE CONSULTA (Imagen 5)
+             =================================================================== -->
+        <section id="view-sistemas" class="portal-view">
+            <div class="theme-pillars-container">
+                <div class="pillar-header-intro">
+                    <h2>Sistemas de Consulta e Información Digital</h2>
+                    <p>Plataformas interactivas, geovisores, tableros analíticos, descargas masivas y servicios web desarrollados por el INEGI.</p>
+                </div>
+
+                <div class="eight-systems-grid">
+                    
+                    <!-- 1. Aplicaciones Móviles -->
+                    <div class="system-box">
+                        <div class="system-box-header">
+                            <i class="fas fa-mobile-screen-button system-icon"></i>
+                            <h4>Aplicaciones Móviles</h4>
+                        </div>
+                        <ul class="system-links">
+                            <li><a href="#"><i class="fas fa-angle-right"></i> México en Cifras</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Directorio de Establecimientos (DENUE)</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Brújula</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Estaciones de la RGN Móvil</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- 2. Visualizadores de Datos -->
+                    <div class="system-box">
+                        <div class="system-box-header">
+                            <i class="fas fa-chart-pie system-icon"></i>
+                            <h4>Visualizadores de Datos</h4>
+                        </div>
+                        <ul class="system-links">
+                            <li><a href="#"><i class="fas fa-angle-right"></i> México en Cifras</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Reloj de Ciclos Económicos</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Tableros estadísticos</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Tablero de Indicadores Económicos</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Gráficas dinámicas</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Visualizador analítico</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- 3. Geovisores (DESTACADO: SCINCE) -->
+                    <div class="system-box highlight-system">
+                        <div class="system-box-header">
+                            <i class="fas fa-map-location-dot system-icon"></i>
+                            <h4>Geovisores</h4>
+                        </div>
+                        <ul class="system-links">
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Directorio de Establecimientos (DENUE)</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Espacio y Datos de México</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Estratificador INEGI 2.0</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Inventario Nacional de Viviendas</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Malla geoestadística</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Mapa Digital de México</a></li>
+                            <li class="active-system-link">
+                                <a href="#" onclick="switchPortalView('inicio')">
+                                    <i class="fas fa-star" style="color:#BC955C;"></i> <strong>Sistema para la Consulta de Información Censal (SCINCE)</strong>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 4. Acervo Digital -->
+                    <div class="system-box">
+                        <div class="system-box-header">
+                            <i class="fas fa-book-bookmark system-icon"></i>
+                            <h4>Acervo Digital</h4>
+                        </div>
+                        <ul class="system-links">
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Publicaciones</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Descarga del mapa base de México</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Mapas</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Archivo Histórico</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Registros Nacionales de Información (RNIEG)</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- 5. Bases de Datos -->
+                    <div class="system-box">
+                        <div class="system-box-header">
+                            <i class="fas fa-database system-icon"></i>
+                            <h4>Bases de Datos</h4>
+                        </div>
+                        <ul class="system-links">
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Descarga Masiva</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Datos Abiertos</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Microdatos</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- 6. Banco de Indicadores -->
+                    <div class="system-box">
+                        <div class="system-box-header">
+                            <i class="fas fa-cubes system-icon"></i>
+                            <h4>Banco de Indicadores</h4>
+                        </div>
+                        <ul class="system-links">
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Banco de Indicadores</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Banco de Información Económica (BIE)</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- 7. Sistemas de Indicadores -->
+                    <div class="system-box">
+                        <div class="system-box-header">
+                            <i class="fas fa-gears system-icon"></i>
+                            <h4>Sistemas de Indicadores</h4>
+                        </div>
+                        <ul class="system-links">
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Objetivos de Desarrollo Sostenible (ODS)</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Catálogo Nacional de Indicadores</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Indicadores por Entidad Federativa</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Indicadores de Bienestar por Entidad</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Sistema Integrado de Estadísticas Sobre Violencia contra las Mujeres</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- 8. Para desarrolladores -->
+                    <div class="system-box">
+                        <div class="system-box-header">
+                            <i class="fas fa-code system-icon"></i>
+                            <h4>Para desarrolladores</h4>
+                        </div>
+                        <ul class="system-links">
+                            <li><a href="#"><i class="fas fa-angle-right"></i> APIs REST INEGI</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Código fuente y Repositorios</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Widgets de Información</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Servicios Web Cartográficos (WMS / WFS)</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             VISTA 5: DESARROLLO SOCIAL / MEDICIÓN DE POBREZA (Imagen 1)
+             =================================================================== -->
+        <section id="view-desarrollo-social" class="portal-view">
+            <div class="pobreza-layout-wrapper">
+                
+                <!-- Barra Lateral Izquierda Oficial -->
+                <aside class="pobreza-sidebar">
+                    <div class="sidebar-collapse-bar">
+                        <i class="fas fa-bars-staggered"></i>
+                    </div>
+                    <ul class="sidebar-menu-list">
+                        <li class="sidebar-item active">
+                            <a href="#" class="sidebar-link">
+                                <span>Medición de pobreza</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">
+                                <span>Evaluación de la política social</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">
+                                <span>Acervo histórico</span>
+                            </a>
+                        </li>
+                    </ul>
+                </aside>
+
+                <!-- Área Central de Contenido de Pobreza -->
+                <main class="pobreza-main-area">
+                    
+                    <div class="pobreza-header-title">
+                        <div class="title-with-icon">
+                            <i class="fas fa-hand-holding-heart icon-care"></i>
+                            <h2>Medición de pobreza</h2>
+                        </div>
+                    </div>
+
+                    <div class="pobreza-narrative-text">
+                        <p>La medición de pobreza es un programa de información para dar cumplimiento a lo que se establece en la Ley General de Desarrollo Social. Se refiere a un conjunto de procesos que permiten definir, identificar y medir la pobreza, con el fin de aportar evidencia para el diseño, seguimiento y evaluación integral de la política de desarrollo social y contribuir al cumplimiento de sus objetivos.</p>
+                        
+                        <p>Desde el enfoque de derechos sociales, la pobreza se manifiesta como vulneración de derechos. Se refiere a la situación de las personas cuando sus condiciones de vida son afectadas por la falta de recursos económicos y la imposibilidad de ejercer los derechos sociales consagrados en la Constitución. En la medición de la pobreza multidimensional, se considera que una persona se encuentra en esta situación cuando no tiene garantizado al menos uno de sus derechos sociales y cuenta con ingresos insuficientes para satisfacer sus necesidades.</p>
+                        
+                        <p>Esta sección tiene como propósito difundir una serie de trabajos teórico - conceptuales, la generación de datos y los análisis complementarios vinculados a los aspectos de análisis de la pobreza. Asimismo, se encuentran disponibles las metodologías y bases de datos utilizadas para la estimación de la siguiente información, la cual se actualizará periódicamente:</p>
+
+                        <ul class="pobreza-bullet-list">
+                            <li><strong>Líneas de pobreza</strong>, mensual.</li>
+                            <li><strong>Pobreza laboral</strong>, trimestral.</li>
+                            <li><strong>Pobreza multidimensional</strong>, bienal y quinquenal.</li>
+                            <li><strong>Sistema de Información de Derechos Sociales</strong>, bienal.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Cuadrícula de 4 Tarjetas de Pobreza (Imagen 1) -->
+                    <div class="pobreza-cards-grid">
+                        
+                        <!-- Tarjeta 1: Líneas de pobreza -->
+                        <div class="pobreza-card">
+                            <div class="pobreza-card-header">
+                                <i class="fas fa-balance-scale card-icon-pob"></i>
+                                <h3><a href="#">Líneas de pobreza</a></h3>
+                            </div>
+                            <div class="pobreza-dates">
+                                <div><i class="far fa-calendar-check"></i> <strong>Publicación reciente:</strong> 13 de octubre de 2026</div>
+                                <div><i class="far fa-calendar-plus"></i> <strong>Próxima publicación:</strong> 11 de noviembre de 2026</div>
+                            </div>
+                            <p class="pobreza-card-body">
+                                Las Líneas de Pobreza forman parte de la medición de la pobreza multidimensional. Para tal fin se definen dos líneas de pobreza: la Línea de Pobreza Extrema por Ingresos (LPEI), que equivale al valor monetario de la canasta alimentaria por persona al mes; y la Línea de Pobreza por Ingresos (LPI), que corresponde al valor monetario total de la canasta alimentaria más la no alimentaria por persona al mes. El propósito de estas líneas es contar con un referente monetario para determinar si el ingreso que perciben las personas es suficiente para adquirir los productos de las canastas.
+                            </p>
+                            <p class="pobreza-card-sub">
+                                Estas líneas se actualizan según el contexto de las zonas urbanas y rurales para reflejar las diferencias en el costo de vida.
+                            </p>
+                        </div>
+
+                        <!-- Tarjeta 2: Pobreza laboral -->
+                        <div class="pobreza-card">
+                            <div class="pobreza-card-header">
+                                <i class="fas fa-hand-holding-dollar card-icon-pob"></i>
+                                <h3><a href="#">Pobreza laboral</a></h3>
+                            </div>
+                            <div class="pobreza-dates">
+                                <div><i class="far fa-calendar-check"></i> <strong>Publicación reciente:</strong> 28 de agosto de 2026</div>
+                                <div><i class="far fa-calendar-plus"></i> <strong>Próxima publicación:</strong> 28 de noviembre de 2026</div>
+                            </div>
+                            <p class="pobreza-card-body">
+                                La medición de la pobreza laboral se realiza trimestralmente y permite identificar la proporción de personas cuyos ingresos derivados del trabajo son insuficientes para cubrir el costo de la canasta alimentaria (Línea de Pobreza Extrema por Ingresos).
+                            </p>
+                        </div>
+
+                        <!-- Tarjeta 3: Pobreza multidimensional -->
+                        <div class="pobreza-card">
+                            <div class="pobreza-card-header">
+                                <i class="fas fa-network-wired card-icon-pob"></i>
+                                <h3><a href="#">Pobreza multidimensional</a></h3>
+                            </div>
+                            <div class="pobreza-dates">
+                                <div><i class="far fa-calendar-check"></i> <strong>Publicación reciente:</strong> 13 de agosto de 2025</div>
+                            </div>
+                            <p class="pobreza-card-body">
+                                La medición de la pobreza multidimensional integra los espacios de bienestar económico, derechos sociales y contexto territorial, a través del análisis del ingreso de los integrantes del hogar, las limitaciones en el acceso al ejercicio de los derechos sociales de educación, salud, seguridad social, vivienda y alimentación, así como la interacción que tienen las personas en el espacio que habitan.
+                            </p>
+                        </div>
+
+                        <!-- Tarjeta 4: Sistema de Información de Derechos Sociales -->
+                        <div class="pobreza-card">
+                            <div class="pobreza-card-header">
+                                <i class="fas fa-people-roof card-icon-pob"></i>
+                                <h3><a href="#">Sistema de Información de Derechos Sociales</a></h3>
+                            </div>
+                            <div class="pobreza-dates">
+                                <div><i class="far fa-calendar-check"></i> <strong>Publicación reciente:</strong> 03 de marzo de 2026</div>
+                            </div>
+                            <p class="pobreza-card-body">
+                                El Sistema de Información de Derechos Sociales se integra por indicadores de las dimensiones de acceso efectivo: disponibilidad, accesibilidad y calidad de los servicios para garantizar los derechos sociales a: educación, salud, seguridad social, vivienda y alimentación; así como de brechas de desigualdad en: niños, niñas y adolescentes; población joven; población adulta mayor; mujeres indígenas; personas con discapacidad y de brechas de género.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </main>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             VISTA 6: INFRAESTRUCTURA
+             =================================================================== -->
+        <section id="view-infraestructura" class="portal-view">
+            <div class="theme-pillars-container">
+                <div class="pillar-header-intro">
+                    <h2>Infraestructura Estadística y Geográfica</h2>
+                    <p>Bases técnicas que sostienen la precisión del Sistema Nacional de Información Estadística y Geográfica (SNIEG).</p>
+                </div>
+                <div class="four-pillars-grid">
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-satellite-dish pillar-icon"></i>
+                            <h3>Red Geodésica Nacional Activa</h3>
+                        </div>
+                        <p>Red de estaciones GNSS de operación continua que materializan el marco de referencia geodésico oficial ITRF2008 / WGS84 para México.</p>
+                    </div>
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-cubes-stacked pillar-icon"></i>
+                            <h3>Marco Geoestadístico 2026</h3>
+                        </div>
+                        <p>Delimitación territorial unívoca que divide al país en Áreas Geoestadísticas Estatales (AGEE), Municipales (AGEM) y Básicas (AGEB).</p>
+                    </div>
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-server pillar-icon"></i>
+                            <h3>Centro Nacional de Procesamiento</h3>
+                        </div>
+                        <p>Infraestructura computacional de alta disponibilidad para el procesamiento masivo de datos censales, cartográficos y muestrales.</p>
+                    </div>
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-microchip pillar-icon"></i>
+                            <h3>Laboratorio de Microdatos</h3>
+                        </div>
+                        <p>Ambiente seguro y confidencial para investigadores y analistas que requieren acceso a bases de datos con máxima desagregación.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             VISTA 7: ACERCA DEL INEGI
+             =================================================================== -->
+        <section id="view-acerca" class="portal-view">
+            <div class="theme-pillars-container">
+                <div class="pillar-header-intro">
+                    <h2>Acerca del INEGI</h2>
+                    <p>Órgano constitucional autónomo responsable de normar y coordinar el Sistema Nacional de Información Estadística y Geográfica de México.</p>
+                </div>
+                <div class="four-pillars-grid">
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-building-columns pillar-icon"></i>
+                            <h3>Autonomía y Mandato Constitucional</h3>
+                        </div>
+                        <p>Conforme al Artículo 26, Apartado B de la Constitución Política de los Estados Unidos Mexicanos, el INEGI cuenta con personalidad jurídica y patrimonio propios.</p>
+                    </div>
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-users-gear pillar-icon"></i>
+                            <h3>Junta de Gobierno</h3>
+                        </div>
+                        <p>Órgano colegiado de alta dirección integrado por la Presidencia del Instituto y cuatro Vicepresidencias designadas conforme a la Ley del SNIEG.</p>
+                    </div>
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-gavel pillar-icon"></i>
+                            <h3>Normateca Institucional</h3>
+                        </div>
+                        <p>Conjunto de normas técnicas, metodologías oficiales, catálogos geográficos y clasificaciones estandarizadas del sistema estadístico.</p>
+                    </div>
+                    <div class="pillar-column">
+                        <div class="pillar-top-header">
+                            <i class="fas fa-map-pin pillar-icon"></i>
+                            <h3>Coordinaciones Estatales</h3>
+                        </div>
+                        <p>Presencia directa en las 32 entidades federativas de México a través de sedes estatales y centros de consulta de información.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- =======================================================================
+         6. PIE DE PÁGINA INSTITUCIONAL OFICIAL INEGI (AZUL PIZARRA OSCURO)
+         ======================================================================= -->
+    <footer class="inegi-official-footer">
+        <div class="inegi-footer-inner">
+            
+            <!-- Columna 1: Contacto -->
+            <div class="footer-col col-contacto">
+                <h4>Contacto</h4>
+                <div class="footer-inegi-logo">
+                    <svg viewBox="0 0 215 46" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:36px; width:auto;">
+                        <g>
+                            <rect x="2" y="4" width="8" height="8" rx="1.5" fill="#BC955C"/>
+                            <rect x="13" y="4" width="8" height="8" rx="1.5" fill="#0084B4"/>
+                            <rect x="24" y="4" width="8" height="8" rx="1.5" fill="#FFFFFF"/>
+                            
+                            <rect x="2" y="15" width="8" height="8" rx="1.5" fill="#0084B4"/>
+                            <rect x="13" y="15" width="8" height="8" rx="1.5" fill="#691C32"/>
+                            <rect x="24" y="15" width="8" height="8" rx="1.5" fill="#BC955C"/>
+                            
+                            <rect x="2" y="26" width="8" height="8" rx="1.5" fill="#FFFFFF"/>
+                            <rect x="13" y="26" width="8" height="8" rx="1.5" fill="#BC955C"/>
+                            <rect x="24" y="26" width="8" height="8" rx="1.5" fill="#107C41"/>
+                        </g>
+                        <text x="39" y="27" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="24" fill="#FFFFFF" letter-spacing="1.2">INEGI</text>
+                        <text x="40" y="37" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="700" font-size="5.2" fill="#CBD5E1" letter-spacing="0.5">INSTITUTO NACIONAL DE ESTADÍSTICA Y GEOGRAFÍA</text>
+                    </svg>
+                </div>
+                <div class="contact-details">
+                    <div class="phone-num"><strong>800 111 46 34</strong></div>
+                    <div class="contact-link"><a href="#"><i class="far fa-comments"></i> Chat en línea</a></div>
+                    <div class="contact-link"><a href="mailto:atencion.usuarios@inegi.org.mx"><i class="far fa-envelope"></i> atencion.usuarios@inegi.org.mx</a></div>
+                    <div class="contact-link"><a href="#"><i class="fas fa-address-book"></i> Directorio</a></div>
+                    <div class="contact-link"><a href="#"><i class="fas fa-file-pen"></i> Solicitud de información</a></div>
+                </div>
+                <div class="footer-social-row">
+                    <a href="https://facebook.com" target="_blank" class="footer-social-btn"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com" target="_blank" class="footer-social-btn"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://youtube.com" target="_blank" class="footer-social-btn"><i class="fab fa-youtube"></i></a>
+                    <a href="https://instagram.com" target="_blank" class="footer-social-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="https://inegi.org.mx/rss" target="_blank" class="footer-social-btn"><i class="fas fa-rss"></i></a>
+                </div>
+            </div>
+
+            <!-- Columna 2: Enlaces -->
+            <div class="footer-col col-enlaces">
+                <h4>Enlaces</h4>
+                <ul class="footer-links-list">
+                    <li><a href="#">Investigación</a></li>
+                    <li><a href="#">Sala de prensa</a></li>
+                    <li><a href="#">Normateca Institucional</a></li>
+                    <li><a href="#">Transparencia</a></li>
+                    <li><a href="#">Desarrolladores</a></li>
+                    <li><a href="#">Oportunidades de trabajo</a></li>
+                    <li><a href="#">Eventos</a></li>
+                    <li><a href="#">Véndele al INEGI</a></li>
+                    <li><a href="#">Armonización contable</a></li>
+                    <li><a href="#">Sistema de Manejo Ambiental</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 3: Sitios de interés -->
+            <div class="footer-col col-sitios">
+                <h4>Sitios de interés</h4>
+                <ul class="footer-links-list">
+                    <li><a href="https://snieg.mx" target="_blank">SNIEG</a></li>
+                    <li><a href="#">Catálogo Nacional de Indicadores</a></li>
+                    <li><a href="#">Cuéntame de México</a></li>
+                    <li><a href="#">Objetivos de Desarrollo Sostenible</a></li>
+                    <li><a href="#">Órgano Interno de Control</a></li>
+                    <li><a href="#">Denuncias</a></li>
+                    <li><a href="#">Enlaces de interés</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Franja Inferior de Derechos Reservados -->
+        <div class="footer-bottom-bar">
+            <div class="footer-bottom-inner">
+                <div class="bottom-legal-links">
+                    <a href="#">Mapa del sitio</a>
+                    <span class="sep">|</span>
+                    <a href="#">Términos de uso</a>
+                    <span class="sep">|</span>
+                    <a href="#">Accesibilidad</a>
+                </div>
+                <div class="bottom-copyright">
+                    Derechos reservados &copy; INEGI 2026 &bull; México
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- =======================================================================
+         7. MODAL DE ACCESO / AUTENTICACIÓN INSTITUCIONAL INEGI
+         ======================================================================= -->
+    <div id="login-modal" style="display: none;">
+        <div class="login-card">
+            <div class="login-tricolor-bar"></div>
             <div class="login-brand">
                 <div class="login-logos-header">
-                    <!-- Escudo Nacional en Oro -->
                     <svg class="login-gob-crest" viewBox="0 0 160 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M10 4 C12 6, 14 5, 16 8 C18 11, 19 14, 18 18 C17 22, 14 25, 10 28 C6 25, 3 22, 2 18 C1 14, 2 11, 4 8 C6 5, 8 6, 10 4 Z" fill="#BC955C"/>
                         <circle cx="10" cy="16" r="3.5" fill="#07172C"/>
@@ -198,18 +1129,15 @@
                     <span class="login-inegi-stamp"><i class="fas fa-certificate"></i> INEGI OFICIAL</span>
                 </div>
 
-                <!-- Logo Vectorial INEGI en el Login -->
                 <div class="login-inegi-logo-box">
                     <svg class="inegi-logo-svg" viewBox="0 0 215 46" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g class="inegi-isotipo">
                             <rect x="2" y="4" width="8" height="8" rx="1.5" fill="#BC955C"/>
                             <rect x="13" y="4" width="8" height="8" rx="1.5" fill="#0084B4"/>
                             <rect x="24" y="4" width="8" height="8" rx="1.5" fill="#002F6C"/>
-                            
                             <rect x="2" y="15" width="8" height="8" rx="1.5" fill="#005691"/>
                             <rect x="13" y="15" width="8" height="8" rx="1.5" fill="#691C32"/>
                             <rect x="24" y="15" width="8" height="8" rx="1.5" fill="#0084B4"/>
-                            
                             <rect x="2" y="26" width="8" height="8" rx="1.5" fill="#002F6C"/>
                             <rect x="13" y="26" width="8" height="8" rx="1.5" fill="#BC955C"/>
                             <rect x="24" y="26" width="8" height="8" rx="1.5" fill="#107C41"/>
@@ -250,11 +1178,15 @@
                 <div id="login-error" class="login-error-msg"></div>
 
                 <button type="submit" class="btn-submit-login">
-                    <i class="fas fa-sign-in-alt"></i> Ingresar al Portal Oficial
+                    <i class="fas fa-sign-in-alt"></i> Validar Acceso Institucional
                 </button>
 
                 <button type="button" id="btn-quick-access" class="btn-quick-access">
                     <i class="fas fa-bolt" style="color:#BC955C;"></i> Acceso Rápido Directo (Servidor Público)
+                </button>
+
+                <button type="button" class="btn-close-modal" onclick="closeLoginModal()">
+                    <i class="fas fa-times"></i> Continuar Explorando Portal Público
                 </button>
             </form>
 

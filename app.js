@@ -71,23 +71,28 @@ function setupAuth() {
     const modal = document.getElementById("login-modal");
     const loginForm = document.getElementById("login-form");
     const errorMsg = document.getElementById("login-error");
-    const logoutBtn = document.getElementById("btn-logout");
     const quickAccessBtn = document.getElementById("btn-quick-access");
+    const sniegBtn = document.getElementById("btn-open-login");
 
     const unlockApp = () => {
         localStorage.setItem("inegi_auth_token", "active_session_2026");
-        modal.style.transition = "opacity 0.25s ease";
-        modal.style.opacity = "0";
-        setTimeout(() => {
+        if (sniegBtn) {
+            sniegBtn.innerHTML = '<i class="fas fa-check-circle" style="color:#107C41;"></i> Servidor Público Activo';
+            sniegBtn.style.borderColor = "#107C41";
+        }
+        if (modal) {
             modal.style.display = "none";
-            initMapApplication();
-        }, 250);
+        }
     };
 
-    // Verificar si ya hay sesión activa
+    // Cargar aplicación cartográfica directamente para consulta ciudadana pública
+    initMapApplication();
+
+    // Si ya tiene token guardado, actualizar insignia de servidor público
     if (localStorage.getItem("inegi_auth_token") === "active_session_2026") {
-        modal.style.display = "none";
-        initMapApplication();
+        if (sniegBtn) {
+            sniegBtn.innerHTML = '<i class="fas fa-check-circle" style="color:#107C41;"></i> Servidor Público Activo';
+        }
     }
 
     if (quickAccessBtn) {
@@ -96,28 +101,26 @@ function setupAuth() {
         });
     }
 
-    loginForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const userInput = document.getElementById("login-user").value.trim();
-        const passInput = document.getElementById("login-pass").value.trim();
+    if (loginForm) {
+        loginForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const userInput = document.getElementById("login-user").value.trim();
+            const passInput = document.getElementById("login-pass").value.trim();
 
-        // Acepta las credenciales oficiales o permite acceso directo
-        if (
-            !passInput ||
-            passInput === AUTH_CONFIG.pass ||
-            (userInput === AUTH_CONFIG.user || userInput === AUTH_CONFIG.user_alias)
-        ) {
-            unlockApp();
-        } else {
-            errorMsg.style.display = "block";
-            errorMsg.textContent = "Credenciales incorrectas. Verifique usuario y contraseña o use Acceso Rápido.";
-        }
-    });
-
-    logoutBtn.addEventListener("click", () => {
-        localStorage.removeItem("inegi_auth_token");
-        window.location.reload();
-    });
+            if (
+                !passInput ||
+                passInput === AUTH_CONFIG.pass ||
+                (userInput === AUTH_CONFIG.user || userInput === AUTH_CONFIG.user_alias)
+            ) {
+                unlockApp();
+            } else {
+                if (errorMsg) {
+                    errorMsg.style.display = "block";
+                    errorMsg.textContent = "Credenciales incorrectas. Verifique usuario y contraseña o use Acceso Rápido.";
+                }
+            }
+        });
+    }
 }
 
 // =============================================================================
@@ -967,27 +970,45 @@ function resetToNationalView() {
 
 function updateBreadcrumbs() {
     const trail = document.getElementById("breadcrumbs-trail");
-    let html = `<div class="crumb-item ${AppState.level === 'pais' ? 'active' : ''}" onclick="resetToNationalView()"><i class="fas fa-globe-americas"></i> México</div>`;
+    const portalBreadcrumb = document.getElementById("portal-breadcrumbs-text");
+
+    let portalHtml = `<a href="#" onclick="switchPortalView('inicio')">Inicio</a> / <a href="#" onclick="resetToNationalView()">Consulta Geográfica (SCINCE)</a>`;
 
     if (AppState.activeStateId) {
         const st = window.MEXICO_STATES_DATA[AppState.activeStateId];
-        html += `<span class="crumb-separator">/</span>`;
-        html += `<div class="crumb-item ${AppState.level === 'estado' ? 'active' : ''}" onclick="zoomToState('${AppState.activeStateId}')">${st.name}</div>`;
+        portalHtml += ` / <a href="#" onclick="zoomToState('${AppState.activeStateId}')">${st.name}</a>`;
     }
 
     if (AppState.activeMuniId) {
         const mu = window.MEXICO_MUNICIPIOS_DATA[AppState.activeMuniId];
-        html += `<span class="crumb-separator">/</span>`;
-        html += `<div class="crumb-item ${AppState.level === 'municipio' ? 'active' : ''}" onclick="zoomToMunicipio('${AppState.activeMuniId}')">${mu.name}</div>`;
+        portalHtml += ` / <a href="#" onclick="zoomToMunicipio('${AppState.activeMuniId}')">${mu.name}</a>`;
     }
 
     if (AppState.activeColoniaId) {
         const col = window.MEXICO_COLONIAS_DATA[AppState.activeColoniaId];
-        html += `<span class="crumb-separator">/</span>`;
-        html += `<div class="crumb-item active">${col.name}</div>`;
+        portalHtml += ` / <span class="active-crumb">${col.name}</span>`;
     }
 
-    trail.innerHTML = html;
+    if (portalBreadcrumb) {
+        portalBreadcrumb.innerHTML = portalHtml;
+    }
+
+    if (trail) {
+        let html = `<div class="crumb-item ${AppState.level === 'pais' ? 'active' : ''}" onclick="resetToNationalView()"><i class="fas fa-globe-americas"></i> México</div>`;
+        if (AppState.activeStateId) {
+            const st = window.MEXICO_STATES_DATA[AppState.activeStateId];
+            html += `<span class="crumb-separator">/</span><div class="crumb-item ${AppState.level === 'estado' ? 'active' : ''}" onclick="zoomToState('${AppState.activeStateId}')">${st.name}</div>`;
+        }
+        if (AppState.activeMuniId) {
+            const mu = window.MEXICO_MUNICIPIOS_DATA[AppState.activeMuniId];
+            html += `<span class="crumb-separator">/</span><div class="crumb-item ${AppState.level === 'municipio' ? 'active' : ''}" onclick="zoomToMunicipio('${AppState.activeMuniId}')">${mu.name}</div>`;
+        }
+        if (AppState.activeColoniaId) {
+            const col = window.MEXICO_COLONIAS_DATA[AppState.activeColoniaId];
+            html += `<span class="crumb-separator">/</span><div class="crumb-item active">${col.name}</div>`;
+        }
+        trail.innerHTML = html;
+    }
 }
 
 function updateViewIndicator(text) {
@@ -2082,5 +2103,172 @@ function handleSearchResultClick(type, id, stateId, muniId) {
         AppState.activeMuniId = mu.id;
         loadColoniasLayer(mu.id);
         zoomToColonia(id);
+    }
+}
+
+// =============================================================================
+// 9. NAVEGACIÓN MULTIVISTA INSTITUCIONAL OFICIAL INEGI (IMÁGENES 1 A 5)
+// =============================================================================
+
+function switchPortalView(viewName) {
+    // 1. Actualizar pestañas de la barra de navegación
+    const navLinks = document.querySelectorAll(".inegi-menu-list .nav-link");
+    navLinks.forEach(link => {
+        if (link.getAttribute("data-view") === viewName) {
+            link.classList.add("active");
+        } else {
+            link.classList.remove("active");
+        }
+    });
+
+    // 2. Mostrar la vista seleccionada y ocultar las demás
+    const views = document.querySelectorAll(".portal-view");
+    views.forEach(v => {
+        v.classList.remove("active");
+    });
+
+    const targetView = document.getElementById(`view-${viewName}`);
+    if (targetView) {
+        targetView.classList.add("active");
+    }
+
+    // 3. Actualizar migas de pan según la sección oficial
+    const breadcrumbEl = document.getElementById("portal-breadcrumbs-text");
+    if (breadcrumbEl) {
+        switch (viewName) {
+            case "inicio":
+                updateBreadcrumbs();
+                break;
+            case "temas":
+                breadcrumbEl.innerHTML = `<a href="#" onclick="switchPortalView('inicio')">Inicio</a> / <span class="active-crumb">Temas</span>`;
+                break;
+            case "programas":
+                breadcrumbEl.innerHTML = `<a href="#" onclick="switchPortalView('inicio')">Inicio</a> / <span class="active-crumb">Programas de Información</span>`;
+                break;
+            case "sistemas":
+                breadcrumbEl.innerHTML = `<a href="#" onclick="switchPortalView('inicio')">Inicio</a> / <span class="active-crumb">Sistemas de Consulta</span>`;
+                break;
+            case "desarrollo-social":
+                breadcrumbEl.innerHTML = `<a href="#" onclick="switchPortalView('inicio')">Inicio</a> / <a href="#" onclick="switchPortalView('desarrollo-social')">Desarrollo social</a> / <span class="active-crumb">Medición de pobreza</span>`;
+                break;
+            case "infraestructura":
+                breadcrumbEl.innerHTML = `<a href="#" onclick="switchPortalView('inicio')">Inicio</a> / <span class="active-crumb">Infraestructura</span>`;
+                break;
+            case "acerca":
+                breadcrumbEl.innerHTML = `<a href="#" onclick="switchPortalView('inicio')">Inicio</a> / <span class="active-crumb">Acerca del INEGI</span>`;
+                break;
+            default:
+                breadcrumbEl.innerHTML = `<a href="#" onclick="switchPortalView('inicio')">Inicio</a> / <span class="active-crumb">${viewName}</span>`;
+        }
+    }
+
+    // 4. Si se cambia a la vista 'inicio', recalcular tamaño del mapa Leaflet
+    if (viewName === "inicio") {
+        setTimeout(() => {
+            if (AppState.map) {
+                AppState.map.invalidateSize();
+            }
+        }, 150);
+    }
+
+    // 5. Scroll suave hacia arriba del contenido
+    window.scrollTo({ top: 110, behavior: "smooth" });
+}
+
+// Pantalla Completa para el Visor Cartográfico
+function toggleMapFullscreen() {
+    const wrapper = document.querySelector(".gis-interactive-wrapper");
+    if (!wrapper) return;
+
+    wrapper.classList.toggle("fullscreen-mode");
+    const isFull = wrapper.classList.contains("fullscreen-mode");
+
+    const btn = document.querySelector(".btn-toggle-fullscreen");
+    if (btn) {
+        btn.innerHTML = isFull 
+            ? '<i class="fas fa-compress"></i> Salir de Pantalla Completa' 
+            : '<i class="fas fa-expand"></i> Pantalla Completa';
+    }
+
+    setTimeout(() => {
+        if (AppState.map) {
+            AppState.map.invalidateSize();
+        }
+    }, 150);
+}
+
+// Control de tamaño de texto institucional (+A)
+let currentFontSizeMultiplier = 1;
+function toggleFontSize() {
+    currentFontSizeMultiplier = currentFontSizeMultiplier === 1 ? 1.08 : 1;
+    document.body.style.fontSize = currentFontSizeMultiplier === 1 ? "" : "15px";
+}
+
+// Modales Institucionales
+function openLoginModal() {
+    const modal = document.getElementById("login-modal");
+    if (modal) {
+        modal.style.display = "flex";
+    }
+}
+
+function closeLoginModal() {
+    const modal = document.getElementById("login-modal");
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Descarga de Mapas y Capas Geoestadísticas Oficiales
+function downloadCurrentMapData() {
+    const alertMsg = "Descarga de Marco Geoestadístico 2026:\n\n" +
+                     "Generando paquete oficial de capas vectoriales en formato GeoJSON / SHP:\n" +
+                     "- División Geoestadística Estatal (32 Entidades)\n" +
+                     "- División Geoestadística Municipal (2,464 Municipios)\n" +
+                     "- Directorio y Coordenadas Censales de Localidades\n\n" +
+                     "Haga clic en Aceptar para iniciar la exportación de metadatos.";
+    if (confirm(alertMsg)) {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+            fuente: "INEGI - Marco Geoestadístico 2026",
+            entidades: 32,
+            municipios: 2464,
+            localidades: 304231,
+            proyeccion: "ITRF2008 / WGS84",
+            fecha: new Date().toISOString()
+        }, null, 2));
+        const dlAnchor = document.createElement("a");
+        dlAnchor.setAttribute("href", dataStr);
+        dlAnchor.setAttribute("download", "INEGI_Marco_Geoestadistico_2026_Resumen.json");
+        document.body.appendChild(dlAnchor);
+        dlAnchor.click();
+        dlAnchor.remove();
+    }
+}
+
+// Filtro temático desde la vista Temas
+function filterTopic(topicName) {
+    switchPortalView("inicio");
+    const searchInput = document.getElementById("global-search-input");
+    if (searchInput) {
+        searchInput.value = topicName;
+        searchInput.focus();
+    }
+    const section = document.querySelector(".geographic-consultation-section");
+    if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+    }
+}
+
+// Ejecutar búsqueda desde botón de lupa
+function executePortalSearch() {
+    const input = document.getElementById("global-search-input");
+    if (!input) return;
+    const val = input.value.trim();
+    if (!val) return;
+
+    switchPortalView("inicio");
+    const section = document.querySelector(".geographic-consultation-section");
+    if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
     }
 }
