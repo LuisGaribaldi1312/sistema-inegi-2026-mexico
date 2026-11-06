@@ -255,6 +255,9 @@
                 <!-- Barra de Herramientas del Mapa y Filtros Estadísticos -->
                 <div class="map-toolbar-bar">
                     <div class="map-toolbar-left">
+                        <button type="button" class="btn-toggle-mapas active" id="btn-toggle-mapas" onclick="toggleMapasSidebar()" title="Mostrar u ocultar catálogo de los 14 mapas oficiales del INEGI">
+                            <i class="fas fa-layer-group" style="color:#0077C8;"></i> <strong>Mapas INEGI (14)</strong>
+                        </button>
                         <div class="google-map-selector">
                             <span class="maptype-label"><i class="fas fa-layer-group"></i> Capa Base:</span>
                             <button class="btn-maptype active" data-type="roadmap" onclick="setGoogleMapType('roadmap')">
@@ -289,8 +292,68 @@
                     </div>
                 </div>
 
-                <!-- Contenedor Bipartito: Mapa Leaflet + Panel Estadístico Oficial -->
-                <div class="gis-interactive-wrapper">
+                <!-- Contenedor Tripartito: Menú Mapas INEGI + Mapa Leaflet + Panel Estadístico -->
+                <div class="gis-interactive-wrapper" id="gis-main-wrapper">
+                    
+                    <!-- SIDEBAR OFICIAL: LISTA DE MAPAS DEL INEGI (IMAGEN DEL USUARIO) -->
+                    <aside class="inegi-mapas-sidebar" id="inegi-mapas-sidebar">
+                        <div class="mapas-sidebar-header" onclick="toggleMapasAccordion()">
+                            <span>Mapas</span>
+                            <i class="fas fa-chevron-up" id="mapas-chevron"></i>
+                        </div>
+                        <nav class="mapas-sidebar-nav" id="mapas-sidebar-nav">
+                            <a href="#" class="mapa-item-link" data-map="topografia" onclick="selectInegiMap('topografia'); return false;">
+                                Topografía
+                            </a>
+                            <a href="#" class="mapa-item-link" data-map="relieve_continental" onclick="selectInegiMap('relieve_continental'); return false;">
+                                Relieve Continental
+                            </a>
+                            <a href="#" class="mapa-item-link" data-map="relieve_submarino" onclick="selectInegiMap('relieve_submarino'); return false;">
+                                Relieve Submarino
+                            </a>
+                            <a href="#" class="mapa-item-link active" data-map="territorio_insular" onclick="selectInegiMap('territorio_insular'); return false;">
+                                Territorio Insular
+                            </a>
+                            <a href="#" class="mapa-item-link" data-map="vias_comunicacion" onclick="selectInegiMap('vias_comunicacion'); return false;">
+                                Vías de Comunicación
+                            </a>
+                            <a href="#" class="mapa-item-link" data-map="hidrografia" onclick="selectInegiMap('hidrografia'); return false;">
+                                Hidrografía
+                            </a>
+                            <a href="#" class="mapa-item-link" data-map="climatologia" onclick="selectInegiMap('climatologia'); return false;">
+                                Climatología
+                            </a>
+                            <a href="#" class="mapa-item-link" data-map="edafologia" onclick="selectInegiMap('edafologia'); return false;">
+                                Edafología
+                            </a>
+                            <a href="#" class="mapa-item-link" data-map="fisiografia" onclick="selectInegiMap('fisiografia'); return false;">
+                                Fisiografía
+                            </a>
+                            <a href="#" class="mapa-item-link" data-map="geologia" onclick="selectInegiMap('geologia'); return false;">
+                                Geología
+                            </a>
+                            <a href="#" class="mapa-item-link" data-map="hidrologia" onclick="selectInegiMap('hidrologia'); return false;">
+                                Hidrología
+                            </a>
+                            <a href="#" class="mapa-item-link" data-map="humedales" onclick="selectInegiMap('humedales'); return false;">
+                                Humedales Potenciales
+                            </a>
+                            <a href="#" class="mapa-item-link" data-map="uso_suelo" onclick="selectInegiMap('uso_suelo'); return false;">
+                                Uso de Suelo y Vegetación
+                            </a>
+                            <a href="#" class="mapa-item-link" data-map="uso_potencial" onclick="selectInegiMap('uso_potencial'); return false;">
+                                Uso Potencial de Suelo
+                            </a>
+                        </nav>
+                        
+                        <!-- Tarjeta de Metadatos del Mapa Activo -->
+                        <div class="active-map-metacard" id="active-map-metacard">
+                            <div class="metacard-badge" id="active-map-badge">MAPA ACTIVO</div>
+                            <div class="metacard-title" id="active-map-title">Territorio Insular</div>
+                            <p class="metacard-desc" id="active-map-desc">Catálogo oficial de las 4,111 islas, cayos y arrecifes de soberanía mexicana.</p>
+                        </div>
+                    </aside>
+
                     
                     <!-- Lado Izquierdo: Mapa de México -->
                     <div id="map-viewport">
@@ -1250,6 +1313,8 @@
 
     <!-- Catálogo Informativo de Menús INEGI -->
     <script src="data/inegi_menu_info.js"></script>
+    <!-- Catálogo Oficial de Mapas del INEGI (14 Mapas) -->
+    <script src="data/inegi_mapas_data.js"></script>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

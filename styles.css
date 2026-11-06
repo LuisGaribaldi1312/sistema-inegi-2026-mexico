@@ -2465,3 +2465,224 @@ body.inegi-portal-body {
   background: #F8FAFC;
   color: #1E293B;
 }
+
+
+/* ==========================================================================
+   ESTILOS DE LA BARRA LATERAL DE MAPAS DEL INEGI (14 MAPAS TEMÁTICOS)
+   RÉPLICA EXACTA DE LA IMAGEN OFICIAL DEL INEGI PROPORCIONADA POR EL USUARIO
+   ========================================================================== */
+
+/* Layout Tripartito */
+.gis-interactive-wrapper {
+  display: grid;
+  grid-template-columns: 220px 1.25fr 0.85fr;
+  gap: 14px;
+  height: 660px;
+  transition: grid-template-columns 0.25s ease;
+}
+
+.gis-interactive-wrapper.no-mapas-sidebar {
+  grid-template-columns: 1.25fr 0.85fr;
+}
+
+.btn-toggle-mapas {
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0C325C;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-toggle-mapas.active, .btn-toggle-mapas:hover {
+  background: #EBF5FB;
+  border-color: #0077C8;
+  color: #0077C8;
+}
+
+/* Sidebar de Mapas Oficial */
+.inegi-mapas-sidebar {
+  background: #FFFFFF;
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.inegi-mapas-sidebar.collapsed {
+  display: none;
+}
+
+/* Encabezado "Mapas ^" */
+.mapas-sidebar-header {
+  background: #F8FAFC;
+  border-bottom: 1px solid var(--card-border-light);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.mapas-sidebar-header span {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1E293B;
+}
+
+.mapas-sidebar-header i {
+  color: #64748B;
+  font-size: 13px;
+  transition: transform 0.2s;
+}
+
+/* Lista vertical de los 14 mapas */
+.mapas-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Enlace normal de mapa (Texto azul con subrayado sutil al hover como en el INEGI) */
+.mapa-item-link {
+  display: block;
+  padding: 8px 16px;
+  color: #0077C8;
+  text-decoration: underline;
+  font-size: 13px;
+  font-weight: 500;
+  border-left: 4px solid transparent;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mapa-item-link:hover {
+  background-color: #F1F5F9;
+  color: #0056B3;
+}
+
+/* MAPA ACTIVO: REPLICA EXACTA DE LA IMAGEN DEL USUARIO (Territorio Insular) */
+.mapa-item-link.active {
+  background-color: #E8ECEF !important;
+  border-left: 4px solid #0077C8 !important;
+  color: #0C325C !important;
+  font-weight: 800 !important;
+  text-decoration: none !important;
+}
+
+/* Tarjeta informativa de metadatos del mapa activo en el sidebar */
+.active-map-metacard {
+  border-top: 1px solid #E2E8F0;
+  padding: 12px 14px;
+  background: #F8FAFC;
+  font-size: 11px;
+}
+
+.metacard-badge {
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #0077C8;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.metacard-title {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #0C325C;
+  margin-bottom: 4px;
+}
+
+.metacard-desc {
+  color: #64748B;
+  line-height: 1.35;
+}
+
+/* Marcadores especiales para Territorio Insular */
+.custom-island-marker {
+  background: transparent;
+  border: none;
+}
+
+.island-pin {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(12, 50, 92, 0.92);
+  color: #FFFFFF;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  border: 1.5px solid #BC955C;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+.island-pin:hover {
+  transform: scale(1.08);
+  background: #0077C8;
+  border-color: #FFFFFF;
+}
+
+.island-pin i {
+  color: #FCD34D;
+  font-size: 12px;
+}
+
+/* Popups informativos de islas */
+.island-popup {
+  padding: 4px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.island-popup-tag {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  color: #0077C8;
+  margin-bottom: 2px;
+}
+
+.island-popup h4 {
+  font-size: 14px;
+  font-weight: 800;
+  color: #0C325C;
+  margin-bottom: 6px;
+}
+
+.island-popup-state, .island-popup-ocean {
+  font-size: 11.5px;
+  color: #334155;
+  margin-bottom: 2px;
+}
+
+.island-popup-desc {
+  font-size: 11px;
+  color: #64748B;
+  margin-top: 6px;
+  line-height: 1.35;
+}
+
+.island-popup-coord {
+  margin-top: 6px;
+  font-size: 9.5px;
+  color: #94A3B8;
+  font-family: monospace;
+}

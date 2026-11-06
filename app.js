@@ -170,6 +170,7 @@ function initMapApplication() {
 
     // Actualizar leyenda del mapa
     updateMapLegend();
+    selectInegiMap("territorio_insular");
 }
 
 // Cambiar estilo de mapa Google Maps (Calles, Híbrido, Terreno)
@@ -2365,3 +2366,147 @@ document.addEventListener("click", (e) => {
         closeOfficialInfoModal();
     }
 });
+
+// =============================================================================
+// 11. SISTEMA INTEGRAL DE LOS 14 MAPAS OFICIALES DEL INEGI (LEAFLET + TESELAS)
+// =============================================================================
+
+AppState.activeInegiMap = "territorio_insular";
+AppState.inegiThematicLayer = null;
+AppState.insularMarkersLayer = null;
+
+// Inicializar y seleccionar uno de los 14 mapas del INEGI
+function selectInegiMap(mapId) {
+    if (!window.INEGI_MAPAS_CATALOG || !window.INEGI_MAPAS_CATALOG[mapId]) {
+        console.warn("Mapa no encontrado:", mapId);
+        return;
+    }
+
+    const mapConfig = window.INEGI_MAPAS_CATALOG[mapId];
+    AppState.activeInegiMap = mapId;
+
+    // 1. Actualizar apariencia del sidebar de mapas (exacto a la imagen del usuario)
+    document.querySelectorAll(".mapa-item-link").forEach(link => {
+        if (link.dataset.map === mapId) {
+            link.classList.add("active");
+        } else {
+            link.classList.remove("active");
+        }
+    });
+
+    // 2. Actualizar tarjeta de metadatos en el sidebar
+    const titleEl = document.getElementById("active-map-title");
+    const badgeEl = document.getElementById("active-map-badge");
+    const descEl = document.getElementById("active-map-desc");
+    if (titleEl) titleEl.textContent = mapConfig.name;
+    if (badgeEl) badgeEl.textContent = mapConfig.badge || "MAPA OFICIAL INEGI";
+    if (descEl) descEl.textContent = mapConfig.desc;
+
+    // 3. Remover capa temática anterior si existe
+    if (AppState.inegiThematicLayer && AppState.map) {
+        AppState.map.removeLayer(AppState.inegiThematicLayer);
+        AppState.inegiThematicLayer = null;
+    }
+
+    // Remover marcadores insulares anteriores si existen
+    if (AppState.insularMarkersLayer && AppState.map) {
+        AppState.map.removeLayer(AppState.insularMarkersLayer);
+        AppState.insularMarkersLayer = null;
+    }
+
+    // 4. Cargar la capa de teselas del mapa seleccionado
+    if (mapConfig.tileUrl && AppState.map) {
+        AppState.inegiThematicLayer = L.tileLayer(mapConfig.tileUrl, {
+            attribution: mapConfig.attribution || '&copy; INEGI',
+            subdomains: mapConfig.subdomains || 'abc',
+            maxZoom: 18
+        });
+        AppState.inegiThematicLayer.addTo(AppState.map);
+        AppState.inegiThematicLayer.bringToBack();
+    }
+
+    // 5. Caso especial: Territorio Insular (Cargar pines de islas, cayos y arrecifes)
+    if (mapId === "territorio_insular" && window.INEGI_INSULAR_POINTS && AppState.map) {
+        const markers = [];
+        window.INEGI_INSULAR_POINTS.forEach(isla => {
+            const icon = L.divIcon({
+                className: "custom-island-marker",
+                html: `<div class="island-pin" title="${isla.name}"><i class="fas fa-location-dot"></i><span>${isla.name}</span></div>`,
+                iconSize: [120, 30],
+                iconAnchor: [12, 28]
+            });
+
+            const marker = L.marker(isla.coords, { icon: icon }).bindPopup(`
+                <div class="island-popup">
+                    <span class="island-popup-tag"><i class="fas fa-shield-halved"></i> Territorio Insular Mexicano</span>
+                    <h4>${isla.name}</h4>
+                    <div class="island-popup-state"><strong>Entidad:</strong> ${isla.estado}</div>
+                    <div class="island-popup-ocean"><strong>Cuenca:</strong> ${isla.ocean}</div>
+                    <p class="island-popup-desc">${isla.desc}</p>
+                    <div class="island-popup-coord">Coord: ${isla.coords[0].toFixed(4)}° N, ${isla.coords[1].toFixed(4)}° W</div>
+                </div>
+            `);
+            markers.push(marker);
+        });
+        AppState.insularMarkersLayer = L.featureGroup(markers).addTo(AppState.map);
+    }
+
+    // 6. Actualizar leyenda del mapa con la simbología oficial del mapa seleccionado
+    updateInegiMapLegend(mapConfig);
+
+    // 7. Actualizar texto de nivel
+    updateViewIndicator(`INEGI: Mapa de ${mapConfig.name}`);
+
+    // Asegurar redimensionamiento de Leaflet
+    setTimeout(() => {
+        if (AppState.map) AppState.map.invalidateSize();
+    }, 100);
+}
+
+// Actualizar la leyenda del mapa con los datos del catálogo de 14 mapas
+function updateInegiMapLegend(mapConfig) {
+    const titleText = document.getElementById("legend-title-text");
+    const scaleBars = document.getElementById("legend-scale-bars");
+    const labelsRow = document.getElementById("legend-labels-row");
+
+    if (!titleText || !scaleBars || !labelsRow) return;
+
+    if (mapConfig && mapConfig.legend) {
+        titleText.textContent = mapConfig.legend.title || mapConfig.name;
+        scaleBars.innerHTML = mapConfig.legend.bars.map(color => `<span style="background-color: ${color};"></span>`).join('');
+        labelsRow.innerHTML = mapConfig.legend.labels.map(lbl => `<span>${lbl}</span>`).join('');
+    }
+}
+
+// Alternar visibilidad de la barra lateral de mapas
+function toggleMapasSidebar() {
+    const sidebar = document.getElementById("inegi-mapas-sidebar");
+    const wrapper = document.getElementById("gis-main-wrapper");
+    const btn = document.getElementById("btn-toggle-mapas");
+
+    if (sidebar && wrapper) {
+        sidebar.classList.toggle("collapsed");
+        wrapper.classList.toggle("no-mapas-sidebar");
+
+        if (btn) {
+            btn.classList.toggle("active", !sidebar.classList.contains("collapsed"));
+        }
+
+        setTimeout(() => {
+            if (AppState.map) AppState.map.invalidateSize();
+        }, 150);
+    }
+}
+
+// Acordeón colapsable en la barra lateral de mapas
+function toggleMapasAccordion() {
+    const nav = document.getElementById("mapas-sidebar-nav");
+    const chevron = document.getElementById("mapas-chevron");
+    if (nav) {
+        const isHidden = nav.style.display === "none";
+        nav.style.display = isHidden ? "flex" : "none";
+        if (chevron) {
+            chevron.className = isHidden ? "fas fa-chevron-up" : "fas fa-chevron-down";
+        }
+    }
+}
